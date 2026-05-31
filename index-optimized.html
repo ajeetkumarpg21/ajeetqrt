@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Ajeet Kumar – Quantitative Finance | Financial Engineering | MSc WorldQuant University"/>
+  <meta name="keywords" content="Ajeet Kumar, Quant Finance, Financial Engineering, Portfolio Optimization, Machine Learning"/>
+  
+  <!-- Preconnect to external resources -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  
+  <!-- Fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@300;400;500&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  
+  <!-- CSS Files (local, no render-blocking) -->
+  <link rel="stylesheet" href="css/portfolio.css"/>
+  <link rel="stylesheet" href="css/animations.css"/>
+  <link rel="stylesheet" href="css/main-theme.css"/>
+  <link rel="stylesheet" href="css/enhancements.css"/>
+  
+  <!-- Tailwind with local build (not CDN) -->
+  <!-- Replace with: -->
+  <link rel="stylesheet" href="css/tailwind.min.css"/>
+  
+  <title>Ajeet Kumar | Quant Finance · Financial Engineering</title>
+  <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg"/>
+  <link rel="apple-touch-icon" href="assets/img/ajeet_pfp1.png"/>
+  <link rel="canonical" href="https://ajeetkumar.vercel.app/"/>
+  
+  <!-- Meta OG Tags -->
+  <meta property="og:title" content="Ajeet Kumar | Quant Finance & Financial Engineering"/>
+  <meta property="og:description" content="MSc Financial Engineering · M.Tech CSE · Python · ML · Portfolio Optimization"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="https://ajeetkumar.vercel.app/"/>
+  <meta property="og:image" content="assets/img/ajeet_pfp1.png"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Ajeet Kumar | Quant Finance"/>
+  <meta name="twitter:image" content="assets/img/ajeet_pfp1.png"/>
+  
+  <style>
+    /* Critical CSS inline for fast first paint */
+    :root {
+      --bg-void: #020408;
+      --cyan: #00d4ff;
+      --white: #e8f0fe;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg-void); color: var(--white); font-family: 'Crimson Pro', serif; }
+    #page-loader {
+      position: fixed; inset: 0;
+      background: var(--bg-void);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      z-index: 9999; opacity: 1; transition: opacity 0.6s ease;
+    }
+    .loader-logo { font-size: 2rem; font-weight: 700; color: var(--cyan); }
+    .loader-bar-wrap { width: 100px; height: 2px; background: rgba(0,212,255,0.2); margin-top: 1rem; border-radius: 2px; overflow: hidden; }
+    .loader-bar-fill { height: 100%; background: var(--cyan); animation: loading 2s ease-in-out infinite; }
+    @keyframes loading { 0%, 100% { width: 0; } 50% { width: 100%; } }
+  </style>
+</head>
+
+<body class="dark">
+  <!-- PAGE LOADER -->
+  <div id="page-loader">
+    <div class="loader-logo">AK<span style="color: #f0a500;">.</span>dev</div>
+    <div class="loader-bar-wrap"><div class="loader-bar-fill"></div></div>
+  </div>
+
+  <!-- 3D Background canvas (lazy loaded) -->
+  <canvas id="bg3d" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;" data-theme="home"></canvas>
+
+  <!-- Main portfolio content -->
+  <div id="main-content">
+    <!-- NAVIGATION -->
+    <nav id="navbar">
+      <div class="nav-inner">
+        <a href="#hero" class="nav-logo">AK<span>.</span>dev</a>
+        <ul class="nav-links">
+          <li><a href="#about">About</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+        <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+      </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section id="hero">
+      <div class="hero-inner">
+        <div class="hero-content">
+          <div class="hero-greeting">Quantitative Finance · Financial Engineering</div>
+          <h1 class="hero-name"><span class="first">Ajeet</span><br><span class="last">Kumar</span></h1>
+          <p class="hero-desc">
+            Building <strong>quantitative models</strong> at the intersection of financial theory and machine learning.
+          </p>
+          <div class="hero-actions">
+            <a href="#projects" class="btn btn-primary"><i class="fas fa-chart-line"></i> View Work</a>
+            <a href="#contact" class="btn btn-outline"><i class="fas fa-envelope"></i> Contact</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS SECTION -->
+    <section id="projects">
+      <div class="container">
+        <h2 class="section-title">Featured <span class="accent">Projects</span></h2>
+        <div class="projects-grid">
+          <!-- Projects will be loaded here from data/portfolio.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS SECTION -->
+    <section id="skills">
+      <div class="container">
+        <h2 class="section-title"><span class="accent">Skills</span> & Expertise</h2>
+        <div class="skills-layout">
+          <div class="skill-groups">
+            <!-- Skill groups will load here -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section id="contact">
+      <div class="container">
+        <h2 class="section-title">Get in <span class="accent">Touch</span></h2>
+        <form class="contact-form" id="contactForm">
+          <input type="text" name="name" placeholder="Your name" required/>
+          <input type="email" name="email" placeholder="Your email" required/>
+          <textarea name="message" placeholder="Your message" rows="5" required></textarea>
+          <button type="submit" class="btn btn-primary">Send Message</button>
+        </form>
+        <div id="formStatus" class="form-status" style="display: none;"></div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════════
+       OPTIMIZED SCRIPT LOADING
+       All scripts loaded with defer to not block rendering
+       ══════════════════════════════════════════════════════════════════ -->
+  
+  <!-- Performance configuration (must load first) -->
+  <script src="js/performance-config.js" defer></script>
+  
+  <!-- Chart.js pooling -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js" defer></script>
+  <script src="js/chart-pooling.js" defer></script>
+  
+  <!-- Optimized animations (lazy-loaded, pausable) -->
+  <script src="js/animations-optimized.js" defer></script>
+  
+  <!-- 3D background lazy loader -->
+  <script src="js/bg3d-lazy.js" defer></script>
+  
+  <!-- API handler for external calls -->
+  <script src="js/api-handler.js" defer></script>
+  
+  <!-- Virtual scrolling for job lists -->
+  <script src="js/job-virtual-scroll.js" defer></script>
+  
+  <!-- Main app (optimized) -->
+  <script src="js/app.js" defer></script>
+  
+  <!-- Enhancements (UX improvements) -->
+  <script src="js/enhancements.js" defer></script>
+  
+  <!-- Portfolio data -->
+  <script src="data/portfolio.js" defer></script>
+  
+  <script>
+    // Mark page load time for performance monitoring
+    window.addEventListener('load', () => {
+      const loadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
+      console.log(`✓ Portfolio loaded in ${loadTime}ms`);
+      if (loadTime > 3000) console.warn('⚠ Slow load detected');
+    });
+  </script>
+</body>
+</html>
