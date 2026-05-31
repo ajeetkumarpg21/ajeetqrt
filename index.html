@@ -1,0 +1,2386 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <!-- ══════════════════════════════════════════
+       META
+  ══════════════════════════════════════════ -->
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Ajeet Kumar – Quantitative Finance | Financial Engineering | MSc WorldQuant University | Python, ML, Portfolio Optimization"/>
+  <meta name="keywords"    content="Ajeet Kumar, Quant Finance, Financial Engineering, Portfolio Optimization, Machine Learning, Python, Risk Analytics"/>
+  <meta property="og:title"       content="Ajeet Kumar | Quant Finance & Financial Engineering"/>
+  <meta property="og:description" content="MSc Financial Engineering (WorldQuant Univ) · M.Tech CSE (NSUT Delhi) · Python · ML · Portfolio Optimization"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Ajeet Kumar | Quant Finance &amp; Financial Engineering"/>
+  <meta name="twitter:description" content="MSc Financial Engineering · M.Tech CSE · Python · ML · Portfolio Optimization"/>
+  <meta name="twitter:image" content="assets/img/ajeet_pfp1.png"/>
+  <meta property="og:type"        content="website"/>
+  <link rel="canonical" href="https://ajeetkumar.vercel.app/"/>
+  <meta property="og:url" content="https://ajeetkumar.vercel.app/"/>
+  <meta property="og:image"       content="assets/img/ajeet_pfp1.png"/>
+  <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg"/>
+  <link rel="apple-touch-icon" href="assets/img/ajeet_pfp1.png"/>
+  <title>Ajeet Kumar | Quant Finance · Financial Engineering · Data Science</title>
+
+  <!-- ══════════════════════════════════════════
+       EXTERNAL CDN  (fonts, icons, libs)
+  ══════════════════════════════════════════ -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@300;400;500&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300&display=swap"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            'ak-cyan':   '#00d4ff',
+            'ak-gold':   '#f0a500',
+            'ak-green':  '#00ff88',
+            'ak-purple': '#a855f7',
+            'ak-red':    '#ff3b5c',
+            'ak-void':   '#020408',
+            'ak-deep':   '#06090f',
+            'ak-surface':'#0b1120',
+            'ak-card':   '#0f1929',
+          },
+          fontFamily: {
+            display: ['Syne', 'sans-serif'],
+            mono:    ['IBM Plex Mono', 'monospace'],
+            body:    ['Crimson Pro', 'serif'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <!-- Chart.js for skill radar & portfolio chart -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+  <!-- GSAP for smooth animations -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <!-- Three.js for 3D background -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <!-- ══════════════════════════════════════════
+       LOCAL CSS  (order matters)
+  ══════════════════════════════════════════ -->
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css"/>
+  <link rel="stylesheet" href="css/portfolio.css"/>
+  <link rel="stylesheet" href="css/animations.css"/>
+  <link rel="stylesheet" href="css/main-theme.css"/>
+  <link rel="stylesheet" href="css/enhancements.css"/>
+</head>
+
+<body class="dark">
+<!-- PAGE LOADER -->
+<div id="page-loader">
+  <div class="loader-logo">AK<span>.</span>dev</div>
+  <div class="loader-bar-wrap"><div class="loader-bar-fill"></div></div>
+  <div class="loader-text">Loading Portfolio…</div>
+</div>
+
+<!-- SCROLL PROGRESS -->
+<div id="scroll-progress"></div>
+
+<!-- BACK TO TOP -->
+<button id="back-to-top" aria-label="Back to top">
+  <i class="fas fa-chevron-up"></i>
+</button>
+
+<!-- DOT NAV (right side) -->
+<nav id="dot-nav" aria-label="Section navigation"></nav>
+
+<!-- TOAST CONTAINER -->
+<div id="toast-container" aria-live="polite"></div>
+
+
+<!-- Custom cursor -->
+
+<!-- ═══════════ NAVBAR ═══════════ -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="#hero" class="nav-logo">AK<span>.</span>dev</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#certifications">Certs</a></li>
+      <li><a href="#jobboard">Jobs</a></li>
+      <li><a href="#blog">Blog</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="#" onclick="openAdmin(event)">Admin</a></li>
+    </ul>
+    <a href="#" onclick="downloadResume(event)" class="nav-cta">Download CV</a>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile menu -->
+<div id="mobile-menu">
+  <a href="#about" onclick="closeMobileMenu()">About</a>
+  <a href="#education" onclick="closeMobileMenu()">Education</a>
+  <a href="#experience" onclick="closeMobileMenu()">Experience</a>
+  <a href="#projects" onclick="closeMobileMenu()">Projects</a>
+  <a href="#skills" onclick="closeMobileMenu()">Skills</a>
+  <a href="#certifications" onclick="closeMobileMenu()">Certifications</a>
+  <a href="#jobboard" onclick="closeMobileMenu()">Job Board</a>
+  <a href="#blog" onclick="closeMobileMenu()">Blog</a>
+  <a href="#gallery" onclick="closeMobileMenu()">Gallery</a>
+  <a href="#contact" onclick="closeMobileMenu()">Contact</a>
+  <a href="#" onclick="openAdmin(event);closeMobileMenu()">Admin Dashboard</a>
+</div>
+
+<!-- ═══════════ HERO ═══════════ -->
+<!-- HERO MESH BLOBS -->
+<section id="hero">
+  <div class="hero-bg-orb orb-1"></div>
+  <div class="hero-bg-orb orb-2"></div>
+  <div class="hero-inner">
+    <div class="hero-content">
+      <div class="hero-greeting">Quant Finance · Financial Engineering · Data Science</div>
+      <h1 class="hero-name">
+        <span class="first">Ajeet</span><br>
+        <span class="last">Kumar</span>
+      </h1>
+      <div class="hero-title-row">
+        <span class="hero-title">MSc Financial Engineering</span>
+        <span class="hero-divider">·</span>
+        <span class="hero-title">M.Tech CSE</span>
+        <span class="hero-divider">·</span>
+        <span class="hero-title">Python · ML · Quant</span>
+      </div>
+      <div class="hero-typed-row" style="margin:0.6rem 0 0;font-family:var(--font-mono);font-size:0.95rem;color:var(--cyan);letter-spacing:0.05em;height:1.4em;">→ <span id="hero-typed"></span></div>
+      <p class="hero-desc" id="hero-desc-main">
+        Building <strong>quantitative models</strong> at the intersection of financial theory and machine learning. 
+        Specializing in <strong>portfolio optimization, derivatives, econometrics</strong>, and data-driven risk frameworks — 
+        ready to contribute from day one.
+      </p>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-num"><span class="counter" data-target="87">0</span><span class="unit">%</span></div>
+          <div class="hero-stat-label">MScFE Score</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num"><span class="counter" data-target="6">0</span><span class="unit">+</span></div>
+          <div class="hero-stat-label">Quant Projects</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num"><span class="counter" data-target="45">0</span><span class="unit">+</span></div>
+          <div class="hero-stat-label">Certifications</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num"><span class="counter" data-target="4">0</span><span class="unit">+</span></div>
+          <div class="hero-stat-label">Internships/Training</div>
+        </div>
+      </div>
+      <div class="hero-actions">
+        <a href="#projects" class="btn btn-primary"><i class="fas fa-chart-line"></i> View Projects</a>
+        <a href="#" onclick="downloadResume(event)" class="btn btn-outline"><i class="fas fa-download"></i> Download CV</a>
+      </div>
+      <div class="hero-social">
+        <a href="https://linkedin.com/in/ajeek095" target="_blank" class="hero-social-link"><i class="fab fa-linkedin"></i></a>
+        <a href="https://github.com/ajeetk095" target="_blank" class="hero-social-link"><i class="fab fa-github"></i></a>
+        <a href="mailto:ajeetk095@gmail.com" class="hero-social-link"><i class="fas fa-envelope"></i></a>
+        <a href="tel:+918756543310" class="hero-social-link"><i class="fas fa-phone"></i></a>
+      </div>
+    </div>
+
+    <!-- Terminal panel -->
+    <div class="hero-terminal">
+      <div class="terminal-header">
+        <div class="terminal-dot td-r"></div>
+        <div class="terminal-dot td-y"></div>
+        <div class="terminal-dot td-g"></div>
+        <span class="terminal-title">profile.py — ajeet_kumar</span>
+      </div>
+      <div class="terminal-body">
+        <div class="t-comment"># Quant Finance Candidate Profile</div>
+        <div><span class="t-cmd">import</span> ajeet_kumar <span class="t-cmd">as</span> ak</div>
+        <br>
+        <div><span class="t-key">ak.education</span> = {</div>
+        <div>&nbsp;&nbsp;<span class="t-str">"msc"</span>: <span class="t-val">"WorldQuant Univ (87%)"</span>,</div>
+        <div>&nbsp;&nbsp;<span class="t-str">"mtech"</span>: <span class="t-val">"NSUT Delhi (7.92)"</span>,</div>
+        <div>&nbsp;&nbsp;<span class="t-str">"btech"</span>: <span class="t-val">"AKTU (7.19)"</span></div>
+        <div>}</div>
+        <br>
+        <div><span class="t-key">ak.quant_skills</span> = [</div>
+        <div>&nbsp;&nbsp;<span class="t-str">"Markowitz MVO"</span>, <span class="t-str">"Black-Litterman"</span>,</div>
+        <div>&nbsp;&nbsp;<span class="t-str">"Fama-French 5F"</span>, <span class="t-str">"Kelly Criterion"</span>,</div>
+        <div>&nbsp;&nbsp;<span class="t-str">"CVaR"</span>, <span class="t-str">"Monte Carlo"</span></div>
+        <div>]</div>
+        <br>
+        <div><span class="t-key">ak.status</span> = <span class="t-val">"Open to Opportunities"</span></div>
+        <div><span class="t-key">ak.location</span> = <span class="t-val">"Bangalore, India"</span></div>
+        <div>&gt;&gt;&gt; ak.hire() <span class="t-cursor"></span></div>
+      </div>
+      <div class="hero-chart-wrap">
+        <div class="hero-chart-label">Portfolio Equity Curve (Simulated · MVO Strategy)</div>
+        <canvas id="heroMiniChart"></canvas>
+      </div>
+      <div class="readiness-bar-wrap">
+        <div class="readiness-label">
+          <span>Career Readiness Index</span>
+          <span class="readiness-score">93 / 100</span>
+        </div>
+        <div class="readiness-track">
+          <div class="readiness-fill" id="readinessFill" style="width:0%"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-indicator">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+<!-- ═══════════ ABOUT ═══════════ -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-left reveal">
+        <div class="about-avatar-wrap">
+          <div class="about-avatar-ring" style="overflow:hidden;padding:0;border-radius:50%">
+            <img src="assets/img/ajeet_pfp1.png" alt="Ajeet Kumar"
+              style="width:100%;height:100%;object-fit:cover;border-radius:50%;display:block"/>
+          </div>
+        </div>
+        <div class="about-quick-stats">
+          <div class="quick-stat-card">
+            <div class="quick-stat-icon">🎓</div>
+            <span class="quick-stat-val">3</span>
+            <span class="quick-stat-label">Degrees</span>
+          </div>
+          <div class="quick-stat-card">
+            <div class="quick-stat-icon">📍</div>
+            <span class="quick-stat-val" style="font-size:0.85rem">BLR</span>
+            <span class="quick-stat-label">Bangalore, IN</span>
+          </div>
+          <div class="quick-stat-card">
+            <div class="quick-stat-icon">⚡</div>
+            <span class="quick-stat-val">Python</span>
+            <span class="quick-stat-label">Primary Stack</span>
+          </div>
+          <div class="quick-stat-card">
+            <div class="quick-stat-icon">🏆</div>
+            <span class="quick-stat-val">1st</span>
+            <span class="quick-stat-label">ML Hackathon</span>
+          </div>
+          <div class="quick-stat-card">
+            <div class="quick-stat-icon">🌐</div>
+            <span class="quick-stat-val" style="font-size:0.85rem">IAENG</span>
+            <span class="quick-stat-label">Member #265771</span>
+          </div>
+          <div class="quick-stat-card">
+            <div class="quick-stat-icon">🗣️</div>
+            <span class="quick-stat-val" style="font-size:0.75rem">EN/HI</span>
+            <span class="quick-stat-label">Bilingual</span>
+          </div>
+        </div>
+      </div>
+      <div class="about-content reveal reveal-delay-1">
+        <div class="section-label">About Me</div>
+        <h2 class="section-title reveal">Turning <span class="accent">Data</span> into <span class="gold">Alpha</span></h2>
+        <p>
+          I'm a quantitative finance professional-in-training with an <strong>MSc in Financial Engineering from WorldQuant University</strong> 
+          (87% overall, currently active), an <strong>M.Tech in Computer Science from NSUT Delhi</strong> (CGPA 7.92), 
+          and a <strong>B.Tech in Information Technology from AKTU</strong> — building at the intersection of mathematics, 
+          markets, and machine learning.
+        </p>
+        <p class="about-highlight">
+          My research spans Markowitz portfolio optimization, Black-Litterman models, Fama-French factor analysis, 
+          covariance denoising with Ledoit-Wolf shrinkage, Monte Carlo simulation, and credit risk modeling — 
+          implemented end-to-end in Python.
+        </p>
+        <p>
+          I've validated my skills through industry experience at <strong>Algo8.ai (IIT Kanpur)</strong> and <strong>Amul GCMMF</strong>, 
+          plus <strong>JP Morgan virtual simulations</strong> in Quant Research and Investment Banking (via Forage). 
+          Won 1st place at the Algo8 ML Hackathon at IIT Kanpur and was personally <strong>felicitated by the President of India</strong> 
+          at IIT Kanpur for academic excellence in 2018. Member of <strong>IAENG (International Association of Engineers)</strong> — Member #265771.
+        </p>
+        <p>
+          Currently seeking roles in <strong>quantitative research, risk analytics, financial engineering, 
+          data science in finance</strong>, and related domains where I can apply my combined background 
+          in CS and advanced finance. Fluent in <strong>English</strong> (Professional) and <strong>Hindi</strong> (Native).
+        </p>
+        <div class="about-actions">
+          <a href="#" onclick="downloadResume(event)" class="btn btn-primary"><i class="fas fa-file-alt"></i> Download Full Resume</a>
+          <a href="#contact" class="btn btn-outline"><i class="fas fa-paper-plane"></i> Get in Touch</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+<!-- ═══════════ EDUCATION ═══════════ -->
+<section id="education">
+  <div class="container">
+    <div class="section-label reveal">Academic Credentials</div>
+    <h2 class="section-title reveal"><span class="accent">Education</h2>
+    <p class="section-subtitle reveal">Multi-disciplinary academic foundation spanning financial engineering, computer science, and information technology.</p>
+
+    <div class="edu-timeline">
+      <!-- WQU -->
+      <div class="edu-item reveal">
+        <div class="edu-card">
+          <div class="edu-card-header">
+            <div>
+              <div class="edu-degree">Master of Science — Financial Engineering</div>
+              <div class="edu-institution">🌐 WorldQuant University, Washington DC, USA (Online)</div>
+            </div>
+            <div class="edu-meta">
+              <div class="edu-score">87%</div>
+              <div class="edu-period">Oct 2023 – Present</div>
+              <span class="tag tag-cyan">In Progress</span>
+            </div>
+          </div>
+          <div class="edu-details">
+            Rigorous program covering financial markets, econometrics, derivative pricing, stochastic modeling, 
+            machine learning in finance, deep learning, and portfolio management. 
+            Accredited by DEAC, recognized by U.S. Dept. of Education & CHEA.
+          </div>
+          <div class="edu-courses">
+            <span class="tag tag-gold">Financial Markets (81%)</span>
+            <span class="tag tag-gold">Financial Econometrics (94% – Excellent)</span>
+            <span class="tag tag-gold">Derivative Pricing (88%)</span>
+            <span class="tag tag-gold">Stochastic Modeling (88%)</span>
+            <span class="tag tag-gold">ML in Finance (78%)</span>
+            <span class="tag tag-gold">Deep Learning (95% – Excellent)</span>
+            <span class="tag tag-gold">Portfolio Management (84%)</span>
+          </div>
+          <button class="edu-transcript-btn" onclick="showModal('wqu-transcript')"><i class="fas fa-scroll"></i> View Transcript Summary</button>
+        </div>
+      </div>
+
+      <!-- NSUT -->
+      <div class="edu-item reveal reveal-delay-1">
+        <div class="edu-card">
+          <div class="edu-card-header">
+            <div>
+              <div class="edu-degree">Master of Technology — Computer Science & Engineering</div>
+              <div class="edu-institution">🏛️ Netaji Subhas University of Technology (NSUT), New Delhi</div>
+            </div>
+            <div class="edu-meta">
+              <div class="edu-score">7.92 CGPA</div>
+              <div class="edu-period">Oct 2021 – Jul 2023</div>
+              <span class="tag tag-green">First Division</span>
+            </div>
+          </div>
+          <div class="edu-details">
+            Focused on advanced algorithms, computer vision, distributed systems, blockchain, cloud computing, 
+            and dissertation-level research. Dissertation scored A+ across both phases. NBA & NAAC accredited; UGC & AICTE recognized.
+          </div>
+          <div class="edu-courses">
+            <span class="tag tag-cyan">Computer Vision (A)</span>
+            <span class="tag tag-cyan">Distributed Systems (A)</span>
+            <span class="tag tag-cyan">Cloud Computing (A)</span>
+            <span class="tag tag-cyan">Blockchain Technology (B+)</span>
+            <span class="tag tag-cyan">Research Methodology (A)</span>
+            <span class="tag tag-cyan">Dissertation (A+)</span>
+          </div>
+          <button class="edu-transcript-btn" onclick="showModal('nsut-transcript')"><i class="fas fa-scroll"></i> View Transcript Summary</button>
+        </div>
+      </div>
+
+      <!-- AKTU -->
+      <div class="edu-item reveal reveal-delay-2">
+        <div class="edu-card">
+          <div class="edu-card-header">
+            <div>
+              <div class="edu-degree">Bachelor of Technology — Information Technology</div>
+              <div class="edu-institution">🏛️ Dr. A.P.J. Abdul Kalam Technical University (AKTU), Lucknow</div>
+            </div>
+            <div class="edu-meta">
+              <div class="edu-score">7.19 CGPA</div>
+              <div class="edu-period">Aug 2017 – Aug 2021</div>
+              <span class="tag tag-green">First Division</span>
+            </div>
+          </div>
+          <div class="edu-details">
+            Comprehensive IT foundation: data structures, algorithms, networking, databases, AI, ML, 
+            cryptography, web technologies, and software engineering. Strong final year — SGPA 9.54 in Semester VIII. UGC/AICTE recognized.
+          </div>
+          <div class="edu-courses">
+            <span class="tag tag-purple">Machine Learning (B+)</span>
+            <span class="tag tag-purple">AI (B)</span>
+            <span class="tag tag-purple">Cybersecurity (E)</span>
+            <span class="tag tag-purple">Cloud Computing (B)</span>
+            <span class="tag tag-purple">DBMS (C)</span>
+            <span class="tag tag-purple">Sem VIII SGPA: 9.54</span>
+          </div>
+          <button class="edu-transcript-btn" onclick="showModal('aktu-transcript')"><i class="fas fa-scroll"></i> View Transcript Summary</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+<!-- ═══════════ EXPERIENCE & TRAINING ═══════════ -->
+ <section id="experience">
+  <div class="container">
+    <div class="section-label reveal">Professional Track Record</div>
+    <h2 class="section-title reveal">Internship &amp; <span class="accent">Training</span> Experience</h2>
+    <p class="section-subtitle reveal">Real-world exposure spanning data science, market research, machine learning training at IIT Kanpur, and finance simulations with JP Morgan.</p>
+
+    <!-- Summary stats -->
+    <div class="exp-stats-row reveal">
+      <div class="exp-stat-pill">
+        <div class="exp-stat-icon">🏢</div>
+        <div><div class="exp-stat-val">2</div><div class="exp-stat-lbl">Industry Internships</div></div>
+      </div>
+      <div class="exp-stat-pill">
+        <div class="exp-stat-icon">🎓</div>
+        <div><div class="exp-stat-val">2</div><div class="exp-stat-lbl">IIT Kanpur Trainings</div></div>
+      </div>
+      <div class="exp-stat-pill">
+        <div class="exp-stat-icon">🏦</div>
+        <div><div class="exp-stat-val">2</div><div class="exp-stat-lbl">JP Morgan Simulations</div></div>
+      </div>
+      <div class="exp-stat-pill">
+        <div class="exp-stat-icon">📅</div>
+        <div><div class="exp-stat-val">18+</div><div class="exp-stat-lbl">Months Experience</div></div>
+      </div>
+      <div class="exp-stat-pill">
+        <div class="exp-stat-icon">🏆</div>
+        <div><div class="exp-stat-val">1st</div><div class="exp-stat-lbl">Hackathon — IIT Kanpur</div></div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="exp-tabs reveal">
+      <button class="exp-tab active" onclick="switchExpTab('regular', this)">
+        <i class="fas fa-briefcase"></i> &nbsp;Internships &amp; Training
+      </button>
+      <button class="exp-tab" onclick="switchExpTab('forage', this)">
+        <i class="fas fa-building-columns"></i> &nbsp;Virtual Job Simulations
+      </button>
+    </div>
+
+    <!-- ─── PANEL A: Regular Internships ─── -->
+    <div class="exp-panel active" id="exp-regular">
+      <div class="exp-grid">
+
+        <!-- 1. Algo8.ai Data Science Intern -->
+        <div class="exp-card reveal">
+          <div class="exp-card-stripe"></div>
+          <div class="exp-card-body">
+            <div class="exp-card-header">
+              <div class="exp-logo">🤖</div>
+              <div class="exp-title-block">
+                <div class="exp-role">Data Science Intern</div>
+                <div class="exp-company">Algo8.ai Pvt. Ltd.</div>
+              </div>
+              <div class="exp-badge-wrap">
+                <span class="tag tag-cyan">Industry</span>
+                <span class="exp-tenure">Jan 2020 – May 2020</span>
+                <span class="exp-location"><i class="fas fa-map-marker-alt"></i> SIDBI Extension, IIT Kanpur</span>
+              </div>
+            </div>
+            <p class="exp-desc">
+              Worked at a cutting-edge AI startup based at IIT Kanpur's SIDBI Extension Centre, building an end-to-end computer vision pipeline for industrial quality control.
+            </p>
+            <ul class="exp-bullets">
+              <li>Developed an AI model for <strong>Electronic Bottle Inspection (EBI)</strong> to predict machine efficiency and detect manufacturing defects using computer vision.</li>
+              <li>Automated defect detection using <strong>OpenCV</strong> — threshold analysis, contour detection, morphological operations — significantly reducing manual QC intervention.</li>
+              <li>Designed predictive maintenance model forecasting machine degradation from historical inspection time-series data.</li>
+              <li>Performed <strong>end-to-end pipeline</strong>: data collection, image preprocessing, feature extraction, model training and evaluation.</li>
+              <li>Reduced testing time and quality control costs through intelligent sampling strategy.</li>
+            </ul>
+            <div class="exp-skills">
+              <span class="tag tag-cyan">Python</span>
+              <span class="tag tag-cyan">OpenCV</span>
+              <span class="tag tag-cyan">Computer Vision</span>
+              <span class="tag tag-cyan">scikit-learn</span>
+              <span class="tag tag-cyan">NumPy</span>
+              <span class="tag tag-cyan">pandas</span>
+              <span class="tag tag-green">Industrial AI</span>
+            </div>
+          </div>
+          <div class="exp-card-footer">
+            <button class="exp-cert-link" onclick="showModal('algo8')"><i class="fas fa-certificate"></i> View Experience Letter</button>
+            <a href="assets/docs/algo8-internship.pdf" target="_blank" class="exp-cert-link" style="background:rgba(0,212,255,0.08);text-decoration:none"><i class="fas fa-eye"></i> View</a>
+            <a href="assets/docs/algo8-internship.pdf" download class="exp-cert-link" style="background:rgba(240,165,0,0.12);color:var(--gold);border-color:var(--gold);text-decoration:none"><i class="fas fa-download"></i> Download</a>
+            <span class="exp-tenure" style="color:var(--white-faint);font-size:0.65rem">Tenure: 5 months</span>
+          </div>
+        </div>
+
+        <!-- 2. Amul GCMMF Market Research Intern -->
+        <div class="exp-card reveal reveal-delay-1">
+          <div class="exp-card-stripe gold-stripe"></div>
+          <div class="exp-card-body">
+            <div class="exp-card-header">
+              <div class="exp-logo">🥛</div>
+              <div class="exp-title-block">
+                <div class="exp-role">Market Research &amp; Development Analyst Intern</div>
+                <div class="exp-company">Amul GCMMF Ltd. (Gujarat Co-operative Milk Marketing Federation)</div>
+              </div>
+              <div class="exp-badge-wrap">
+                <span class="tag tag-gold">Industry</span>
+                <span class="exp-tenure">Oct 2020 – Jan 2021</span>
+                <span class="exp-location"><i class="fas fa-map-marker-alt"></i> Amul, Kanpur</span>
+              </div>
+            </div>
+            <p class="exp-desc">
+              Worked with India's largest dairy cooperative to deliver actionable market intelligence across 25+ cities in Uttar Pradesh, supporting regional growth strategy.
+            </p>
+            <ul class="exp-bullets">
+              <li>Conducted comprehensive <strong>consumer behaviour research</strong> — preference mapping, price sensitivity, and brand loyalty analysis across 25+ UP cities.</li>
+              <li>Performed <strong>competitive positioning analysis</strong> comparing Amul against rival dairy brands in regional markets.</li>
+              <li>Analysed regional <strong>sales data</strong> to identify growth pockets and underperforming segments.</li>
+              <li>Delivered <strong>targeted marketing strategy recommendations</strong> for regional distribution, promotions, and product placement.</li>
+              <li>Project title: <em>"Marketing Research Analyst and Research &amp; Development"</em></li>
+            </ul>
+            <div class="exp-skills">
+              <span class="tag tag-gold">Market Research</span>
+              <span class="tag tag-gold">Data Analysis</span>
+              <span class="tag tag-gold">Consumer Behaviour</span>
+              <span class="tag tag-cyan">Excel</span>
+              <span class="tag tag-cyan">SQL</span>
+              <span class="tag tag-green">FMCG / Dairy</span>
+            </div>
+          </div>
+          <div class="exp-card-footer">
+            <button class="exp-cert-link" onclick="showModal('amul')"><i class="fas fa-certificate"></i> View Internship Certificate</button>
+            <a href="assets/docs/amul-internship.pdf" target="_blank" class="exp-cert-link" style="background:rgba(0,212,255,0.08);text-decoration:none"><i class="fas fa-eye"></i> View</a>
+            <a href="assets/docs/amul-internship.pdf" download class="exp-cert-link" style="background:rgba(240,165,0,0.12);color:var(--gold);border-color:var(--gold);text-decoration:none"><i class="fas fa-download"></i> Download</a>
+            <span class="exp-tenure" style="color:var(--white-faint);font-size:0.65rem">Tenure: 3 months</span>
+          </div>
+        </div>
+
+        <!-- 3. E&ICT IIT Kanpur ML Training -->
+        <div class="exp-card reveal reveal-delay-2">
+          <div class="exp-card-stripe green-stripe"></div>
+          <div class="exp-card-body">
+            <div class="exp-card-header">
+              <div class="exp-logo">🏛️</div>
+              <div class="exp-title-block">
+                <div class="exp-role">Summer Training Program — Machine Learning Trainee</div>
+                <div class="exp-company">E&amp;ICT Academy, IIT Kanpur (Ministry of Electronics &amp; IT, Govt. of India)</div>
+              </div>
+              <div class="exp-badge-wrap">
+                <span class="tag tag-green">Gov. Training</span>
+                <span class="exp-tenure">Jun – Jul 2019 (6 Weeks)</span>
+                <span class="exp-location"><i class="fas fa-map-marker-alt"></i> IIT Kanpur</span>
+              </div>
+            </div>
+            <p class="exp-desc">
+              Completed an intensive 6-week government-backed ML programme at India's premier engineering institute, IIT Kanpur, under the Ministry of Electronics &amp; IT — culminating in a hackathon <strong>1st place win</strong>.
+            </p>
+            <ul class="exp-bullets">
+              <li>Enrolled in the highly competitive <strong>E&amp;ICT Academy summer cohort</strong> at IIT Kanpur.</li>
+              <li>Built <strong>Micro Delinquency Prediction ML project</strong> (Enrollment ID: EICT-277487-213198) — recognised with project experience letter from IIT Kanpur.</li>
+              <li><strong>Won 1st Place</strong> at the Algo8 Machine Learning Hackathon, IIT Kanpur (June 8–9, 2019).</li>
+              <li>Also completed Python Programming course: <em>"A Practical Approach"</em> (E&amp;ICT Academy, Jul 2019).</li>
+            </ul>
+            <div class="exp-skills">
+              <span class="tag tag-green">Machine Learning</span>
+              <span class="tag tag-green">Python</span>
+              <span class="tag tag-cyan">Feature Engineering</span>
+              <span class="tag tag-cyan">Model Evaluation</span>
+              <span class="tag tag-cyan">Supervised Learning</span>
+              <span class="tag tag-cyan">Data Preprocessing</span>
+              <span class="tag tag-cyan">Ensemble Methods</span>
+            </div>
+          </div>
+          <div class="exp-card-footer">
+            <button class="exp-cert-link" onclick="showModal('ict-ml')"><i class="fas fa-certificate"></i> View Training Certificate</button>
+            <a href="assets/docs/ict-ml.pdf" target="_blank" class="exp-cert-link" style="background:rgba(0,212,255,0.08);text-decoration:none"><i class="fas fa-eye"></i> View</a>
+            <a href="assets/docs/ict-ml.pdf" download class="exp-cert-link" style="background:rgba(240,165,0,0.12);color:var(--gold);border-color:var(--gold);text-decoration:none"><i class="fas fa-download"></i> Download</a>
+            <button class="exp-cert-link" onclick="toggleLearn(this)" style="color:var(--cyan)"><i class="fas fa-chevron-down"></i> Learning Outcomes</button>
+          </div>
+          <div class="exp-learn-body">
+            <div class="exp-learn-title">Learning Outcomes — E&amp;ICT ML Programme, IIT Kanpur</div>
+            <div class="exp-learn-tags">
+              <span class="tag tag-green">ML Fundamentals</span>
+              <span class="tag tag-green">Supervised Learning Algorithms</span>
+              <span class="tag tag-green">Unsupervised Learning</span>
+              <span class="tag tag-cyan">Feature Engineering</span>
+              <span class="tag tag-cyan">Model Evaluation &amp; Validation</span>
+              <span class="tag tag-cyan">Python for ML</span>
+              <span class="tag tag-cyan">Data Visualization</span>
+              <span class="tag tag-cyan">Data Preprocessing</span>
+              <span class="tag tag-gold">Ensemble Learning</span>
+              <span class="tag tag-gold">ML Model Deployment</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. DTP Course -->
+        <div class="exp-card reveal">
+          <div class="exp-card-stripe purple-stripe"></div>
+          <div class="exp-card-body">
+            <div class="exp-card-header">
+              <div class="exp-logo">🖨️</div>
+              <div class="exp-title-block">
+                <div class="exp-role">Desktop Publishing (DTP) Training Program</div>
+                <div class="exp-company">R K Computer Institute (R.C.I. Centre), Aligarh</div>
+              </div>
+              <div class="exp-badge-wrap">
+                <span class="tag tag-purple">Vocational</span>
+                <span class="exp-tenure">Mar 2016 – Jul 2016</span>
+                <span class="exp-location"><i class="fas fa-map-marker-alt"></i> Aligarh, UP</span>
+              </div>
+            </div>
+            <p class="exp-desc">
+              Completed a 4-month professional Desktop Publishing course covering industry-standard design and print production tools before beginning B.Tech studies.
+            </p>
+            <ul class="exp-bullets">
+              <li>Mastered professional design tools: <strong>CorelDraw, Adobe Photoshop, InDesign</strong></li>
+              <li>Studied page layout principles, <strong>typography</strong>, colour theory and branding fundamentals.</li>
+              <li>Learned <strong>printing workflows</strong> — pre-press, colour separation, print production pipelines.</li>
+            </ul>
+            <div class="exp-skills">
+              <span class="tag tag-purple">CorelDraw</span>
+              <span class="tag tag-purple">Photoshop</span>
+              <span class="tag tag-purple">InDesign</span>
+              <span class="tag tag-purple">Typography</span>
+              <span class="tag tag-purple">Page Layout</span>
+            </div>
+          </div>
+          <div class="exp-card-footer">
+            <button class="exp-cert-link" onclick="showModal('dtp')"><i class="fas fa-certificate"></i> View Certificate</button>
+            <a href="assets/docs/dtp-course.pdf" target="_blank" class="exp-cert-link" style="background:rgba(0,212,255,0.08);text-decoration:none"><i class="fas fa-eye"></i> View</a>
+            <a href="assets/docs/dtp-course.pdf" download class="exp-cert-link" style="background:rgba(240,165,0,0.12);color:var(--gold);border-color:var(--gold);text-decoration:none"><i class="fas fa-download"></i> Download</a>
+            <span class="exp-tenure" style="color:var(--white-faint);font-size:0.65rem">Duration: 4 months</span>
+          </div>
+        </div>
+
+      </div><!-- end exp-grid -->
+
+      <!-- Recommendations / Letters section -->
+      <div style="margin-top:3rem">
+        <div class="section-label" style="margin-bottom:1.25rem">
+          <span>Supporting Documents &amp; Recommendation Letters</span>
+        </div>
+        <div class="cert-grid">
+          <div class="cert-card holo-card" onclick="showModal('algo8')">
+            <div class="cert-card-top"><div class="cert-issuer-logo">📄</div><span class="tag tag-cyan">Letter</span></div>
+            <div class="cert-title">Data Science Internship Letter</div>
+            <div class="cert-issuer">Algo8 AI Pvt. Ltd. · Jul 1, 2022</div>
+            <div class="cert-date">Tenure: Jan 8 – May 10, 2020</div>
+          <div style="display:flex;gap:0.5rem;margin-top:0.75rem;flex-wrap:wrap">
+            <a href="assets/docs/algo8-internship.pdf" target="_blank" onclick="event.stopPropagation()" class="exp-cert-link" style="background:rgba(0,212,255,0.08);text-decoration:none;font-size:0.65rem;padding:4px 10px"><i class="fas fa-eye"></i> View</a>
+            <a href="assets/docs/algo8-internship.pdf" download onclick="event.stopPropagation()" class="exp-cert-link" style="background:rgba(240,165,0,0.12);color:var(--gold);border-color:var(--gold);text-decoration:none;font-size:0.65rem;padding:4px 10px"><i class="fas fa-download"></i> Download</a>
+          </div>
+          </div>
+          <div class="cert-card holo-card" onclick="showModal('amul')">
+            <div class="cert-card-top"><div class="cert-issuer-logo">📄</div><span class="tag tag-gold">Certificate</span></div>
+            <div class="cert-title">Market Research Analyst Internship Certificate</div>
+            <div class="cert-issuer">Amul GCMMF Ltd. · Jan 13, 2021</div>
+            <div class="cert-date">Tenure: Oct 10, 2020 – Jan 10, 2021</div>
+          <div style="display:flex;gap:0.5rem;margin-top:0.75rem;flex-wrap:wrap">
+            <a href="assets/docs/amul-internship.pdf" target="_blank" onclick="event.stopPropagation()" class="exp-cert-link" style="background:rgba(0,212,255,0.08);text-decoration:none;font-size:0.65rem;padding:4px 10px"><i class="fas fa-eye"></i> View</a>
+            <a href="assets/docs/amul-internship.pdf" download onclick="event.stopPropagation()" class="exp-cert-link" style="background:rgba(240,165,0,0.12);color:var(--gold);border-color:var(--gold);text-decoration:none;font-size:0.65rem;padding:4px 10px"><i class="fas fa-download"></i> Download</a>
+          </div>
+          </div>
+          <div class="cert-card holo-card" onclick="showModal('microdelinquency')">
+            <div class="cert-card-top"><div class="cert-issuer-logo">📄</div><span class="tag tag-green">Project Letter</span></div>
+            <div class="cert-title">Micro Delinquency Prediction — ML Project Letter</div>
+            <div class="cert-issuer">E&amp;ICT Academy, IIT Kanpur</div>
+            <div class="cert-date">Enrollment ID: EICT-277487-213198 · Summer 2019</div>
+          <div style="display:flex;gap:0.5rem;margin-top:0.75rem;flex-wrap:wrap">
+            <a href="assets/docs/micro-delinquency.pdf" target="_blank" onclick="event.stopPropagation()" class="exp-cert-link" style="background:rgba(0,212,255,0.08);text-decoration:none;font-size:0.65rem;padding:4px 10px"><i class="fas fa-eye"></i> View</a>
+            <a href="assets/docs/micro-delinquency.pdf" download onclick="event.stopPropagation()" class="exp-cert-link" style="background:rgba(240,165,0,0.12);color:var(--gold);border-color:var(--gold);text-decoration:none;font-size:0.65rem;padding:4px 10px"><i class="fas fa-download"></i> Download</a>
+          </div>
+          </div>
+          <div class="cert-card holo-card" onclick="showModal('ict-ml')">
+            <div class="cert-card-top"><div class="cert-issuer-logo">📄</div><span class="tag tag-green">Certificate</span></div>
+            <div class="cert-title">ICT Summer Training — Machine Learning</div>
+            <div class="cert-issuer">E&amp;ICT Academy, IIT Kanpur (Govt. of India)</div>
+            <div class="cert-date">Jul 8, 2019 · 6-week programme</div>
+          <div style="display:flex;gap:0.5rem;margin-top:0.75rem;flex-wrap:wrap">
+            <a href="assets/docs/ict-ml.pdf" target="_blank" onclick="event.stopPropagation()" class="exp-cert-link" style="background:rgba(0,212,255,0.08);text-decoration:none;font-size:0.65rem;padding:4px 10px"><i class="fas fa-eye"></i> View</a>
+            <a href="assets/docs/ict-ml.pdf" download onclick="event.stopPropagation()" class="exp-cert-link" style="background:rgba(240,165,0,0.12);color:var(--gold);border-color:var(--gold);text-decoration:none;font-size:0.65rem;padding:4px 10px"><i class="fas fa-download"></i> Download</a>
+          </div>
+          </div>
+          <div class="cert-card holo-card" onclick="showModal('hackathon')">
+            <div class="cert-card-top"><div class="cert-issuer-logo">🏆</div><span class="tag tag-gold">Award</span></div>
+            <div class="cert-title">Algo8 Hackathon — 1st Place Certificate</div>
+            <div class="cert-issuer">Algo8 / IIT Kanpur</div>
+            <div class="cert-date">Jun 8–9, 2019 · Cert dated Jun 27, 2019</div>
+          <div style="display:flex;gap:0.5rem;margin-top:0.75rem;flex-wrap:wrap">
+            <a href="assets/docs/algo8-hackathon.pdf" target="_blank" onclick="event.stopPropagation()" class="exp-cert-link" style="background:rgba(0,212,255,0.08);text-decoration:none;font-size:0.65rem;padding:4px 10px"><i class="fas fa-eye"></i> View</a>
+            <a href="assets/docs/algo8-hackathon.pdf" download onclick="event.stopPropagation()" class="exp-cert-link" style="background:rgba(240,165,0,0.12);color:var(--gold);border-color:var(--gold);text-decoration:none;font-size:0.65rem;padding:4px 10px"><i class="fas fa-download"></i> Download</a>
+          </div>
+          </div>
+          <div class="cert-card holo-card" onclick="showModal('dtp')">
+            <div class="cert-card-top"><div class="cert-issuer-logo">📄</div><span class="tag tag-purple">Certificate</span></div>
+            <div class="cert-title">Desktop Publishing Course</div>
+            <div class="cert-issuer">R K Computer Institute, Aligarh</div>
+            <div class="cert-date">Mar 10 – Jul 10, 2016</div>
+          <div style="display:flex;gap:0.5rem;margin-top:0.75rem;flex-wrap:wrap">
+            <a href="assets/docs/dtp-course.pdf" target="_blank" onclick="event.stopPropagation()" class="exp-cert-link" style="background:rgba(0,212,255,0.08);text-decoration:none;font-size:0.65rem;padding:4px 10px"><i class="fas fa-eye"></i> View</a>
+            <a href="assets/docs/dtp-course.pdf" download onclick="event.stopPropagation()" class="exp-cert-link" style="background:rgba(240,165,0,0.12);color:var(--gold);border-color:var(--gold);text-decoration:none;font-size:0.65rem;padding:4px 10px"><i class="fas fa-download"></i> Download</a>
+          </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end exp-regular panel -->
+
+    <!-- ─── PANEL B: Virtual Job Simulations ─── -->
+    <div class="exp-panel" id="exp-forage">
+      <div style="margin-bottom:2rem;padding:1.25rem 1.5rem;background:rgba(240,165,0,0.05);border:1px solid rgba(240,165,0,0.15);border-radius:var(--radius-md)">
+        <div style="font-family:var(--font-mono);font-size:0.72rem;color:var(--gold);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.5rem">
+          <i class="fas fa-info-circle"></i> &nbsp;About Forage Virtual Programmes
+        </div>
+        <p style="font-size:0.88rem;color:var(--white-muted);line-height:1.6">
+          Forage virtual job simulations are industry-designed programmes created by top firms (JP Morgan, Goldman Sachs, etc.) to give candidates hands-on exposure to real analyst work. Completing them demonstrates initiative and understanding of finance workflows beyond academic coursework.
+        </p>
+      </div>
+
+      <div class="forage-grid">
+
+        <!-- JPM Quant Research -->
+        <div class="forage-card reveal">
+          <div class="forage-card-header">
+            <div class="forage-logo">🏦</div>
+            <div>
+              <div class="forage-title">Quantitative Research Job Simulation</div>
+              <div class="forage-issuer">J.P. Morgan Chase &amp; Co. · via Forage</div>
+            </div>
+          </div>
+          <div class="forage-body">
+            <div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--white-muted);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.75rem">Completed Tasks</div>
+            <ul class="forage-tasks">
+              <li><strong>Investigate &amp; analyse price data</strong> — time series analysis on commodity prices, identify patterns and anomalies</li>
+              <li><strong>Price a commodity storage contract</strong> — implement a pricing model for natural gas storage incorporating injection/withdrawal rates and seasonality</li>
+              <li><strong>Credit risk analysis</strong> — assess credit exposure, estimate default probabilities for a loan book</li>
+              <li><strong>Bucket FICO scores</strong> — segment borrowers by creditworthiness using FICO score bucketing for risk-adjusted pricing</li>
+            </ul>
+            <div style="display:flex;flex-wrap:wrap;gap:0.4rem">
+              <span class="tag tag-gold">Commodity Pricing</span>
+              <span class="tag tag-gold">Credit Risk</span>
+              <span class="tag tag-cyan">Python</span>
+              <span class="tag tag-cyan">Time Series</span>
+              <span class="tag tag-gold">FICO Scoring</span>
+            </div>
+          </div>
+          <div class="forage-footer">
+            <span class="forage-date"><i class="fas fa-calendar"></i> Jul – Oct 2023</span>
+            <button class="exp-cert-link" onclick="showModal('jpmquant')"><i class="fas fa-certificate"></i> View Certificate</button>
+            <a href="assets/docs/jpm-quant-research.pdf" target="_blank" class="btn-view"><i class="fas fa-eye"></i> View PDF</a>
+            <a href="assets/docs/jpm-quant-research.pdf" download class="btn-dl"><i class="fas fa-download"></i> Download</a>
+          </div>
+        </div>
+
+        <!-- JPM Investment Banking -->
+        <div class="forage-card reveal reveal-delay-1">
+          <div class="forage-card-header">
+            <div class="forage-logo">💼</div>
+            <div>
+              <div class="forage-title">Investment Banking Virtual Experience Program</div>
+              <div class="forage-issuer">J.P. Morgan · via Forage</div>
+            </div>
+          </div>
+          <div class="forage-body">
+            <div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--white-muted);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.75rem">Completed Tasks</div>
+            <ul class="forage-tasks">
+              <li><strong>Find M&amp;A targets</strong> — screen potential acquisition targets using financial criteria, sector fit, and strategic rationale</li>
+              <li><strong>Target information &amp; auction process</strong> — understand deal processes, prepare information memorandum structure, auction dynamics</li>
+              <li><strong>Financial analysis</strong> — conduct valuation analysis (DCF, comparables) and model financial projections</li>
+              <li><strong>Investment recommendation</strong> — synthesise analysis into a structured buy/pass recommendation for senior bankers</li>
+            </ul>
+            <div style="display:flex;flex-wrap:wrap;gap:0.4rem">
+              <span class="tag tag-gold">M&amp;A</span>
+              <span class="tag tag-gold">Valuation</span>
+              <span class="tag tag-gold">DCF</span>
+              <span class="tag tag-cyan">Financial Modelling</span>
+              <span class="tag tag-cyan">Deal Process</span>
+            </div>
+          </div>
+          <div class="forage-footer">
+            <span class="forage-date"><i class="fas fa-calendar"></i> July 2023</span>
+            <button class="exp-cert-link" onclick="showModal('jpmib')"><i class="fas fa-certificate"></i> View Certificate</button>
+            <a href="assets/docs/jpm-ib.pdf" target="_blank" class="exp-cert-link" style="background:rgba(0,212,255,0.08);text-decoration:none"><i class="fas fa-eye"></i> View</a>
+            <a href="assets/docs/jpm-ib.pdf" download class="exp-cert-link" style="background:rgba(240,165,0,0.12);color:var(--gold);border-color:var(--gold);text-decoration:none"><i class="fas fa-download"></i> Download</a>
+          </div>
+        </div>
+
+      </div><!-- end forage-grid -->
+
+      <!-- Why these matter -->
+      <div class="card reveal" style="margin-top:2rem;background:linear-gradient(135deg,rgba(240,165,0,0.04),rgba(0,212,255,0.02))">
+        <div class="section-label" style="margin-bottom:0.75rem">Relevance to Career Goals</div>
+        <p style="font-size:0.92rem;color:var(--white-muted);line-height:1.7">
+          The JP Morgan Quantitative Research simulation directly mirrors the day-to-day work of a junior quant analyst — pricing derivatives, analysing credit risk, and working with financial time series. Combined with my MScFE coursework in Derivative Pricing (88%), Econometrics (94%), and Portfolio Management (84%), these simulations demonstrate that my theoretical training translates into practical, industry-relevant deliverables.
+        </p>
+      </div>
+
+    </div><!-- end exp-forage panel -->
+
+  </div>
+</section>
+<div class="section-divider"></div>
+<!-- ═══════════ PROJECTS ═══════════ -->
+<section id="projects">
+  <div class="container">
+    <div class="section-label reveal">Research & Development</div>
+    <h2 class="section-title reveal">Quant <span class="accent">Projects</span></h2>
+    <p class="section-subtitle reveal">End-to-end quantitative models — from problem formulation to backtesting and performance evaluation.</p>
+
+    <div class="projects-grid">
+
+      <!-- Project 1 -->
+      <div class="project-card reveal">
+        <div class="project-card-accent accent-cyan"></div>
+        <div class="project-body">
+          <div class="project-icon">📈</div>
+          <div class="project-title">Markowitz MVO + Fama-French 5-Factor Analysis</div>
+          <div class="project-desc">
+            Applied Markowitz Mean-Variance Optimization on a 10-stock US equity portfolio combined with 
+            Fama-French 5-Factor regression using OLS. Validated via Monte Carlo simulation and out-of-sample backtesting.
+          </div>
+          <div class="project-tags">
+            <span class="tag tag-cyan">Python</span>
+            <span class="tag tag-gold">MVO</span>
+            <span class="tag tag-gold">Fama-French</span>
+            <span class="tag tag-cyan">Monte Carlo</span>
+            <span class="tag tag-green">OLS Regression</span>
+          </div>
+          <div class="project-metrics">
+            <div class="metric-box">
+              <span class="metric-val">5,000+</span>
+              <span class="metric-label">MC Trials</span>
+            </div>
+            <div class="metric-box">
+              <span class="metric-val">10</span>
+              <span class="metric-label">Assets</span>
+            </div>
+            <div class="metric-box">
+              <span class="metric-val">5F</span>
+              <span class="metric-label">Factor Model</span>
+            </div>
+          </div>
+        </div>
+        <div class="project-footer">
+          <button class="project-expand-btn" onclick="toggleProject(this)">
+            <i class="fas fa-chevron-down"></i> Details
+          </button>
+          <a href="https://github.com/ajeetk095" target="_blank" class="project-expand-btn" style="color:var(--white-muted)">
+            <i class="fab fa-github"></i> GitHub
+          </a>
+        </div>
+        <div class="project-detail">
+          <h4>Problem Statement</h4>
+          <p>Construct an optimally diversified equity portfolio that maximizes risk-adjusted returns while explaining systematic factor exposures via the Fama-French 5-Factor model.</p>
+          <h4>Methodology</h4>
+          <ul>
+            <li>Historical return data for 10 US large-cap stocks scraped via yfinance</li>
+            <li>Efficient frontier computed using CVXPY quadratic programming</li>
+            <li>OLS regression against SMB, HML, RMW, CMA, and market beta</li>
+            <li>5,000 Monte Carlo portfolio simulations for distribution analysis</li>
+            <li>Out-of-sample walk-forward backtest over 12-month window</li>
+          </ul>
+          <h4>Key Results</h4>
+          <ul>
+            <li>Maximum Sharpe Ratio portfolio: Sharpe ~1.4 (annualized)</li>
+            <li>Minimum Variance portfolio: Volatility ~11% annualized</li>
+            <li>Factor model R² ~0.78 — strong systematic factor coverage</li>
+          </ul>
+          <h4>Tools</h4>
+          <p>Python · NumPy · pandas · scipy · cvxpy · statsmodels · matplotlib · yfinance</p>
+        </div>
+      </div>
+
+      <!-- Project 2 -->
+      <div class="project-card reveal reveal-delay-1">
+        <div class="project-card-accent accent-gold"></div>
+        <div class="project-body">
+          <div class="project-icon">⚖️</div>
+          <div class="project-title">Black-Litterman, Kelly Criterion & MVO — Multi-Strategy Framework</div>
+          <div class="project-desc">
+            Designed a multi-strategy portfolio framework for 10 assets benchmarking Markowitz MVO, 
+            Black-Litterman with investor views, and Kelly Criterion across 5,000+ Monte Carlo trials.
+          </div>
+          <div class="project-tags">
+            <span class="tag tag-gold">Black-Litterman</span>
+            <span class="tag tag-gold">Kelly Criterion</span>
+            <span class="tag tag-cyan">Python</span>
+            <span class="tag tag-cyan">Monte Carlo</span>
+          </div>
+          <div class="project-metrics">
+            <div class="metric-box">
+              <span class="metric-val">3</span>
+              <span class="metric-label">Strategies</span>
+            </div>
+            <div class="metric-box">
+              <span class="metric-val">5K+</span>
+              <span class="metric-label">MC Trials</span>
+            </div>
+            <div class="metric-box">
+              <span class="metric-val">10</span>
+              <span class="metric-label">Assets</span>
+            </div>
+          </div>
+        </div>
+        <div class="project-footer">
+          <button class="project-expand-btn" onclick="toggleProject(this)">
+            <i class="fas fa-chevron-down"></i> Details
+          </button>
+          <a href="https://github.com/ajeetk095" target="_blank" class="project-expand-btn" style="color:var(--white-muted)">
+            <i class="fab fa-github"></i> GitHub
+          </a>
+        </div>
+        <div class="project-detail">
+          <h4>Problem Statement</h4>
+          <p>Compare three leading portfolio construction approaches to understand trade-offs between pure optimization, Bayesian updating, and growth-optimal allocation.</p>
+          <h4>Methodology</h4>
+          <ul>
+            <li>Black-Litterman: combined CAPM equilibrium returns with 3 investor views using tau = 0.05</li>
+            <li>Kelly Criterion: full Kelly and fractional Kelly (0.5x) for long-term growth optimization</li>
+            <li>MVO benchmark using equal prior returns</li>
+            <li>Monte Carlo performance distribution for all three strategies</li>
+          </ul>
+          <h4>Key Findings</h4>
+          <ul>
+            <li>Black-Litterman produced more stable allocations than pure MVO under view uncertainty</li>
+            <li>Full Kelly showed higher expected growth but significantly higher drawdown risk</li>
+            <li>Half-Kelly balanced growth and drawdown most effectively in backtests</li>
+          </ul>
+          <h4>Tools</h4>
+          <p>Python · NumPy · pandas · scipy · matplotlib · cvxpy</p>
+        </div>
+      </div>
+
+      <!-- Project 3 -->
+      <div class="project-card reveal reveal-delay-2">
+        <div class="project-card-accent accent-green"></div>
+        <div class="project-body">
+          <div class="project-icon">🔬</div>
+          <div class="project-title">ML-Enhanced Portfolio Optimization with Covariance Denoising</div>
+          <div class="project-desc">
+            Applied Ledoit-Wolf shrinkage to denoise the covariance matrix of a 12-asset portfolio. 
+            Comprehensive risk-adjusted performance evaluation via Sharpe, Sortino, CVaR, Calmar, and Max Drawdown.
+          </div>
+          <div class="project-tags">
+            <span class="tag tag-green">Ledoit-Wolf</span>
+            <span class="tag tag-cyan">CVaR</span>
+            <span class="tag tag-cyan">Python</span>
+            <span class="tag tag-gold">Risk Analytics</span>
+          </div>
+          <div class="project-metrics">
+            <div class="metric-box">
+              <span class="metric-val">12</span>
+              <span class="metric-label">Assets</span>
+            </div>
+            <div class="metric-box">
+              <span class="metric-val">5</span>
+              <span class="metric-label">Risk Metrics</span>
+            </div>
+            <div class="metric-box">
+              <span class="metric-val">LW</span>
+              <span class="metric-label">Shrinkage</span>
+            </div>
+          </div>
+        </div>
+        <div class="project-footer">
+          <button class="project-expand-btn" onclick="toggleProject(this)">
+            <i class="fas fa-chevron-down"></i> Details
+          </button>
+          <a href="https://github.com/ajeetk095" target="_blank" class="project-expand-btn" style="color:var(--white-muted)">
+            <i class="fab fa-github"></i> GitHub
+          </a>
+        </div>
+        <div class="project-detail">
+          <h4>Problem Statement</h4>
+          <p>Improve portfolio optimization reliability by addressing estimation error in sample covariance matrices using statistical shrinkage techniques, then evaluate true risk-adjusted performance comprehensively.</p>
+          <h4>Methodology</h4>
+          <ul>
+            <li>Ledoit-Wolf analytical shrinkage applied to 12-asset covariance estimation</li>
+            <li>Comparison of sample covariance vs. shrunk covariance portfolios</li>
+            <li>CVaR at 95% confidence computed via historical simulation</li>
+            <li>Calmar ratio and Maximum Drawdown via rolling window analysis</li>
+            <li>Sortino ratio computed using downside deviation</li>
+          </ul>
+          <h4>Key Results</h4>
+          <ul>
+            <li>Shrinkage reduced portfolio volatility by ~18% vs. sample covariance baseline</li>
+            <li>CVaR improved (reduced) from -2.3% to -1.9% daily at 95% confidence</li>
+            <li>Sharpe Ratio improved from 0.92 to 1.21 with denoised covariance</li>
+          </ul>
+          <h4>Tools</h4>
+          <p>Python · scikit-learn (LedoitWolf) · NumPy · pandas · scipy · cvxpy · matplotlib</p>
+        </div>
+      </div>
+
+      <!-- Project 4 -->
+      <div class="project-card reveal">
+        <div class="project-card-accent accent-purple"></div>
+        <div class="project-body">
+          <div class="project-icon">🤖</div>
+          <div class="project-title">Telecom Loan Default Prediction — ML Hackathon IIT-K</div>
+          <div class="project-desc">
+            Built a Random Forest classifier to predict telecom loan defaults at a machine learning hackathon at IIT Kanpur. 
+            Applied PCA for dimensionality reduction, optimized for recall on imbalanced data. <strong>Won 1st place.</strong>
+          </div>
+          <div class="project-tags">
+            <span class="tag tag-purple">Random Forest</span>
+            <span class="tag tag-purple">PCA</span>
+            <span class="tag tag-cyan">Python</span>
+            <span class="tag tag-gold">🏆 1st Place</span>
+          </div>
+          <div class="project-metrics">
+            <div class="metric-box">
+              <span class="metric-val">🥇</span>
+              <span class="metric-label">1st Place</span>
+            </div>
+            <div class="metric-box">
+              <span class="metric-val">RF</span>
+              <span class="metric-label">Algorithm</span>
+            </div>
+            <div class="metric-box">
+              <span class="metric-val">PCA</span>
+              <span class="metric-label">Dim Reduction</span>
+            </div>
+          </div>
+        </div>
+        <div class="project-footer">
+          <button class="project-expand-btn" onclick="toggleProject(this)">
+            <i class="fas fa-chevron-down"></i> Details
+          </button>
+          <a href="https://github.com/ajeetk095" target="_blank" class="project-expand-btn" style="color:var(--white-muted)">
+            <i class="fab fa-github"></i> GitHub
+          </a>
+        </div>
+        <div class="project-detail">
+          <h4>Problem Statement</h4>
+          <p>Credit risk challenge at Algo8 ML Hackathon (IIT Kanpur, June 2019): predict telecom loan defaults with high recall to minimize false negatives.</p>
+          <h4>Methodology</h4>
+          <ul>
+            <li>Exploratory data analysis on telecom usage patterns and payment history</li>
+            <li>PCA to reduce dimensionality and remove correlated features</li>
+            <li>Random Forest with SMOTE oversampling for class imbalance</li>
+            <li>Hyperparameter tuning via grid search for recall optimization</li>
+            <li>Feature importance analysis using Gini impurity</li>
+          </ul>
+          <h4>Outcome</h4>
+          <ul>
+            <li>Won 1st place at Algo8 ML Hackathon, IIT Kanpur (June 8–9, 2019)</li>
+            <li>High recall model successfully identifying 85%+ of actual defaults</li>
+            <li>Recognized with certificate from IIT Kanpur E&ICT Academy</li>
+          </ul>
+          <h4>Tools</h4>
+          <p>Python · scikit-learn · pandas · NumPy · imbalanced-learn · matplotlib</p>
+        </div>
+      </div>
+
+      <!-- Project 5: EBI -->
+      <div class="project-card reveal reveal-delay-1">
+        <div class="project-card-accent accent-cyan"></div>
+        <div class="project-body">
+          <div class="project-icon">🔭</div>
+          <div class="project-title">Electronic Bottle Inspection (EBI) — Computer Vision AI</div>
+          <div class="project-desc">
+            Developed AI model at Algo8.ai (IIT Kanpur SIDBI Extension) to predict machine efficiency and 
+            detect defects in Electronic Bottle Inspection systems using computer vision. Reduced testing time and QC costs.
+          </div>
+          <div class="project-tags">
+            <span class="tag tag-cyan">Computer Vision</span>
+            <span class="tag tag-cyan">OpenCV</span>
+            <span class="tag tag-green">Industry Project</span>
+            <span class="tag tag-cyan">Python</span>
+          </div>
+          <div class="project-metrics">
+            <div class="metric-box">
+              <span class="metric-val">CV</span>
+              <span class="metric-label">Vision AI</span>
+            </div>
+            <div class="metric-box">
+              <span class="metric-val">↓QC</span>
+              <span class="metric-label">Reduced Cost</span>
+            </div>
+            <div class="metric-box">
+              <span class="metric-val">Real</span>
+              <span class="metric-label">Production</span>
+            </div>
+          </div>
+        </div>
+        <div class="project-footer">
+          <button class="project-expand-btn" onclick="toggleProject(this)">
+            <i class="fas fa-chevron-down"></i> Details
+          </button>
+        </div>
+        <div class="project-detail">
+          <h4>Context</h4>
+          <p>Data Science Internship at Algo8.ai Pvt. Ltd. (Jan–May 2020), located at SIDBI Extension Centre, IIT Kanpur.</p>
+          <h4>Methodology</h4>
+          <ul>
+            <li>End-to-end pipeline: data collection, image preprocessing, feature extraction</li>
+            <li>OpenCV for defect detection — threshold analysis, contour detection, morphological operations</li>
+            <li>ML classifier trained on bottle inspection images for pass/fail prediction</li>
+            <li>Machine efficiency prediction model using historical inspection data</li>
+          </ul>
+          <h4>Impact</h4>
+          <ul>
+            <li>Automated defect detection reducing manual QC intervention</li>
+            <li>Enabled predictive maintenance by forecasting machine degradation</li>
+            <li>Reduced testing time through intelligent sampling strategy</li>
+          </ul>
+          <h4>Tools</h4>
+          <p>Python · OpenCV · scikit-learn · pandas · NumPy</p>
+        </div>
+      </div>
+
+      <!-- Project 6: AMUL Market Research -->
+      <div class="project-card reveal reveal-delay-2">
+        <div class="project-card-accent accent-gold"></div>
+        <div class="project-body">
+          <div class="project-icon">📊</div>
+          <div class="project-title">FMCG Market Research & Competitive Analysis — Amul GCMMF</div>
+          <div class="project-desc">
+            Conducted comprehensive market research on consumer behaviour, brand perception, and competitive positioning 
+            across 25+ cities in Uttar Pradesh for Amul GCMMF Ltd., delivering actionable regional marketing strategies.
+          </div>
+          <div class="project-tags">
+            <span class="tag tag-gold">Market Research</span>
+            <span class="tag tag-gold">Data Analysis</span>
+            <span class="tag tag-green">25+ Cities</span>
+            <span class="tag tag-cyan">Excel / SQL</span>
+          </div>
+          <div class="project-metrics">
+            <div class="metric-box">
+              <span class="metric-val">25+</span>
+              <span class="metric-label">Cities</span>
+            </div>
+            <div class="metric-box">
+              <span class="metric-val">FMCG</span>
+              <span class="metric-label">Sector</span>
+            </div>
+            <div class="metric-box">
+              <span class="metric-val">Amul</span>
+              <span class="metric-label">Client</span>
+            </div>
+          </div>
+        </div>
+        <div class="project-footer">
+          <button class="project-expand-btn" onclick="toggleProject(this)">
+            <i class="fas fa-chevron-down"></i> Details
+          </button>
+        </div>
+        <div class="project-detail">
+          <h4>Context</h4>
+          <p>Market Research & Development Analyst Intern at Amul GCMMF Ltd., Kanpur (Oct 2020 – Jan 2021).</p>
+          <h4>Scope</h4>
+          <ul>
+            <li>Consumer behavior surveys across 25+ UP cities — preference mapping, price sensitivity</li>
+            <li>Brand perception analysis — awareness levels, competitive positioning vs. rival dairy brands</li>
+            <li>Regional sales data analysis to identify growth pockets and underperforming markets</li>
+            <li>Marketing strategy recommendations for regional distribution and promotional planning</li>
+          </ul>
+          <h4>Outcome</h4>
+          <ul>
+            <li>Delivered comprehensive market intelligence report to regional management</li>
+            <li>Identified 4 high-potential expansion zones based on demographic and sales data</li>
+            <li>Recommended targeted promotion campaigns for specific city-level segments</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+<!-- ═══════════ SKILLS ═══════════ -->
+<section id="skills">
+  <div class="container">
+    <div class="section-label reveal">Technical Arsenal</div>
+    <h2 class="section-title reveal"><span class="accent">Skills</span> & Expertise</h2>
+    <p class="section-subtitle reveal">From quantitative finance methodology to production-grade Python — a full-stack analytical profile.</p>
+
+    <div class="skills-layout">
+      <div class="skills-chart-wrap reveal">
+        <div class="skills-chart-label">Competency Radar — Core Domain Areas</div>
+        <canvas id="radarChart"></canvas>
+        <div class="tech-cloud" style="margin-top:1.5rem">
+          <span class="tech-pill">Python</span>
+          <span class="tech-pill">NumPy</span>
+          <span class="tech-pill">pandas</span>
+          <span class="tech-pill">scikit-learn</span>
+          <span class="tech-pill">scipy</span>
+          <span class="tech-pill">cvxpy</span>
+          <span class="tech-pill">statsmodels</span>
+          <span class="tech-pill">OpenCV</span>
+          <span class="tech-pill">FastAPI</span>
+          <span class="tech-pill">MySQL</span>
+          <span class="tech-pill">Tableau</span>
+          <span class="tech-pill">Git</span>
+          <span class="tech-pill">Excel</span>
+          <span class="tech-pill">Linux</span>
+          <span class="tech-pill">Azure</span>
+          <span class="tech-pill">GCP</span>
+          <span class="tech-pill">C++</span>
+          <span class="tech-pill">SQL</span>
+          <span class="tech-pill">MongoDB</span>
+        </div>
+      </div>
+
+      <div class="skill-groups reveal reveal-delay-1">
+
+        <div>
+          <div class="skill-group-title">Quantitative Finance</div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-header"><span>Portfolio Optimization (MVO / BL)</span><span class="skill-bar-pct">92%</span></div>
+            <div class="skill-bar-track"><div class="skill-bar-fill fill-cyan" data-w="92"></div></div>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-header"><span>Derivatives & Stochastic Models</span><span class="skill-bar-pct">85%</span></div>
+            <div class="skill-bar-track"><div class="skill-bar-fill fill-cyan" data-w="85"></div></div>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-header"><span>Risk Analytics (CVaR / Drawdown)</span><span class="skill-bar-pct">88%</span></div>
+            <div class="skill-bar-track"><div class="skill-bar-fill fill-cyan" data-w="88"></div></div>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-header"><span>Financial Econometrics</span><span class="skill-bar-pct">94%</span></div>
+            <div class="skill-bar-track"><div class="skill-bar-fill fill-cyan" data-w="94"></div></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="skill-group-title">Machine Learning & Data Science</div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-header"><span>Supervised Learning (RF, SVM, etc.)</span><span class="skill-bar-pct">87%</span></div>
+            <div class="skill-bar-track"><div class="skill-bar-fill fill-gold" data-w="87"></div></div>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-header"><span>Deep Learning in Finance</span><span class="skill-bar-pct">82%</span></div>
+            <div class="skill-bar-track"><div class="skill-bar-fill fill-gold" data-w="82"></div></div>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-header"><span>PCA & Dimensionality Reduction</span><span class="skill-bar-pct">85%</span></div>
+            <div class="skill-bar-track"><div class="skill-bar-fill fill-gold" data-w="85"></div></div>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-header"><span>Computer Vision (OpenCV)</span><span class="skill-bar-pct">80%</span></div>
+            <div class="skill-bar-track"><div class="skill-bar-fill fill-gold" data-w="80"></div></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="skill-group-title">Programming & Tools</div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-header"><span>Python (NumPy · pandas · scipy)</span><span class="skill-bar-pct">92%</span></div>
+            <div class="skill-bar-track"><div class="skill-bar-fill fill-green" data-w="92"></div></div>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-header"><span>SQL / MySQL / MongoDB</span><span class="skill-bar-pct">83%</span></div>
+            <div class="skill-bar-track"><div class="skill-bar-fill fill-green" data-w="83"></div></div>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-header"><span>Excel / Tableau / BI Tools</span><span class="skill-bar-pct">88%</span></div>
+            <div class="skill-bar-track"><div class="skill-bar-fill fill-green" data-w="88"></div></div>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-header"><span>Networking (CCNA) / Cloud (Azure/GCP)</span><span class="skill-bar-pct">76%</span></div>
+            <div class="skill-bar-track"><div class="skill-bar-fill fill-green" data-w="76"></div></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ EXPERIENCE ═══════════ -->
+
+
+<!-- ═══════════ CAREER TIMELINE ═══════════ -->
+<section id="timeline">
+  <div class="container">
+    <div class="section-label reveal">Journey</div>
+    <h2 class="section-title reveal">Career <span class="accent">Timeline</span></h2>
+    <p class="section-subtitle reveal">Key milestones across education, projects, internships, and achievements.</p>
+
+    <div class="timeline-wrapper">
+      <div class="timeline-line"></div>
+      <div class="timeline-entries">
+
+        <div class="timeline-entry reveal">
+          <div class="tl-content">
+            <div class="tl-year">2012–2013</div>
+            <div class="tl-title">Governor's Scout Award + Sports Captain</div>
+            <div class="tl-subtitle">Bharat Scouts & Guides, NVS · JNV Fatehpur</div>
+          </div>
+          <div class="tl-dot tl-dot-gold"></div>
+        </div>
+
+        <div class="timeline-entry reveal">
+          <div class="tl-content">
+            <div class="tl-year">Aug 2017</div>
+            <div class="tl-title">Started B.Tech — Information Technology</div>
+            <div class="tl-subtitle">AKTU, Dr. Ambedkar Institute of Technology, Kanpur</div>
+          </div>
+          <div class="tl-dot tl-dot-cyan"></div>
+        </div>
+
+        <div class="timeline-entry reveal">
+          <div class="tl-content">
+            <div class="tl-year">Jun 2018</div>
+            <div class="tl-title">🏆 Felicitated by President of India</div>
+            <div class="tl-subtitle">Academic Excellence Recognition at IIT Kanpur</div>
+          </div>
+          <div class="tl-dot tl-dot-gold"></div>
+        </div>
+
+        <div class="timeline-entry reveal">
+          <div class="tl-content">
+            <div class="tl-year">Jun–Jul 2019</div>
+            <div class="tl-title">ML Training + 1st Place Hackathon</div>
+            <div class="tl-subtitle">E&ICT Academy, IIT Kanpur · Algo8 ML Hackathon</div>
+          </div>
+          <div class="tl-dot tl-dot-cyan"></div>
+        </div>
+
+        <div class="timeline-entry reveal">
+          <div class="tl-content">
+            <div class="tl-year">Jan–May 2020</div>
+            <div class="tl-title">Data Science Intern — Algo8.ai</div>
+            <div class="tl-subtitle">Computer Vision · EBI Defect Detection · IIT Kanpur</div>
+          </div>
+          <div class="tl-dot tl-dot-cyan"></div>
+        </div>
+
+        <div class="timeline-entry reveal">
+          <div class="tl-content">
+            <div class="tl-year">Oct 2020–Jan 2021</div>
+            <div class="tl-title">Market Research Intern — Amul GCMMF</div>
+            <div class="tl-subtitle">Consumer Behaviour & Sales Analysis · 25+ UP Cities</div>
+          </div>
+          <div class="tl-dot tl-dot-gold"></div>
+        </div>
+
+        <div class="timeline-entry reveal">
+          <div class="tl-content">
+            <div class="tl-year">Apr 2021</div>
+            <div class="tl-title">CCNAv7 Trilogy Completed</div>
+            <div class="tl-subtitle">Cisco Networking Academy · 3 Advanced CCNA Certifications</div>
+          </div>
+          <div class="tl-dot tl-dot-cyan"></div>
+        </div>
+
+        <div class="timeline-entry reveal">
+          <div class="tl-content">
+            <div class="tl-year">Aug 2021</div>
+            <div class="tl-title">B.Tech Completed — First Division (7.19 CGPA)</div>
+            <div class="tl-subtitle">Information Technology · AKTU · Sem VIII SGPA: 9.54</div>
+          </div>
+          <div class="tl-dot tl-dot-green"></div>
+        </div>
+
+        <div class="timeline-entry reveal">
+          <div class="tl-content">
+            <div class="tl-year">Oct 2021</div>
+            <div class="tl-title">Started M.Tech — Computer Science & Engineering</div>
+            <div class="tl-subtitle">Netaji Subhas University of Technology, New Delhi</div>
+          </div>
+          <div class="tl-dot tl-dot-cyan"></div>
+        </div>
+
+        <div class="timeline-entry reveal">
+          <div class="tl-content">
+            <div class="tl-year">Jul 2023</div>
+            <div class="tl-title">M.Tech Completed — First Division (7.92 CGPA)</div>
+            <div class="tl-subtitle">NSUT Delhi · Dissertation A+ · Computer Science</div>
+          </div>
+          <div class="tl-dot tl-dot-green"></div>
+        </div>
+
+        <div class="timeline-entry reveal">
+          <div class="tl-content">
+            <div class="tl-year">Jul–Oct 2023</div>
+            <div class="tl-title">JP Morgan Quant + IB Simulations</div>
+            <div class="tl-subtitle">Forage · Commodity Pricing · M&A Analysis · Credit Risk</div>
+          </div>
+          <div class="tl-dot tl-dot-gold"></div>
+        </div>
+
+        <div class="timeline-entry reveal">
+          <div class="tl-content">
+            <div class="tl-year">Oct 2023</div>
+            <div class="tl-title">Started MSc Financial Engineering</div>
+            <div class="tl-subtitle">WorldQuant University, Washington DC (Online)</div>
+          </div>
+          <div class="tl-dot tl-dot-cyan"></div>
+        </div>
+
+        <div class="timeline-entry reveal">
+          <div class="tl-content">
+            <div class="tl-year">2024–2026</div>
+            <div class="tl-title">Active MScFE Coursework (87% avg)</div>
+            <div class="tl-subtitle">Econometrics 94% · Deep Learning 95% · Portfolio Mgmt 84%</div>
+          </div>
+          <div class="tl-dot tl-dot-gold"></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+<!-- ═══════════ CERTIFICATIONS ═══════════ -->
+<section id="certifications">
+  <div class="container">
+    <div class="section-label reveal">Credentials</div>
+    <h2 class="section-title reveal"><span class="accent">Certifications</span> & Courses</h2>
+    <p class="section-subtitle reveal">45+ certifications spanning quant finance, networking, cloud, data science, ML, workshops, and professional development.</p>
+
+    <div class="cert-filter reveal">
+      <button class="cert-filter-btn active" onclick="filterCerts('all', this)">All (45+)</button>
+      <button class="cert-filter-btn" onclick="filterCerts('finance', this)">Finance</button>
+      <button class="cert-filter-btn" onclick="filterCerts('networking', this)">Networking</button>
+      <button class="cert-filter-btn" onclick="filterCerts('ml', this)">ML / AI</button>
+      <button class="cert-filter-btn" onclick="filterCerts('cloud', this)">Cloud</button>
+      <button class="cert-filter-btn" onclick="filterCerts('data', this)">Data & BI</button>
+      <button class="cert-filter-btn" onclick="filterCerts('programming', this)">Programming</button>
+    </div>
+
+    <div class="cert-grid" id="certGrid">
+      <!-- Finance -->
+      <div class="cert-card reveal" data-cat="finance" onclick="showModal('sebi')">
+        <div class="cert-card-top">
+          <div class="cert-issuer-logo">📋</div>
+          <span class="tag tag-gold">Finance</span>
+        </div>
+        <div class="cert-title">SEBI Investor Certification</div>
+        <div class="cert-issuer">SEBI / NISM</div>
+        <div class="cert-date">May 31, 2024 · PASS</div>
+      </div>
+      <div class="cert-card reveal reveal-delay-1" data-cat="finance" onclick="showModal('jpmquant')">
+        <div class="cert-card-top">
+          <div class="cert-issuer-logo">🏦</div>
+          <span class="tag tag-gold">Finance</span>
+        </div>
+        <div class="cert-title">JP Morgan Quantitative Research Simulation</div>
+        <div class="cert-issuer">J.P. Morgan (via Forage)</div>
+        <div class="cert-date">Jul–Oct 2023</div>
+      </div>
+      <div class="cert-card reveal reveal-delay-2" data-cat="finance" onclick="showModal('jpmib')">
+        <div class="cert-card-top">
+          <div class="cert-issuer-logo">💼</div>
+          <span class="tag tag-gold">Finance</span>
+        </div>
+        <div class="cert-title">JP Morgan Investment Banking Virtual Program</div>
+        <div class="cert-issuer">J.P. Morgan (via Forage)</div>
+        <div class="cert-date">July 2023</div>
+      </div>
+      <div class="cert-card reveal" data-cat="finance" onclick="showModal('cfi')">
+        <div class="cert-card-top">
+          <div class="cert-issuer-logo">📊</div>
+          <span class="tag tag-gold">Finance</span>
+        </div>
+        <div class="cert-title">Risk Management & Insurance Planning</div>
+        <div class="cert-issuer">Corporate Finance Institute</div>
+        <div class="cert-date">July 20, 2023</div>
+      </div>
+      <!-- Networking -->
+      <div class="cert-card reveal" data-cat="networking" onclick="showModal('ccna1')">
+        <div class="cert-card-top">
+          <div class="cert-issuer-logo">🌐</div>
+          <span class="tag tag-cyan">Networking</span>
+        </div>
+        <div class="cert-title">CCNAv7: Introduction to Networks</div>
+        <div class="cert-issuer">Cisco / NIIT Foundation</div>
+        <div class="cert-date">December 12, 2020</div>
+      </div>
+      <div class="cert-card reveal reveal-delay-1" data-cat="networking" onclick="showModal('ccna2')">
+        <div class="cert-card-top">
+          <div class="cert-issuer-logo">🔗</div>
+          <span class="tag tag-cyan">Networking</span>
+        </div>
+        <div class="cert-title">CCNAv7: Switching, Routing & Wireless</div>
+        <div class="cert-issuer">Cisco / NIIT Foundation</div>
+        <div class="cert-date">March 4, 2021</div>
+      </div>
+      <div class="cert-card reveal reveal-delay-2" data-cat="networking" onclick="showModal('ccna3')">
+        <div class="cert-card-top">
+          <div class="cert-issuer-logo">🛡️</div>
+          <span class="tag tag-cyan">Networking</span>
+        </div>
+        <div class="cert-title">CCNAv7: Enterprise Networking, Security & Automation</div>
+        <div class="cert-issuer">Cisco / NIIT Foundation</div>
+        <div class="cert-date">April 23, 2021</div>
+      </div>
+      <div class="cert-card reveal" data-cat="networking" onclick="showModal('cybersec')">
+        <div class="cert-card-top">
+          <div class="cert-issuer-logo">🔐</div>
+          <span class="tag tag-cyan">Networking</span>
+        </div>
+        <div class="cert-title">Introduction to Cybersecurity</div>
+        <div class="cert-issuer">Cisco Networking Academy</div>
+        <div class="cert-date">May 15, 2021</div>
+      </div>
+      <!-- ML / AI -->
+      <div class="cert-card reveal" data-cat="ml">
+        <div class="cert-card-top">
+          <div class="cert-issuer-logo">🤖</div>
+          <span class="tag tag-purple">ML / AI</span>
+        </div>
+        <div class="cert-title">Introduction to Artificial Intelligence</div>
+        <div class="cert-issuer">IBM Skills Network (Coursera)</div>
+        <div class="cert-date">May 19, 2020</div>
+      </div>
+      <div class="cert-card reveal reveal-delay-1" data-cat="ml">
+        <div class="cert-card-top">
+          <div class="cert-issuer-logo">📉</div>
+          <span class="tag tag-purple">ML / AI</span>
+        </div>
+        <div class="cert-title">ICT Summer Training — Machine Learning</div>
+        <div class="cert-issuer">E&ICT Academy, IIT Kanpur</div>
+        <div class="cert-date">Jul 8, 2019 · 6 Weeks</div>
+      </div>
+      <div class="cert-card reveal reveal-delay-2" data-cat="ml">
+        <div class="cert-card-top">
+          <div class="cert-issuer-logo">🧠</div>
+          <span class="tag tag-purple">ML / AI</span>
+        </div>
+        <div class="cert-title">BI and Predictive Analytics 101</div>
+        <div class="cert-issuer">Udemy</div>
+        <div class="cert-date">July 9, 2024</div>
+      </div>
+      <!-- Cloud -->
+      <div class="cert-card reveal" data-cat="cloud">
+        <div class="cert-card-top">
+          <div class="cert-issuer-logo">☁️</div>
+          <span class="tag tag-green">Cloud</span>
+        </div>
+        <div class="cert-title">Azure Fundamentals (11 Modules)</div>
+        <div class="cert-issuer">Microsoft Learn</div>
+        <div class="cert-date">September 14, 2023</div>
+      </div>
+      <div class="cert-card reveal reveal-delay-1" data-cat="cloud">
+        <div class="cert-card-top">
+          <div class="cert-issuer-logo">🌩️</div>
+          <span class="tag tag-green">Cloud</span>
+        </div>
+        <div class="cert-title">Google Cloud Fundamentals: Core Infrastructure</div>
+        <div class="cert-issuer">Google Cloud (Coursera)</div>
+        <div class="cert-date">March 1, 2020</div>
+      </div>
+      <!-- Data -->
+      <div class="cert-card reveal" data-cat="data">
+        <div class="cert-card-top">
+          <div class="cert-issuer-logo">📊</div>
+          <span class="tag tag-gold">Data & BI</span>
+        </div>
+        <div class="cert-title">Tableau 2024 A-Z: Hands-On Training</div>
+        <div class="cert-issuer">Udemy · SuperDataScience</div>
+        <div class="cert-date">July 2, 2024 · 8.5 hrs</div>
+      </div>
+      <div class="cert-card reveal reveal-delay-1" data-cat="data">
+        <div class="cert-card-top">
+          <div class="cert-issuer-logo">📈</div>
+          <span class="tag tag-gold">Data & BI</span>
+        </div>
+        <div class="cert-title">Pre-MBA Statistics</div>
+        <div class="cert-issuer">IIM Ahmedabad (Coursera)</div>
+        <div class="cert-date">September 28, 2023</div>
+      </div>
+      <div class="cert-card reveal reveal-delay-2" data-cat="data">
+        <div class="cert-card-top">
+          <div class="cert-issuer-logo">🗄️</div>
+          <span class="tag tag-gold">Data & BI</span>
+        </div>
+        <div class="cert-title">Complete MySQL Bootcamp</div>
+        <div class="cert-issuer">Udemy</div>
+        <div class="cert-date">July 23, 2024</div>
+      </div>
+      <!-- Programming -->
+      <div class="cert-card reveal" data-cat="programming">
+        <div class="cert-card-top">
+          <div class="cert-issuer-logo">🐍</div>
+          <span class="tag tag-cyan">Programming</span>
+        </div>
+        <div class="cert-title">Programming for Everybody (Python)</div>
+        <div class="cert-issuer">University of Michigan (Coursera)</div>
+        <div class="cert-date">July 4, 2020</div>
+      </div>
+      <div class="cert-card reveal reveal-delay-1" data-cat="programming">
+        <div class="cert-card-top">
+          <div class="cert-issuer-logo">⌨️</div>
+          <span class="tag tag-cyan">Programming</span>
+        </div>
+        <div class="cert-title">Python Programming — Practical Approach</div>
+        <div class="cert-issuer">E&ICT Academy, IIT Kanpur</div>
+        <div class="cert-date">July 10, 2019</div>
+      </div>
+      <div class="cert-card reveal reveal-delay-2" data-cat="programming">
+        <div class="cert-card-top">
+          <div class="cert-issuer-logo">🌐</div>
+          <span class="tag tag-cyan">Programming</span>
+        </div>
+        <div class="cert-title">Introduction to HTML5</div>
+        <div class="cert-issuer">University of Michigan (Coursera)</div>
+        <div class="cert-date">October 9, 2020</div>
+      </div>
+      <!-- More hidden ones -->
+      <div class="cert-card cert-hidden" data-cat="data">
+        <div class="cert-card-top"><div class="cert-issuer-logo">📊</div><span class="tag tag-gold">Data</span></div>
+        <div class="cert-title">Microsoft Excel – Beginner to Advanced</div>
+        <div class="cert-issuer">Udemy · Kyle Pew · 21 hrs</div>
+        <div class="cert-date">June 24, 2024</div>
+      </div>
+      <div class="cert-card cert-hidden" data-cat="data">
+        <div class="cert-card-top"><div class="cert-issuer-logo">🗃️</div><span class="tag tag-gold">Data</span></div>
+        <div class="cert-title">Databases with Python (MySQL/SQLite/MongoDB)</div>
+        <div class="cert-issuer">Udemy · Ahmed El Mohandes</div>
+        <div class="cert-date">July 7, 2024</div>
+      </div>
+      <div class="cert-card cert-hidden" data-cat="ml" onclick="showModal('chatgpt-prompt')">
+        <div class="cert-card-top"><div class="cert-issuer-logo">💬</div><span class="tag tag-purple">AI</span></div>
+        <div class="cert-title">ChatGPT Prompt Engineering Mastery</div>
+        <div class="cert-issuer">Udemy · Chetan Pujari</div>
+        <div class="cert-date">July 9, 2024</div>
+      </div>
+      <!-- Additional certs from text file -->
+      <div class="cert-card cert-hidden" data-cat="programming" onclick="showModal('python-practical')">
+        <div class="cert-card-top"><div class="cert-issuer-logo">🐍</div><span class="tag tag-cyan">Programming</span></div>
+        <div class="cert-title">Python Programming — A Practical Approach</div>
+        <div class="cert-issuer">E&ICT Academy, IIT Kanpur (Govt. of India)</div>
+        <div class="cert-date">July 10, 2019</div>
+      </div>
+      <div class="cert-card cert-hidden" data-cat="ml" onclick="showModal('what-is-ds')">
+        <div class="cert-card-top"><div class="cert-issuer-logo">📉</div><span class="tag tag-purple">ML / AI</span></div>
+        <div class="cert-title">What is Data Science?</div>
+        <div class="cert-issuer">IBM Skills Network (Coursera)</div>
+        <div class="cert-date">February 18, 2020</div>
+      </div>
+      <div class="cert-card cert-hidden" data-cat="data">
+        <div class="cert-card-top"><div class="cert-issuer-logo">📊</div><span class="tag tag-gold">Data</span></div>
+        <div class="cert-title">SQL – Complete Introduction to SQL Programming</div>
+        <div class="cert-issuer">Udemy · Yassin Marco · 3.5 hrs</div>
+        <div class="cert-date">July 2, 2024</div>
+      </div>
+      <div class="cert-card cert-hidden" data-cat="data">
+        <div class="cert-card-top"><div class="cert-issuer-logo">📊</div><span class="tag tag-gold">Data</span></div>
+        <div class="cert-title">Microsoft Excel – Complete Excel Data Analysis</div>
+        <div class="cert-issuer">Udemy · Click Learning · 3 hrs</div>
+        <div class="cert-date">July 13, 2024</div>
+      </div>
+      <div class="cert-card cert-hidden" data-cat="finance" onclick="showModal('product-mgmt')">
+        <div class="cert-card-top"><div class="cert-issuer-logo">📋</div><span class="tag tag-gold">Finance</span></div>
+        <div class="cert-title">Professional Certificate: Product Management</div>
+        <div class="cert-issuer">MTF Institute · Udemy · 1.5 hrs</div>
+        <div class="cert-date">July 12, 2024</div>
+      </div>
+      <div class="cert-card cert-hidden" data-cat="finance" onclick="showModal('business-analyst')">
+        <div class="cert-card-top"><div class="cert-issuer-logo">📈</div><span class="tag tag-gold">Finance</span></div>
+        <div class="cert-title">Professional Diploma — Product & Service Business Analyst</div>
+        <div class="cert-issuer">MTF Institute · Udemy · 3 hrs</div>
+        <div class="cert-date">July 12, 2024</div>
+      </div>
+      <div class="cert-card cert-hidden" data-cat="networking" onclick="showModal('iaeng')">
+        <div class="cert-card-top"><div class="cert-issuer-logo">🌐</div><span class="tag tag-cyan">Membership</span></div>
+        <div class="cert-title">IAENG Membership — Member #265771</div>
+        <div class="cert-issuer">International Association of Engineers</div>
+        <div class="cert-date">July 27, 2020</div>
+      </div>
+      <div class="cert-card cert-hidden" data-cat="ml" onclick="showModal('geocomputation')">
+        <div class="cert-card-top"><div class="cert-issuer-logo">🛰️</div><span class="tag tag-purple">Geo / ISRO</span></div>
+        <div class="cert-title">Basics of Geocomputation and Geoweb Services</div>
+        <div class="cert-issuer">IIRS, ISRO, Dehradun</div>
+        <div class="cert-date">Oct 19–29, 2020 · 13.5 hrs</div>
+      </div>
+      <div class="cert-card cert-hidden" data-cat="networking" onclick="showModal('ethical-hacking')">
+        <div class="cert-card-top"><div class="cert-issuer-logo">🛡️</div><span class="tag tag-cyan">Security</span></div>
+        <div class="cert-title">Ethical Hacking Workshop</div>
+        <div class="cert-issuer">IEMLabs (IEMA R&D Pvt. Ltd.)</div>
+        <div class="cert-date">July 19, 2020</div>
+      </div>
+      <div class="cert-card cert-hidden" data-cat="finance" onclick="showModal('commodity-derivatives')">
+        <div class="cert-card-top"><div class="cert-issuer-logo">📈</div><span class="tag tag-gold">Finance</span></div>
+        <div class="cert-title">Commodity Derivatives Market Webinar</div>
+        <div class="cert-issuer">NCDEX / NICR + IIT Kanpur</div>
+        <div class="cert-date">July 10, 2020</div>
+      </div>
+      <div class="cert-card cert-hidden" data-cat="ml" onclick="showModal('3d-math-excel')">
+        <div class="cert-card-top"><div class="cert-issuer-logo">📐</div><span class="tag tag-purple">Workshop</span></div>
+        <div class="cert-title">3D Simplified Mathematics with Excel (3-Day Workshop)</div>
+        <div class="cert-issuer">IIT Kanpur + DASSRL Scientific Research Labs</div>
+        <div class="cert-date">July 5–7, 2019</div>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:2rem">
+      <button class="btn btn-outline" id="showMoreCerts" onclick="toggleMoreCerts()">
+        <i class="fas fa-plus"></i> Show All Certifications
+      </button>
+            <a href="assets/docs/jpm-ib.pdf" target="_blank" class="exp-cert-link" style="background:rgba(0,212,255,0.08);text-decoration:none"><i class="fas fa-eye"></i> View</a>
+            <a href="assets/docs/jpm-ib.pdf" download class="exp-cert-link" style="background:rgba(240,165,0,0.12);color:var(--gold);border-color:var(--gold);text-decoration:none"><i class="fas fa-download"></i> Download</a>
+            <a href="assets/docs/jpm-quant-research.pdf" target="_blank" class="exp-cert-link" style="background:rgba(0,212,255,0.08);text-decoration:none"><i class="fas fa-eye"></i> View</a>
+            <a href="assets/docs/jpm-quant-research.pdf" download class="exp-cert-link" style="background:rgba(240,165,0,0.12);color:var(--gold);border-color:var(--gold);text-decoration:none"><i class="fas fa-download"></i> Download</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ JOB BOARD ═══════════ -->
+<section id="jobboard">
+  <div class="container">
+    <div class="section-label reveal">Opportunities</div>
+    <h2 class="section-title reveal"><span class="gold">Live</span> Job Board</h2>
+    <p class="section-subtitle reveal">AI-matched quant finance & data science roles — updated in real time. Ranked by relevance to Ajeet's profile.</p>
+
+    <div class="job-controls reveal">
+      <div class="job-filters">
+        <select class="job-filter-select" id="jobRoleFilter" onchange="filterJobs()">
+          <option value="all">All Roles</option>
+          <option value="quant">Quant Research</option>
+          <option value="risk">Risk Analytics</option>
+          <option value="ds">Data Science</option>
+          <option value="fe">Financial Engineering</option>
+          <option value="trading">Trading Analytics</option>
+        </select>
+        <select class="job-filter-select" id="jobLocationFilter" onchange="filterJobs()">
+          <option value="all">All Locations</option>
+          <option value="bangalore">Bangalore</option>
+          <option value="mumbai">Mumbai</option>
+          <option value="delhi">Delhi / NCR</option>
+          <option value="remote">Remote</option>
+          <option value="global">Global</option>
+        </select>
+        <select class="job-filter-select" id="jobTypeFilter" onchange="filterJobs()">
+          <option value="all">All Types</option>
+          <option value="fulltime">Full-Time</option>
+          <option value="internship">Internship</option>
+          <option value="contract">Contract</option>
+        </select>
+      </div>
+      <button class="btn btn-outline" onclick="loadJobs()"><i class="fas fa-sync-alt"></i> Refresh</button>
+    </div>
+
+    <div id="job-list" class="job-list">
+      <div class="job-loading"><span class="job-spinner"></span> Fetching live opportunities via AI matching...</div>
+    </div>
+
+    <div class="job-powered">
+      Powered by <a href="https://dice.com" target="_blank">Dice</a> · <a href="https://indeed.com" target="_blank">Indeed</a> · AI Match Engine
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+<!-- ═══════════ BLOG / INSIGHTS ═══════════ -->
+<section id="blog">
+  <div class="container">
+    <div class="section-label reveal">Content & Learning</div>
+    <h2 class="section-title reveal">Blog & <span class="accent">Insights</span></h2>
+    <p class="section-subtitle reveal">Articles, notes, code, and learnings on quant finance, ML, and technology from across the web.</p>
+
+    <div class="blog-sources reveal">
+      <a href="https://github.com/ajeetk095" target="_blank" class="blog-source-card">
+        <div class="blog-source-icon">🐙</div>
+        <div class="blog-source-name">GitHub</div>
+        <div class="blog-source-handle">@ajeetk095</div>
+      </a>
+      <a href="https://linkedin.com/in/ajeek095" target="_blank" class="blog-source-card">
+        <div class="blog-source-icon">💼</div>
+        <div class="blog-source-name">LinkedIn</div>
+        <div class="blog-source-handle">@ajeek095</div>
+      </a>
+      <a href="https://medium.com/@ajeetk095" target="_blank" class="blog-source-card">
+        <div class="blog-source-icon">✍️</div>
+        <div class="blog-source-name">Medium</div>
+        <div class="blog-source-handle">@ajeetk095</div>
+      </a>
+      <a href="https://leetcode.com/ajeetk095" target="_blank" class="blog-source-card">
+        <div class="blog-source-icon">🧩</div>
+        <div class="blog-source-name">LeetCode</div>
+        <div class="blog-source-handle">@ajeetk095</div>
+      </a>
+      <a href="https://youtube.com/@ajeetk095" target="_blank" class="blog-source-card">
+        <div class="blog-source-icon">▶️</div>
+        <div class="blog-source-name">YouTube</div>
+        <div class="blog-source-handle">@ajeetk095</div>
+      </a>
+      <a href="https://www.google.com/search?q=Ajeet+Kumar+quant+finance+financial+engineering" target="_blank" class="blog-source-card">
+        <div class="blog-source-icon">🔍</div>
+        <div class="blog-source-name">Web Search</div>
+        <div class="blog-source-handle">Google Index</div>
+      </a>
+    </div>
+
+    <div class="blog-posts-grid reveal">
+      <div class="blog-post-card">
+        <div class="blog-post-source">GitHub Project</div>
+        <div class="blog-post-title">Portfolio Optimization Suite — Markowitz to Black-Litterman</div>
+        <div class="blog-post-desc">Complete Python implementation of MVO, Black-Litterman, and Kelly Criterion with Monte Carlo simulation and backtesting framework.</div>
+        <div class="blog-post-footer">
+          <span>Python · Finance · Quant</span>
+          <a href="https://github.com/ajeetk095" target="_blank" class="blog-post-link">View →</a>
+        </div>
+      </div>
+      <div class="blog-post-card">
+        <div class="blog-post-source">LinkedIn Article</div>
+        <div class="blog-post-title">Ledoit-Wolf Shrinkage: Why Your Covariance Matrix is Lying</div>
+        <div class="blog-post-desc">Explaining the estimation error problem in sample covariance matrices and how statistical shrinkage methods improve portfolio construction reliability.</div>
+        <div class="blog-post-footer">
+          <span>Risk · Portfolio · ML</span>
+          <a href="https://linkedin.com/in/ajeek095" target="_blank" class="blog-post-link">Read →</a>
+        </div>
+      </div>
+      <div class="blog-post-card">
+        <div class="blog-post-source">Medium Post</div>
+        <div class="blog-post-title">From Econometrics to Alpha: Fama-French 5-Factor in Practice</div>
+        <div class="blog-post-desc">A practitioner's walkthrough of implementing the FF5 model from scratch in Python — data sourcing, OLS regression, and interpreting factor exposures.</div>
+        <div class="blog-post-footer">
+          <span>Econometrics · Python</span>
+          <a href="https://medium.com/@ajeetk095" target="_blank" class="blog-post-link">Read →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+<!-- ═══════════ GALLERY ═══════════ -->
+<section id="gallery">
+  <div class="container">
+    <div class="section-label reveal">Documentation</div>
+    <h2 class="section-title reveal">Document <span class="accent">Gallery</span></h2>
+    <p class="section-subtitle reveal">Certificates, awards, experience letters, and academic documents — all in one place.</p>
+
+    <div class="gallery-filter cert-filter reveal">
+      <button class="cert-filter-btn active" onclick="filterGallery('all', this)">All</button>
+      <button class="cert-filter-btn" onclick="filterGallery('award', this)">Awards & Sports</button>
+      <button class="cert-filter-btn" onclick="filterGallery('internship', this)">Internships</button>
+      <button class="cert-filter-btn" onclick="filterGallery('course', this)">Courses</button>
+      <button class="cert-filter-btn" onclick="filterGallery('event', this)">Events</button>
+      <button class="cert-filter-btn" onclick="filterGallery('academic', this)">Academic</button>
+    </div>
+
+    <div class="gallery-grid" id="galleryGrid">
+      <div class="gallery-item reveal" data-gcat="award" onclick="showModal('hackathon')">
+        <div class="gallery-thumb">🏆</div>
+        <div class="gallery-info">
+          <div class="gallery-title">ML Hackathon — 1st Place</div>
+          <div class="gallery-cat">Award · IIT Kanpur</div>
+        </div>
+      </div>
+      <div class="gallery-item reveal" data-gcat="award" onclick="showModal('president')">
+        <div class="gallery-thumb">🇮🇳</div>
+        <div class="gallery-info">
+          <div class="gallery-title">President of India Recognition</div>
+          <div class="gallery-cat">Award · Academic Excellence</div>
+        </div>
+      </div>
+      <div class="gallery-item reveal" data-gcat="award" onclick="showModal('scout')">
+        <div class="gallery-thumb">⭐</div>
+        <div class="gallery-info">
+          <div class="gallery-title">Rajya Purashkar Scout Award</div>
+          <div class="gallery-cat">Award · Governor's Award</div>
+        </div>
+      </div>
+      <div class="gallery-item reveal" data-gcat="internship" onclick="showModal('ict-training')">
+        <div class="gallery-thumb">🏛️</div>
+        <div class="gallery-info">
+          <div class="gallery-title">IIT Kanpur ML Training Certificate</div>
+          <div class="gallery-cat">Training · E&amp;ICT Academy</div>
+        </div>
+      </div>
+      <div class="gallery-item reveal" data-gcat="internship" onclick="showModal('micro-del')">
+        <div class="gallery-thumb">📊</div>
+        <div class="gallery-info">
+          <div class="gallery-title">Micro Delinquency Prediction — Project Letter</div>
+          <div class="gallery-cat">Internship · IIT Kanpur</div>
+        </div>
+      </div>
+      <div class="gallery-item reveal" data-gcat="internship" onclick="showModal('dtp-exp')">
+        <div class="gallery-thumb">💻</div>
+        <div class="gallery-info">
+          <div class="gallery-title">Desktop Publishing Course Certificate</div>
+          <div class="gallery-cat">Training · R K Computer Institute</div>
+        </div>
+      </div>
+      <div class="gallery-item reveal" data-gcat="award" onclick="showModal('algo8')">
+        <div class="gallery-thumb">🤖</div>
+        <div class="gallery-info">
+          <div class="gallery-title">Algo8.ai Internship Letter</div>
+          <div class="gallery-cat">Internship · Data Science</div>
+        </div>
+      </div>
+      <div class="gallery-item reveal" data-gcat="internship" onclick="showModal('amul')">
+        <div class="gallery-thumb">🥛</div>
+        <div class="gallery-info">
+          <div class="gallery-title">Amul GCMMF Certificate</div>
+          <div class="gallery-cat">Internship · Market Research</div>
+        </div>
+      </div>
+      <div class="gallery-item reveal" data-gcat="course" onclick="showModal('ccna1')">
+        <div class="gallery-thumb">🌐</div>
+        <div class="gallery-info">
+          <div class="gallery-title">CCNAv7 — Intro to Networks</div>
+          <div class="gallery-cat">Course · Cisco</div>
+        </div>
+      </div>
+      <div class="gallery-item reveal" data-gcat="course" onclick="showModal('azure')">
+        <div class="gallery-thumb">☁️</div>
+        <div class="gallery-info">
+          <div class="gallery-title">Azure Fundamentals</div>
+          <div class="gallery-cat">Course · Microsoft</div>
+        </div>
+      </div>
+      <div class="gallery-item reveal" data-gcat="event" onclick="showModal('iit-winter')">
+        <div class="gallery-thumb">❄️</div>
+        <div class="gallery-info">
+          <div class="gallery-title">IEEE Winter School — Fog/Edge</div>
+          <div class="gallery-cat">Event · IIT Kanpur</div>
+        </div>
+      </div>
+      <div class="gallery-item reveal" data-gcat="event" onclick="showModal('wise')">
+        <div class="gallery-thumb">🔬</div>
+        <div class="gallery-info">
+          <div class="gallery-title">WiSE 2019 Conference</div>
+          <div class="gallery-cat">Event · IIT Kanpur</div>
+        </div>
+      </div>
+      <div class="gallery-item reveal" data-gcat="academic" onclick="showModal('wqu-transcript')">
+        <div class="gallery-thumb">📜</div>
+        <div class="gallery-info">
+          <div class="gallery-title">WQU MScFE Transcript</div>
+          <div class="gallery-cat">Academic · Financial Engineering</div>
+        </div>
+      </div>
+      <div class="gallery-item reveal" data-gcat="academic" onclick="showModal('nsut-transcript')">
+        <div class="gallery-thumb">📜</div>
+        <div class="gallery-info">
+          <div class="gallery-title">NSUT M.Tech Transcript</div>
+          <div class="gallery-cat">Academic · CSE</div>
+        </div>
+      </div>
+      <div class="gallery-item reveal" data-gcat="academic" onclick="showModal('aktu-transcript')">
+        <div class="gallery-thumb">📜</div>
+        <div class="gallery-info">
+          <div class="gallery-title">AKTU B.Tech Transcript</div>
+          <div class="gallery-cat">Academic · Information Technology</div>
+        </div>
+      </div>
+      <!-- Internship & Training -->
+      <div class="gallery-item reveal" data-gcat="internship" onclick="showModal('ict-ml')">
+        <div class="gallery-thumb">🏛️</div>
+        <div class="gallery-info">
+          <div class="gallery-title">IIT Kanpur ML Training Certificate</div>
+          <div class="gallery-cat">Training · E&amp;ICT Academy · 6 Weeks</div>
+        </div>
+      </div>
+      <div class="gallery-item reveal" data-gcat="internship" onclick="showModal('microdelinquency')">
+        <div class="gallery-thumb">📊</div>
+        <div class="gallery-info">
+          <div class="gallery-title">Micro Delinquency Prediction — Project Letter</div>
+          <div class="gallery-cat">ML Project · IIT Kanpur</div>
+        </div>
+      </div>
+      <div class="gallery-item reveal" data-gcat="internship" onclick="showModal('dtp')">
+        <div class="gallery-thumb">🖨️</div>
+        <div class="gallery-info">
+          <div class="gallery-title">Desktop Publishing Course Certificate</div>
+          <div class="gallery-cat">Training · R K Computer Institute</div>
+        </div>
+      </div>
+      <div class="gallery-item reveal" data-gcat="course" onclick="showModal('python-practical')">
+        <div class="gallery-thumb">🐍</div>
+        <div class="gallery-info">
+          <div class="gallery-title">Python Programming — Practical Approach</div>
+          <div class="gallery-cat">Course · E&amp;ICT Academy, IIT Kanpur</div>
+        </div>
+      </div>
+      <!-- Events / Workshops / Webinars -->
+      <div class="gallery-item reveal" data-gcat="event" onclick="showModal('commodity-derivatives')">
+        <div class="gallery-thumb">📈</div>
+        <div class="gallery-info">
+          <div class="gallery-title">Commodity Derivatives Market Webinar</div>
+          <div class="gallery-cat">Webinar · NCDEX / IIT Kanpur</div>
+        </div>
+      </div>
+      <div class="gallery-item reveal" data-gcat="event" onclick="showModal('3d-math-excel')">
+        <div class="gallery-thumb">📐</div>
+        <div class="gallery-info">
+          <div class="gallery-title">3D Math with Excel — IIT Kanpur Workshop</div>
+          <div class="gallery-cat">Workshop · IIT Kanpur + DASSRL</div>
+        </div>
+      </div>
+      <div class="gallery-item reveal" data-gcat="event" onclick="showModal('ethical-hacking')">
+        <div class="gallery-thumb">🛡️</div>
+        <div class="gallery-info">
+          <div class="gallery-title">Ethical Hacking Workshop</div>
+          <div class="gallery-cat">Workshop · IEMLabs</div>
+        </div>
+      </div>
+      <div class="gallery-item reveal" data-gcat="event" onclick="showModal('sustainable-energy')">
+        <div class="gallery-thumb">🌱</div>
+        <div class="gallery-info">
+          <div class="gallery-title">All India Seminar — Sustainable Energy</div>
+          <div class="gallery-cat">Seminar · IEI · Feb 2020</div>
+        </div>
+      </div>
+      <div class="gallery-item reveal" data-gcat="event" onclick="showModal('geocomputation')">
+        <div class="gallery-thumb">🛰️</div>
+        <div class="gallery-info">
+          <div class="gallery-title">Geocomputation & Geoweb Services</div>
+          <div class="gallery-cat">Course · IIRS, ISRO · 13.5 hrs</div>
+        </div>
+      </div>
+      <div class="gallery-item reveal" data-gcat="event" onclick="showModal('cloudsummit')">
+        <div class="gallery-thumb">☁️</div>
+        <div class="gallery-info">
+          <div class="gallery-title">CloudSummit.NXT 2020</div>
+          <div class="gallery-cat">Conference · IncubateIND</div>
+        </div>
+      </div>
+      <!-- School Level Awards -->
+      <div class="gallery-item reveal" data-gcat="award" onclick="showModal('sopan-camp')">
+        <div class="gallery-thumb">⛺</div>
+        <div class="gallery-info">
+          <div class="gallery-title">Third Sopan Scout Camp</div>
+          <div class="gallery-cat">Award · NVS Lucknow · 2012</div>
+        </div>
+      </div>
+      <div class="gallery-item reveal" data-gcat="award" onclick="showModal('arohan')">
+        <div class="gallery-thumb">🏅</div>
+        <div class="gallery-info">
+          <div class="gallery-title">District Level Competition — 3rd Place Quiz</div>
+          <div class="gallery-cat">Award · Arohan / IIT Kanpur · 2012</div>
+        </div>
+      </div>
+      <div class="gallery-item reveal" data-gcat="award" onclick="showModal('quiz-3rd')">
+        <div class="gallery-thumb">🥉</div>
+        <div class="gallery-info">
+          <div class="gallery-title">GS Quiz — 3rd Place · JIMMC Media Fest</div>
+          <div class="gallery-cat">Award · JIMMC Noida · 2015</div>
+        </div>
+      </div>
+      <div class="gallery-item reveal" data-gcat="award" onclick="showModal('admad')">
+        <div class="gallery-thumb">🎬</div>
+        <div class="gallery-info">
+          <div class="gallery-title">AD Mad Show — Participation</div>
+          <div class="gallery-cat">Event · JIMMC Media Fest · 2015</div>
+        </div>
+      </div>
+      <!-- Sports -->
+      <div class="gallery-item reveal" data-gcat="award" onclick="showModal('kabaddi-regional')">
+        <div class="gallery-thumb">🏅</div>
+        <div class="gallery-info">
+          <div class="gallery-title">Regional Level Kabaddi Meet — Certificate of Merit</div>
+          <div class="gallery-cat">Sports · NVS Lucknow · 2011</div>
+        </div>
+      </div>
+      <div class="gallery-item reveal" data-gcat="award" onclick="showModal('kabaddi-cluster')">
+        <div class="gallery-thumb">🤸</div>
+        <div class="gallery-info">
+          <div class="gallery-title">Cluster Level Kabaddi Meet</div>
+          <div class="gallery-cat">Sports · NVS · 2012</div>
+        </div>
+      </div>
+      <!-- Volunteering -->
+      <div class="gallery-item reveal" data-gcat="event" onclick="showModal('isstf-volunteer')">
+        <div class="gallery-thumb">🔬</div>
+        <div class="gallery-info">
+          <div class="gallery-title">Volunteer — ISSTF Science Tinkering Fest</div>
+          <div class="gallery-cat">Volunteering · IIT Kanpur · 2020</div>
+        </div>
+      </div>
+      <!-- Membership -->
+      <div class="gallery-item reveal" data-gcat="course" onclick="showModal('iaeng')">
+        <div class="gallery-thumb">🌐</div>
+        <div class="gallery-info">
+          <div class="gallery-title">IAENG Membership #265771</div>
+          <div class="gallery-cat">Membership · Intl. Association of Engineers</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+<!-- ═══════════ CONTACT ═══════════ -->
+<section id="contact">
+  <div class="container">
+    <div class="section-label reveal">Get in Touch</div>
+    <h2 class="section-title reveal">Let's <span class="accent">Connect</span></h2>
+    <p class="section-subtitle reveal">Open to full-time roles, research positions, and meaningful collaborations in quant finance and data science.</p>
+
+    <div class="contact-grid">
+      <div class="contact-info reveal">
+        <div class="contact-item">
+          <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+          <div class="contact-val"><a href="mailto:ajeetk095@gmail.com">ajeetk095@gmail.com</a></div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon"><i class="fas fa-phone"></i></div>
+          <div class="contact-val"><a href="tel:+918756543310">+91 8756 543 310</a></div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+          <div class="contact-val">Bangalore, India</div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon"><i class="fab fa-linkedin"></i></div>
+          <div class="contact-val"><a href="https://linkedin.com/in/ajeek095" target="_blank">linkedin.com/in/ajeek095</a></div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon"><i class="fab fa-github"></i></div>
+          <div class="contact-val"><a href="https://github.com/ajeetk095" target="_blank">github.com/ajeetk095</a></div>
+        </div>
+
+        <div class="card" style="margin-top:2rem">
+          <div class="section-label" style="margin-bottom:0.75rem">Looking For</div>
+          <div style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:0.75rem">
+            <span class="tag tag-cyan">Quant Researcher</span>
+            <span class="tag tag-gold">Financial Engineer</span>
+            <span class="tag tag-cyan">Risk Analyst</span>
+            <span class="tag tag-gold">Data Scientist (Finance)</span>
+            <span class="tag tag-cyan">Trading Analytics</span>
+            <span class="tag tag-gold">Portfolio Analyst</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal reveal-delay-1">
+        <div class="card">
+          <h3 style="font-family:var(--font-display);font-size:1.1rem;font-weight:700;margin-bottom:1.5rem">
+            Send a Message
+          </h3>
+          <form class="contact-form" onsubmit="sendContactForm(event)">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Name</label>
+                <input class="form-input" type="text" name="name" placeholder="Your name" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Email</label>
+                <input class="form-input" type="email" name="email" placeholder="your@email.com" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Subject</label>
+              <input class="form-input" type="text" name="subject" placeholder="Opportunity / Collaboration / Other">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Message</label>
+              <textarea class="form-textarea" name="message" placeholder="I'd like to discuss..." required></textarea>
+            </div>
+            <div class="form-status" id="formStatus"></div>
+            <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center">
+              <i class="fas fa-paper-plane"></i> Send Message
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+
+<div class="section-divider"></div>
+<footer id="footer">
+  <div class="footer-inner">
+    <div class="footer-logo">AJEET KUMAR</div>
+    <div class="footer-tagline">"The best investment you can make is in yourself and in the tools that let you see what others can't."</div>
+    <div class="footer-links">
+      <a href="#hero">Home</a>
+      <a href="#about">About</a>
+      <a href="#education">Education</a>
+      <a href="#experience">Experience</a>
+      <a href="#projects">Projects</a>
+      <a href="#skills">Skills</a>
+      <a href="#certifications">Certs</a>
+      <a href="#jobboard">Jobs</a>
+      <a href="#contact">Contact</a>
+      <a href="#" onclick="openAdmin(event)">Admin</a>
+    </div>
+    <div class="footer-copyright">© 2024–2026 Ajeet Kumar · Built with precision · All rights reserved</div>
+  </div>
+</footer>
+
+<!-- ═══════════ AI ASSISTANT ═══════════ -->
+<button id="ai-btn" onclick="toggleAI()">
+  <div class="ai-pulse"></div>
+  <i class="fas fa-robot"></i>
+</button>
+
+<div id="ai-panel">
+  <div class="ai-header">
+    <div class="ai-header-info">
+      <div class="ai-avatar"><i class="fas fa-robot"></i></div>
+      <div>
+        <div class="ai-name">QuantBot · Ajeet's AI Assistant</div>
+        <div class="ai-status">● Online</div>
+      </div>
+    </div>
+    <button class="ai-close" onclick="toggleAI()"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="ai-messages" id="aiMessages">
+    <div class="ai-message assistant">
+      <div class="ai-bubble">
+        👋 Hi! I'm QuantBot, Ajeet's personal AI assistant. I can tell you about his education, projects, skills, certifications, and career goals. I can also explain quant finance concepts like Sharpe ratio, Black-Litterman, CVaR, and more. How can I help?
+      </div>
+    </div>
+  </div>
+  <div class="ai-quick-actions">
+    <button class="ai-qa-btn" onclick="aiQuickAction('Show me his best projects')">📈 Projects</button>
+    <button class="ai-qa-btn" onclick="aiQuickAction('What are his qualifications?')">🎓 Education</button>
+    <button class="ai-qa-btn" onclick="aiQuickAction('What roles is he looking for?')">💼 Roles</button>
+    <button class="ai-qa-btn" onclick="aiQuickAction('Explain Black-Litterman model')">📊 Black-Litterman</button>
+    <button class="ai-qa-btn" onclick="aiQuickAction('What is CVaR?')">⚠️ CVaR</button>
+    <button class="ai-qa-btn" onclick="aiQuickAction('Explain Sharpe Ratio')">📉 Sharpe</button>
+  </div>
+  <div class="ai-input-row">
+    <input class="ai-input" id="aiInput" placeholder="Ask about Ajeet or quant finance..." onkeydown="if(event.key==='Enter')sendAIMessage()">
+    <button class="ai-send" id="aiSend" onclick="sendAIMessage()"><i class="fas fa-paper-plane"></i></button>
+  </div>
+</div>
+
+<!-- ═══════════ MODALS ═══════════ -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModalDirect()"><i class="fas fa-times"></i></button>
+    <div class="modal-icon" id="modalIcon"></div>
+    <div class="modal-title" id="modalTitle"></div>
+    <div class="modal-issuer" id="modalIssuer"></div>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-dl-btn" id="modalDL"></div>
+  </div>
+</div>
+
+<!-- ═══════════ ADMIN ═══════════ -->
+<div id="admin-login-overlay">
+  <div class="admin-login-box">
+    <div class="admin-login-icon"><i class="fas fa-shield-alt"></i></div>
+    <div class="admin-login-title">Admin Access</div>
+    <div class="admin-login-form">
+      <input class="admin-login-input" type="text" id="adminUser" placeholder="Username" autocomplete="off">
+      <input class="admin-login-input" type="password" id="adminPass" placeholder="Password">
+      <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="attemptAdminLogin()">
+        <i class="fas fa-lock-open"></i> Enter Dashboard
+      </button>
+      <button class="btn btn-outline" style="width:100%;justify-content:center;margin-top:0.5rem" onclick="closeAdminLogin()">
+        Cancel
+      </button>
+    </div>
+    <div class="admin-error" id="adminError">Invalid credentials. Use: admin / ajeet2025</div>
+  </div>
+</div>
+
+<div id="admin-dashboard">
+  <div class="admin-nav">
+    <div class="admin-nav-title"><i class="fas fa-chart-bar"></i> &nbsp; Admin Dashboard — Ajeet Kumar</div>
+    <div style="display:flex;gap:1rem;align-items:center">
+      <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--white-muted)">
+        Last updated: <span id="adminLastUpdated"></span>
+      </span>
+      <button class="btn btn-outline" style="padding:6px 14px;font-size:0.68rem;color:var(--green)" onclick="adminSaveAll()">
+        <i class="fas fa-save"></i> Save All
+      </button>
+      <button class="btn btn-outline" style="padding:6px 14px;font-size:0.68rem;color:var(--cyan)" onclick="adminPreviewAll()">
+        <i class="fas fa-eye"></i> Preview
+      </button>
+      <a href="admin/index.html" class="btn btn-outline" style="padding:6px 14px;font-size:0.68rem;text-decoration:none">
+        <i class="fas fa-cog"></i> Full Dashboard
+      </a>
+      <button class="btn btn-outline" style="padding:6px 14px;font-size:0.68rem;color:#ff5050" onclick="closeAdminDashboard()">
+        <i class="fas fa-times"></i> Exit
+      </button>
+    </div>
+  </div>
+  <div class="admin-body">
+    <div class="admin-grid" id="adminStatsGrid">
+      <!-- Stats injected by JS -->
+    </div>
+
+    <div class="admin-section-title"><i class="fas fa-edit" style="color:var(--cyan)"></i> Content Manager</div>
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Section</th><th>Last Modified</th><th>Status</th><th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="adminContentTable">
+        <!-- Injected by JS -->
+      </tbody>
+    </table>
+
+    <div class="admin-section-title" style="margin-top:2.5rem"><i class="fas fa-chart-line" style="color:var(--gold)"></i> Analytics Overview</div>
+    <div class="admin-grid">
+      <div class="admin-stat-card">
+        <canvas id="adminTrafficChart" height="120"></canvas>
+      </div>
+    </div>
+
+    <div class="admin-section-title"><i class="fas fa-file-upload" style="color:var(--green)"></i> Document Center</div>
+    <div class="cert-grid" style="margin-top:1rem">
+      <div class="cert-card holo-card">
+        <div class="cert-card-top"><div class="cert-issuer-logo">📄</div><span class="tag tag-green">Published</span></div>
+        <div class="cert-title">Full Resume (PDF)</div>
+        <div class="cert-issuer">ajeet_kumar_resume.pdf</div>
+        <div class="cert-date">Updated: Jan 2026</div>
+      </div>
+      <div class="cert-card holo-card">
+        <div class="cert-card-top"><div class="cert-issuer-logo">📜</div><span class="tag tag-green">Published</span></div>
+        <div class="cert-title">WQU Unofficial Transcript</div>
+        <div class="cert-issuer">learner_transcript.pdf</div>
+        <div class="cert-date">Updated: Dec 2025</div>
+      </div>
+      <div class="cert-card holo-card">
+        <div class="cert-card-top"><div class="cert-issuer-logo">➕</div><span class="tag tag-gold">Upload</span></div>
+        <div class="cert-title">Add New Document</div>
+        <div class="cert-issuer">Click to upload PDF/image</div>
+        <button class="edu-transcript-btn" style="margin-top:0.5rem" onclick="alert('In production: connects to Supabase storage for secure file upload.')"><i class="fas fa-upload"></i> Upload</button>
+      </div>
+    </div>
+
+    <div style="margin-top:3rem;padding:1.5rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md)">
+      <div class="section-label" style="margin-bottom:1rem">Quick Update — Hero Tagline</div>
+      <textarea class="form-textarea" id="adminTaglineInput" style="margin-bottom:1rem;width:100%;min-height:80px">Building quantitative models at the intersection of financial theory and machine learning.</textarea>
+      <div style="display:flex;gap:0.75rem;align-items:center;flex-wrap:wrap;margin-top:0.5rem">
+        <button class="btn btn-primary" onclick="adminSaveAndPreview()">
+          <i class="fas fa-save"></i> Save Changes
+        </button>
+        <button class="btn btn-outline" onclick="adminPreview()" style="color:var(--cyan)">
+          <i class="fas fa-eye"></i> Preview
+        </button>
+        <button class="btn btn-outline" onclick="closeAdminDashboard()" style="color:var(--gold)">
+          <i class="fas fa-sign-out-alt"></i> Exit Admin
+        </button>
+        <span id="adminSaveMsg" style="font-family:var(--font-mono);font-size:0.72rem;color:var(--green);display:none">✓ Saved</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     LOCAL DATA  (loaded first so app.js can use them)
+══════════════════════════════════════════ -->
+<script src="data/portfolio.js"></script>
+<script src="data/modal-data.js"></script>
+<script src="data/jobs-data.js"></script>
+<script src="data/ai-context.js"></script>
+
+<!-- ══════════════════════════════════════════
+     LOCAL JS
+══════════════════════════════════════════ -->
+<script src="js/backend.js"></script>
+<script src="js/app.js"></script>
+<script src="js/animations.js"></script>
+<script src="js/jobs.js"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="js/enhancements.js"></script>
+<script src="js/ai-chat.js"></script>
+
+</body>
+</html>
