@@ -1,0 +1,211 @@
+/* ═══════════════════════════════════════════════════════════════
+   ANIMATIONS.CSS — All keyframes + enhanced colourful effects
+═══════════════════════════════════════════════════════════════ */
+
+/* ── Gradient text ── */
+.grad-text {
+  background: linear-gradient(135deg, var(--cyan) 0%, var(--purple) 50%, var(--gold) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.grad-text-cyan {
+  background: linear-gradient(90deg, var(--cyan), #00aaff);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.grad-text-gold {
+  background: linear-gradient(90deg, var(--gold), #ff8c00);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+
+/* ── Glow pulse ── */
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 10px rgba(0,212,255,0.3), 0 0 30px rgba(0,212,255,0.1); }
+  50%       { box-shadow: 0 0 20px rgba(0,212,255,0.6), 0 0 60px rgba(0,212,255,0.2); }
+}
+@keyframes glowPulseGold {
+  0%, 100% { box-shadow: 0 0 10px rgba(240,165,0,0.3), 0 0 30px rgba(240,165,0,0.1); }
+  50%       { box-shadow: 0 0 20px rgba(240,165,0,0.6), 0 0 60px rgba(240,165,0,0.2); }
+}
+@keyframes glowPulsePurple {
+  0%, 100% { box-shadow: 0 0 10px rgba(168,85,247,0.3), 0 0 30px rgba(168,85,247,0.1); }
+  50%       { box-shadow: 0 0 20px rgba(168,85,247,0.6), 0 0 60px rgba(168,85,247,0.2); }
+}
+
+/* ── Float ── */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-10px); }
+}
+.float-anim { animation: float 4s ease-in-out infinite; }
+
+/* ── Slide in ── */
+@keyframes slideInLeft  { from { opacity:0; transform:translateX(-40px); } to { opacity:1; transform:none; } }
+@keyframes slideInRight { from { opacity:0; transform:translateX(40px);  } to { opacity:1; transform:none; } }
+@keyframes slideInUp    { from { opacity:0; transform:translateY(30px);  } to { opacity:1; transform:none; } }
+@keyframes fadeIn       { from { opacity:0; } to { opacity:1; } }
+
+/* ── Typing blink ── */
+@keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0;} }
+
+/* ── Gradient border rotate ── */
+@keyframes rotateBorder {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.animated-border {
+  background: linear-gradient(270deg, var(--cyan), var(--purple), var(--gold), var(--green));
+  background-size: 400% 400%;
+  animation: rotateBorder 4s ease infinite;
+}
+
+/* ── Shimmer skeleton ── */
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+
+/* ── Scan line ── */
+@keyframes scanLine {
+  0%   { top: 0; }
+  100% { top: 100%; }
+}
+
+/* ── Counter tick ── */
+@keyframes counterPop { 0%{transform:scale(1)} 50%{transform:scale(1.2)} 100%{transform:scale(1)} }
+
+/* ── Card hover glow ── */
+.card-glow:hover {
+  box-shadow:
+    0 0 0 1px rgba(0,212,255,0.25),
+    0 8px 32px rgba(0,0,0,0.4),
+    0 0 40px rgba(0,212,255,0.08);
+  transform: translateY(-4px);
+}
+.card-glow-gold:hover {
+  box-shadow:
+    0 0 0 1px rgba(240,165,0,0.25),
+    0 8px 32px rgba(0,0,0,0.4),
+    0 0 40px rgba(240,165,0,0.08);
+  transform: translateY(-4px);
+}
+.card-glow-purple:hover {
+  box-shadow:
+    0 0 0 1px rgba(168,85,247,0.25),
+    0 8px 32px rgba(0,0,0,0.4),
+    0 0 40px rgba(168,85,247,0.08);
+  transform: translateY(-4px);
+}
+
+/* ── Neon text pulse ── */
+@keyframes neonPulse {
+  0%,100% { text-shadow: 0 0 5px rgba(0,212,255,0.5), 0 0 10px rgba(0,212,255,0.3); }
+  50%      { text-shadow: 0 0 10px rgba(0,212,255,0.9), 0 0 20px rgba(0,212,255,0.6), 0 0 40px rgba(0,212,255,0.3); }
+}
+.neon-text { animation: neonPulse 2.5s ease-in-out infinite; }
+
+/* ── Progress bar fill ── */
+@keyframes fillBar { from { width: 0; } }
+
+/* ── Star sparkle ── */
+@keyframes sparkle {
+  0%,100%{ opacity:0; transform:scale(0) rotate(0deg); }
+  50%    { opacity:1; transform:scale(1) rotate(180deg); }
+}
+
+/* ── Section divider gradient ── */
+.section-divider {
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(0,212,255,0.4) 25%,
+    rgba(168,85,247,0.4) 50%,
+    rgba(240,165,0,0.4) 75%,
+    transparent 100%);
+  margin: 0;
+}
+
+/* ── Colourful stat cards ── */
+.stat-cyan  { border-top: 2px solid var(--cyan);   background: linear-gradient(135deg, rgba(0,212,255,0.06) 0%, transparent 60%); }
+.stat-gold  { border-top: 2px solid var(--gold);   background: linear-gradient(135deg, rgba(240,165,0,0.06)  0%, transparent 60%); }
+.stat-green { border-top: 2px solid var(--green);  background: linear-gradient(135deg, rgba(0,255,136,0.06)  0%, transparent 60%); }
+.stat-purple{ border-top: 2px solid var(--purple); background: linear-gradient(135deg, rgba(168,85,247,0.06) 0%, transparent 60%); }
+.stat-red   { border-top: 2px solid var(--red);    background: linear-gradient(135deg, rgba(255,59,92,0.06)  0%, transparent 60%); }
+
+/* ── Timeline colourful nodes ── */
+.tl-node-cyan   { background: var(--cyan);   box-shadow: 0 0 12px rgba(0,212,255,0.6); }
+.tl-node-gold   { background: var(--gold);   box-shadow: 0 0 12px rgba(240,165,0,0.6); }
+.tl-node-green  { background: var(--green);  box-shadow: 0 0 12px rgba(0,255,136,0.6); }
+.tl-node-purple { background: var(--purple); box-shadow: 0 0 12px rgba(168,85,247,0.6); }
+
+/* ── Colourful section labels ── */
+.label-cyan   { color: var(--cyan);   border-left: 3px solid var(--cyan);   padding-left: 10px; }
+.label-gold   { color: var(--gold);   border-left: 3px solid var(--gold);   padding-left: 10px; }
+.label-green  { color: var(--green);  border-left: 3px solid var(--green);  padding-left: 10px; }
+.label-purple { color: var(--purple); border-left: 3px solid var(--purple); padding-left: 10px; }
+
+/* ── Button variants ── */
+.btn-cyan   { background: linear-gradient(135deg, var(--cyan), #0066ff); color: var(--bg-void); border: none; }
+.btn-gold   { background: linear-gradient(135deg, var(--gold), #ff6600); color: var(--bg-void); border: none; }
+.btn-purple { background: linear-gradient(135deg, var(--purple), #6600ff); color: #fff; border: none; }
+.btn-green  { background: linear-gradient(135deg, var(--green), #00aa55); color: var(--bg-void); border: none; }
+.btn-cyan:hover, .btn-gold:hover, .btn-purple:hover, .btn-green:hover {
+  filter: brightness(1.15); transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+}
+
+/* ── Reveal animations ── */
+.reveal { opacity:0; transform:translateY(32px); transition:opacity .65s ease, transform .65s ease; }
+.reveal.visible { opacity:1; transform:none; }
+.reveal-left  { opacity:0; transform:translateX(-40px); transition:opacity .7s ease, transform .7s ease; }
+.reveal-right { opacity:0; transform:translateX(40px);  transition:opacity .7s ease, transform .7s ease; }
+.reveal-left.visible, .reveal-right.visible { opacity:1; transform:none; }
+
+/* Staggered delays */
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* ── View + Download button styles ── */
+.doc-btn-wrap { display:flex; gap:0.5rem; flex-wrap:wrap; margin-top:0.75rem; }
+.btn-view {
+  display:inline-flex; align-items:center; gap:5px;
+  padding:5px 12px; border-radius:6px; font-size:0.7rem;
+  background:rgba(0,212,255,0.1); color:var(--cyan);
+  border:1px solid rgba(0,212,255,0.25); text-decoration:none;
+  font-family:var(--font-mono); transition:all .2s; cursor:pointer;
+}
+.btn-view:hover { background:rgba(0,212,255,0.2); transform:translateY(-1px); }
+.btn-dl {
+  display:inline-flex; align-items:center; gap:5px;
+  padding:5px 12px; border-radius:6px; font-size:0.7rem;
+  background:rgba(240,165,0,0.1); color:var(--gold);
+  border:1px solid rgba(240,165,0,0.25); text-decoration:none;
+  font-family:var(--font-mono); transition:all .2s; cursor:pointer;
+}
+.btn-dl:hover { background:rgba(240,165,0,0.2); transform:translateY(-1px); }
+
+/* ── Holographic card effect ── */
+.holo-card {
+  position:relative; overflow:hidden;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  transition: var(--transition);
+}
+.holo-card::after {
+  content:'';
+  position:absolute; inset:0;
+  background: radial-gradient(600px circle at var(--mx,50%) var(--my,50%),
+    rgba(0,212,255,0.06) 0%, transparent 60%);
+  opacity:0; transition:opacity .3s;
+  pointer-events:none;
+}
+.holo-card:hover::after { opacity:1; }
+.holo-card:hover {
+  border-color: rgba(0,212,255,0.3);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 40px rgba(0,212,255,0.06);
+  transform: translateY(-4px);
+}

@@ -1,0 +1,276 @@
+/* ═══════════════════════════════════════════════════════════
+   MAIN THEME — Ajeet Kumar Portfolio
+   Overrides / supplements style.css with the full design
+   system from the uploaded index.html (Quant Command Center)
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Variables ── */
+:root {
+  --bg-void: #020408;
+  --bg-deep: #06090f;
+  --bg-surface: #0b1120;
+  --bg-card: #0f1929;
+  --bg-card-hover: #131f33;
+  --bg-glass: rgba(15,25,41,0.7);
+  --border: rgba(0,212,255,0.12);
+  --border-bright: rgba(0,212,255,0.35);
+  --cyan: #00d4ff;
+  --cyan-dim: #0099bb;
+  --gold: #f0a500;
+  --gold-dim: #b87a00;
+  --green: #00ff88;
+  --red: #ff3b5c;
+  --purple: #a855f7;
+  --white: #e8f0fe;
+  --white-muted: #8899b0;
+  --white-faint: #3a4a60;
+  --font-display: 'Syne', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+  --font-body: 'Crimson Pro', serif;
+  --glow-cyan: 0 0 20px rgba(0,212,255,0.4), 0 0 60px rgba(0,212,255,0.1);
+  --glow-gold: 0 0 20px rgba(240,165,0,0.4), 0 0 60px rgba(240,165,0,0.1);
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Alias old vars to new ones for compatibility */
+  --bg: var(--bg-void);
+  --bg2: var(--bg-deep);
+  --bg3: var(--bg-surface);
+  --card: var(--bg-card);
+  --accent: var(--cyan);
+  --accent2: #4499ff;
+  --accent3: var(--purple);
+  --text: var(--white);
+  --muted: var(--white-muted);
+  --font: var(--font-display);
+  --mono: var(--font-mono);
+  --r: var(--radius-lg);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  background: var(--bg-void) !important;
+  color: var(--white) !important;
+  font-family: var(--font-body) !important;
+}
+
+/* Noise + Grid overlay on all pages */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 20% 10%, rgba(0,212,255,0.04) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 90%, rgba(240,165,0,0.03) 0%, transparent 60%),
+    repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(0,212,255,0.02) 40px),
+    repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(0,212,255,0.02) 40px);
+  pointer-events: none; z-index: 0;
+}
+
+
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg-deep); }
+::-webkit-scrollbar-thumb { background: var(--cyan-dim); border-radius: 2px; }
+
+/* ── Navbar override ── */
+#navbar {
+  background: rgba(2,4,8,0.85) !important;
+  backdrop-filter: blur(20px) !important;
+  border-bottom: 1px solid var(--border) !important;
+}
+#navbar .nav-logo {
+  font-family: var(--font-mono) !important;
+  color: var(--cyan) !important;
+  font-size: 0.85rem !important;
+  letter-spacing: 0.1em !important;
+}
+#navbar .nav-logo .dot { color: var(--gold) !important; }
+.nav-links a {
+  font-family: var(--font-mono) !important;
+  font-size: 0.72rem !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  color: var(--white-muted) !important;
+}
+.nav-links a:hover, .nav-links a.active {
+  color: var(--cyan) !important;
+  background: rgba(0,212,255,0.07) !important;
+}
+
+/* ── Page hero override ── */
+.page-hero {
+  background: var(--bg-deep) !important;
+  border-bottom: 1px solid var(--border) !important;
+}
+.page-hero h1 {
+  font-family: var(--font-display) !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.02em !important;
+  color: var(--white) !important;
+}
+.page-hero p { color: var(--white-muted) !important; }
+.section-tag {
+  font-family: var(--font-mono) !important;
+  font-size: 0.7rem !important;
+  letter-spacing: 0.2em !important;
+  color: var(--cyan) !important;
+}
+.section-tag::before {
+  content: ''; width: 32px; height: 1px;
+  background: var(--cyan); display: inline-block;
+  margin-right: 12px; vertical-align: middle;
+}
+
+/* ── Cards override ── */
+.card, .glass, .glass-light,
+.card-top-line, .edu-card,
+.proj-card, .project-full-card,
+.blog-card, .job-card, .exp-card,
+.cert-card, .skill-group,
+.contact-item, .admin-card {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-lg) !important;
+  transition: var(--transition) !important;
+}
+.card:hover, .proj-card:hover, .blog-card:hover,
+.cert-card:hover, .job-card:hover, .exp-card:hover {
+  border-color: var(--border-bright) !important;
+  transform: translateY(-4px) !important;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(0,212,255,0.1) !important;
+}
+
+/* ── Tags override ── */
+.tag, .badge-accent {
+  font-family: var(--font-mono) !important;
+  font-size: 0.65rem !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+  background: rgba(0,212,255,0.1) !important;
+  color: var(--cyan) !important;
+  border: 1px solid rgba(0,212,255,0.2) !important;
+  border-radius: 4px !important;
+  padding: 3px 10px !important;
+}
+.tag-purple { background: rgba(168,85,247,0.1) !important; color: var(--purple) !important; border-color: rgba(168,85,247,0.2) !important; }
+.tag-gold, .tag-blue { background: rgba(240,165,0,0.1) !important; color: var(--gold) !important; border-color: rgba(240,165,0,0.2) !important; }
+.tag-green { background: rgba(0,255,136,0.1) !important; color: var(--green) !important; border-color: rgba(0,255,136,0.2) !important; }
+
+/* ── Buttons override ── */
+.btn, .btn-primary, .btn-outline, .btn-ghost {
+  font-family: var(--font-mono) !important;
+  font-size: 0.78rem !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  border-radius: var(--radius-sm) !important;
+  transition: var(--transition) !important;
+}
+.btn-primary {
+  background: var(--cyan) !important;
+  color: var(--bg-void) !important;
+  border: none !important;
+}
+.btn-primary:hover { box-shadow: var(--glow-cyan) !important; transform: translateY(-2px) !important; }
+.btn-outline, .btn-ghost {
+  background: transparent !important;
+  color: var(--cyan) !important;
+  border: 1px solid var(--cyan) !important;
+}
+.btn-outline:hover, .btn-ghost:hover {
+  background: rgba(0,212,255,0.1) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* ── Section headers ── */
+.section-title {
+  font-family: var(--font-display) !important;
+  font-weight: 800 !important;
+  line-height: 1.1 !important;
+  letter-spacing: -0.02em !important;
+}
+.accent, .section-title .accent { color: var(--cyan) !important; }
+
+/* ── Skill bars override ── */
+.skill-bar-track {
+  height: 3px !important;
+  background: var(--bg-surface) !important;
+}
+.skill-bar-fill {
+  background: linear-gradient(90deg, var(--cyan-dim), var(--cyan)) !important;
+  height: 100% !important;
+}
+
+/* ── Forms ── */
+.form-input, .form-group input, .form-group textarea,
+.form-group select, textarea.form-input {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border) !important;
+  color: var(--white) !important;
+  font-family: var(--font-body) !important;
+  border-radius: var(--radius-sm) !important;
+}
+.form-input:focus, .form-group input:focus, .form-group textarea:focus {
+  border-color: var(--cyan) !important;
+  outline: none !important;
+}
+.form-label, label.form-label {
+  font-family: var(--font-mono) !important;
+  font-size: 0.68rem !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  color: var(--white-muted) !important;
+}
+
+/* ── Timeline ── */
+.timeline { border-left: 1px solid linear-gradient(to bottom, var(--cyan), var(--gold), transparent) !important; }
+.timeline-dot { box-shadow: var(--glow-cyan) !important; }
+
+/* ── Transcript tables ── */
+.t-table th { color: var(--cyan) !important; font-family: var(--font-mono) !important; }
+.t-table td { color: var(--white-muted) !important; font-family: var(--font-mono) !important; font-size: 0.75rem !important; }
+.grade-ex { color: var(--green) !important; }
+.grade-pr { color: var(--cyan) !important; }
+
+/* ── AI Panel override ── */
+.ai-modal {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border-bright) !important;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.6), var(--glow-cyan) !important;
+}
+.ai-header {
+  background: linear-gradient(135deg, rgba(0,212,255,0.1), rgba(0,102,255,0.1)) !important;
+}
+.ai-msg.bot {
+  background: rgba(0,212,255,0.08) !important;
+  border: 1px solid rgba(0,212,255,0.15) !important;
+}
+.ai-msg.user {
+  background: linear-gradient(135deg, rgba(0,212,255,0.2), rgba(0,102,255,0.2)) !important;
+}
+.ai-fab {
+  background: linear-gradient(135deg, var(--cyan), #0066ff) !important;
+  box-shadow: var(--glow-cyan), 0 8px 32px rgba(0,0,0,0.4) !important;
+}
+
+/* ── Footer override ── */
+.footer {
+  background: var(--bg-void) !important;
+  border-top: 1px solid var(--border) !important;
+}
+
+/* ── Admin window controls ── */
+#windowControls {
+  background: rgba(2,4,8,0.97) !important;
+  border-bottom: 1px solid var(--border) !important;
+}
+
+/* ── Reveal animation ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.up, .reveal.visible { opacity: 1; transform: translateY(0); }
