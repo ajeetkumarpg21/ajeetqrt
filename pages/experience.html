@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Experience – Ajeet Kumar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@300;400;500&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config={darkMode:'class',theme:{extend:{colors:{accent:'#00f0b4',accent2:'#00aaff',accent3:'#7c6cf8'}}}}</script>
+  <link rel="stylesheet" href="../css/style.css"/>
+  <link rel="stylesheet" href="../css/main-theme.css"/>
+</head>
+<body class="dark">
+<canvas id="bg3d" class="canvas-bg" data-theme="experience"></canvas>
+<!-- Custom cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<div class="page-wrapper">
+
+<div class="page-hero">
+  <div class="container">
+    <span class="section-tag">Work History</span>
+    <h1>Experience &<br><span class="accent">Internships</span></h1>
+    <p>Professional internships, training programs & virtual simulations</p>
+  </div>
+</div>
+<section class="section">
+  <div class="container">
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:32px" id="expTabs">
+      <button class="btn btn-sm btn-outline active-tab" data-type="all" onclick="filterExp('all',this)">All</button>
+      <button class="btn btn-sm btn-outline" data-type="internship" onclick="filterExp('internship',this)">Internships</button>
+      <button class="btn btn-sm btn-outline" data-type="training" onclick="filterExp('training',this)">Training</button>
+      <button class="btn btn-sm btn-outline" data-type="simulation" onclick="filterExp('simulation',this)">Virtual / Forage</button>
+    </div>
+    <div id="expGrid"></div>
+  </div>
+</section>
+</div>
+<footer id="site-footer"></footer>
+<script src="../data/portfolio.js"></script>
+<script src="../js/backend.js"></script>
+<script src="../js/nav-inject.js"></script>
+<script src="../js/bg3d.js"></script>
+<script src="../js/ai-chat.js"></script>
+<script src="../js/nav.js"></script>
+<script>
+function filterExp(type, btn) {
+  document.querySelectorAll('#expTabs button').forEach(b => b.classList.remove('active-tab'));
+  btn.classList.add('active-tab');
+  document.querySelectorAll('.exp-card').forEach(c => {
+    c.style.display = (type === 'all' || c.dataset.type === type) ? '' : 'none';
+  });
+}
+const exp = loadData('experience');
+const grid = document.getElementById('expGrid');
+const typeColors = {internship:'var(--accent)',training:'var(--accent2)',simulation:'var(--accent3)'};
+grid.innerHTML = exp.map((e,i) => `
+  <div class="card exp-card reveal" data-type="${e.type}" style="margin-bottom:20px;position:relative;overflow:hidden">
+    <div style="position:absolute;left:0;top:0;bottom:0;width:3px;background:${typeColors[e.type]||'var(--muted)'}"></div>
+    <div style="display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap">
+      <div style="font-size:32px;flex-shrink:0">${e.icon}</div>
+      <div style="flex:1">
+        <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:4px">
+          <div>
+            <h3 style="font-size:17px;font-weight:600">${e.role}</h3>
+            <div style="color:var(--accent2);font-size:13px;margin-bottom:6px">${e.company} · ${e.location}</div>
+          </div>
+          <div style="text-align:right">
+            <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">${e.period}</span>
+            <div><span class="tag" style="color:${typeColors[e.type]};border-color:${typeColors[e.type]}30;background:${typeColors[e.type]}10">${e.type.charAt(0).toUpperCase()+e.type.slice(1)}</span></div>
+          </div>
+        </div>
+        <ul style="padding:0;list-style:none">
+          ${e.bullets.map(b=>`<li style="font-size:14px;color:var(--muted);padding-left:16px;position:relative;margin-bottom:5px">
+            <span style="position:absolute;left:0;color:var(--accent)">→</span>${b}</li>`).join('')}
+        </ul>
+      </div>
+    </div>
+  </div>`).join('');
+document.querySelector('[data-type="all"]').style.borderColor = 'var(--accent)';
+document.querySelector('[data-type="all"]').style.color = 'var(--accent)';
+</script>
+</body>
+</html>

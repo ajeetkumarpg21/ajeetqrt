@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Blog – Ajeet Kumar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@300;400;500&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config={darkMode:'class',theme:{extend:{colors:{accent:'#00f0b4',accent2:'#00aaff',accent3:'#7c6cf8'}}}}</script>
+  <link rel="stylesheet" href="../css/style.css"/>
+  <link rel="stylesheet" href="../css/main-theme.css"/>
+</head>
+<body class="dark">
+<canvas id="bg3d" class="canvas-bg" data-theme="blog"></canvas>
+<!-- Custom cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<div class="page-wrapper">
+
+<div class="page-hero">
+  <div class="container">
+    <span class="section-tag">Insights & Writing</span>
+    <h1>Blog &<br><span class="accent">Articles</span></h1>
+    <p>Quant finance concepts, portfolio theory, and ML in finance explained simply</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+
+    <!-- Search -->
+    <div style="margin-bottom:28px" class="reveal">
+      <input id="blogSearch" class="form-input" placeholder="🔍 Search articles…" style="max-width:400px"/>
+    </div>
+
+    <!-- Tag filters -->
+    <div id="blogTags" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:32px" class="reveal"></div>
+
+    <!-- Grid -->
+    <div id="blogGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px"></div>
+
+    <!-- Admin add CTA -->
+    <div class="card reveal" style="margin-top:40px;text-align:center;padding:32px;background:rgba(124,108,248,.04);border-color:rgba(124,108,248,.15)">
+      <div style="font-size:24px;margin-bottom:12px">✍️</div>
+      <h3 style="font-size:18px;font-weight:600;margin-bottom:8px">Add New Articles</h3>
+      <p style="font-size:14px;color:var(--muted);margin-bottom:16px">Use the Admin Dashboard to publish new blog posts without touching code.</p>
+      <a href="../admin/index.html" class="btn btn-outline btn-sm">Open Admin →</a>
+    </div>
+  </div>
+</section>
+
+</div>
+<footer id="site-footer"></footer>
+<script src="../data/portfolio.js"></script>
+<script src="../js/backend.js"></script>
+<script src="../js/nav-inject.js"></script>
+<script src="../js/bg3d.js"></script>
+<script src="../js/ai-chat.js"></script>
+<script src="../js/nav.js"></script>
+<script>
+const allPosts = loadData('blog');
+const tagSet = [...new Set(allPosts.map(p => p.tag))];
+let activeTag = 'all';
+
+document.getElementById('blogTags').innerHTML =
+  ['all', ...tagSet].map(t => `
+    <button class="btn btn-outline btn-sm blog-tag ${t==='all'?'active-tag':''}" data-tag="${t}"
+      style="${t==='all'?'border-color:var(--accent);color:var(--accent)':''}"
+      onclick="filterBlog('${t}',this)">${t==='all'?'All':t}</button>`).join('');
+
+function renderPosts(posts) {
+  document.getElementById('blogGrid').innerHTML = posts.map((p,i) => `
+    <a href="${p.link}" class="blog-card reveal" style="animation-delay:${i*0.05}s;text-decoration:none">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+        <span class="tag tag-purple">${p.tag}</span>
+        <span style="font-size:12px;color:var(--muted);font-family:var(--mono)">${p.date}</span>
+      </div>
+      <h3 style="font-size:16px;font-weight:600;margin-bottom:8px;line-height:1.4">${p.title}</h3>
+      <p style="font-size:13px;color:var(--muted);line-height:1.6;flex:1">${p.summary}</p>
+      <div style="margin-top:14px;font-size:13px;color:var(--accent)">Read more →</div>
+    </a>`).join('');
+
+  document.querySelectorAll('.reveal').forEach(el => {
+    const obs = new IntersectionObserver(e => { if(e[0].isIntersecting){e[0].target.classList.add('up');obs.disconnect();}},{threshold:0.1});
+    obs.observe(el);
+  });
+}
+
+function filterBlog(tag, btn) {
+  activeTag = tag;
+  document.querySelectorAll('.blog-tag').forEach(b => {
+    b.classList.remove('active-tag');
+    b.style.borderColor = ''; b.style.color = '';
+  });
+  if(btn){ btn.classList.add('active-tag'); btn.style.borderColor='var(--accent)'; btn.style.color='var(--accent)'; }
+  const q = document.getElementById('blogSearch').value.toLowerCase();
+  let posts = tag === 'all' ? allPosts : allPosts.filter(p => p.tag === tag);
+  if (q) posts = posts.filter(p => p.title.toLowerCase().includes(q) || p.summary.toLowerCase().includes(q));
+  renderPosts(posts);
+}
+
+document.getElementById('blogSearch').addEventListener('input', () => filterBlog(activeTag, document.querySelector('.blog-tag.active-tag')));
+renderPosts(allPosts);
+</script>
+</body>
+</html>

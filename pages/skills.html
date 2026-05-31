@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Skills – Ajeet Kumar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@300;400;500&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config={darkMode:'class',theme:{extend:{colors:{accent:'#00f0b4',accent2:'#00aaff',accent3:'#7c6cf8'}}}}</script>
+  <link rel="stylesheet" href="../css/style.css"/>
+  <link rel="stylesheet" href="../css/main-theme.css"/>
+</head>
+<body class="dark">
+<canvas id="bg3d" class="canvas-bg" data-theme="skills"></canvas>
+<!-- Custom cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<div class="page-wrapper">
+
+<div class="page-hero">
+  <div class="container">
+    <span class="section-tag">Technical Proficiency</span>
+    <h1>Skills &<br><span class="accent">Expertise</span></h1>
+    <p>Quant methods · Programming · ML · Finance tools</p>
+  </div>
+</div>
+<section class="section">
+  <div class="container">
+    <div id="skillsGrid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-bottom:40px"></div>
+    <div class="card reveal">
+      <h3 style="font-size:13px;font-family:var(--mono);color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:18px">All Keywords</h3>
+      <div id="allTags"></div>
+    </div>
+  </div>
+</section>
+</div>
+<footer id="site-footer"></footer>
+<script src="../data/portfolio.js"></script>
+<script src="../js/backend.js"></script>
+<script src="../js/nav-inject.js"></script>
+<script src="../js/bg3d.js"></script>
+<script src="../js/ai-chat.js"></script>
+<script src="../js/nav.js"></script>
+<script>
+const skillsData = loadData('skills');
+const groups = [
+  {key:'programming',title:'Programming Languages',color:'var(--accent)'},
+  {key:'quant',title:'Quant Finance Methods',color:'var(--accent3)'},
+  {key:'libraries',title:'Python Libraries',color:'var(--accent2)'},
+  {key:'ml',title:'Machine Learning',color:'var(--gold)'},
+  {key:'tools',title:'Tools & Platforms',color:'var(--accent)'},
+];
+const grid = document.getElementById('skillsGrid');
+grid.innerHTML = groups.map(g => `
+  <div class="card reveal">
+    <h3 style="font-size:12px;font-family:var(--mono);color:${g.color};text-transform:uppercase;letter-spacing:1px;margin-bottom:18px">${g.title}</h3>
+    ${(skillsData[g.key]||[]).map(s=>`
+    <div class="skill-bar" style="margin-bottom:14px">
+      <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px">
+        <span>${s.name}</span><span style="font-family:var(--mono);color:${g.color}">${s.level}%</span>
+      </div>
+      <div class="skill-bar-track"><div class="skill-bar-fill" data-w="${s.level}" style="background:linear-gradient(90deg,${g.color},var(--accent3))"></div></div>
+    </div>`).join('')}
+  </div>`).join('');
+const allTags = ['Python','C++','SQL','NumPy','pandas','scikit-learn','scipy','cvxpy','statsmodels','OpenCV','FastAPI','Markowitz MVO','Black-Litterman','Kelly Criterion','Fama-French 5-Factor','Ledoit-Wolf','CVaR','Monte Carlo','Efficient Frontier','Sharpe','Sortino','Max Drawdown','Derivatives Pricing','Stochastic Calculus','Financial Econometrics','OLS Regression','Random Forest','PCA','Reinforcement Learning','Deep Learning','MySQL','Excel (Advanced)','Tableau','Git','Linux','Azure'];
+document.getElementById('allTags').innerHTML = allTags.map(t=>`<span class="tag">${t}</span>`).join('');
+</script>
+</body>
+</html>

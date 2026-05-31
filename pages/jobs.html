@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Job Board – Ajeet Kumar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@300;400;500&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config={darkMode:'class',theme:{extend:{colors:{accent:'#00f0b4',accent2:'#00aaff',accent3:'#7c6cf8'}}}}</script>
+  <link rel="stylesheet" href="../css/style.css"/>
+  <link rel="stylesheet" href="../css/main-theme.css"/>
+</head>
+<body class="dark">
+<canvas id="bg3d" class="canvas-bg" data-theme="jobs"></canvas>
+<div class="page-wrapper">
+
+<div class="page-hero">
+  <div class="container">
+    <span class="section-tag">Live via Adzuna API · India &amp; Worldwide</span>
+    <h1>Quant Finance<br><span class="accent">Job Board</span></h1>
+    <p>Real-time job listings matched against Ajeet's skills, education &amp; projects</p>
+    <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;align-items:center">
+      <span id="adzunaStatus" style="font-size:13px;color:var(--muted);font-family:var(--mono)">Loading live jobs…</span>
+      <span id="jobCountDisplay" style="font-size:12px;color:var(--accent);font-family:var(--mono)"></span>
+    </div>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+
+    <!-- ── Search + Filters ── -->
+    <div class="card reveal" style="padding:20px 24px;margin-bottom:24px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+        <div>
+          <label class="form-label">Search Keywords</label>
+          <input id="jobSearch" class="form-input" placeholder="e.g. quantitative analyst, risk, python finance"
+            value="quantitative analyst finance python"/>
+        </div>
+        <div>
+          <label class="form-label">Location (city / state)</label>
+          <input id="jobLocation" class="form-input" placeholder="e.g. Bangalore, Mumbai, Delhi"/>
+        </div>
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end">
+        <div style="flex:1;min-width:160px">
+          <label class="form-label">Country</label>
+          <select id="jobCountry" class="form-input">
+            <option value="in">🇮🇳 India</option>
+            <option value="us">🇺🇸 United States</option>
+            <option value="gb">🇬🇧 United Kingdom</option>
+            <option value="sg">🇸🇬 Singapore</option>
+            <option value="au">🇦🇺 Australia</option>
+            <option value="ae">🇦🇪 UAE</option>
+            <option value="ca">🇨🇦 Canada</option>
+            <option value="de">🇩🇪 Germany</option>
+            <option value="fr">🇫🇷 France</option>
+            <option value="nl">🇳🇱 Netherlands</option>
+            <option value="za">🇿🇦 South Africa</option>
+            <option value="br">🇧🇷 Brazil</option>
+          </select>
+        </div>
+        <div style="flex:1;min-width:160px">
+          <label class="form-label">Sort By</label>
+          <select id="jobSort" class="form-input">
+            <option value="match">Best AI Match</option>
+            <option value="recent">Most Recent</option>
+            <option value="alpha">A – Z</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label">&nbsp;</label>
+          <button onclick="currentPage=1;fetchAndRender()" class="btn btn-primary" style="display:block">
+            🔍 Search Jobs
+          </button>
+        </div>
+      </div>
+      <!-- Quick preset keywords -->
+      <div style="margin-top:14px;display:flex;gap:6px;flex-wrap:wrap">
+        <span style="font-size:12px;color:var(--muted)">Quick:</span>
+        <button onclick="document.getElementById('jobSearch').value=this.textContent;currentPage=1;fetchAndRender()" class="tag" style="cursor:pointer">quantitative analyst</button>
+        <button onclick="document.getElementById('jobSearch').value=this.textContent;currentPage=1;fetchAndRender()" class="tag" style="cursor:pointer">risk analyst python</button>
+        <button onclick="document.getElementById('jobSearch').value=this.textContent;currentPage=1;fetchAndRender()" class="tag" style="cursor:pointer">financial engineer</button>
+        <button onclick="document.getElementById('jobSearch').value=this.textContent;currentPage=1;fetchAndRender()" class="tag" style="cursor:pointer">data scientist finance</button>
+        <button onclick="document.getElementById('jobSearch').value=this.textContent;currentPage=1;fetchAndRender()" class="tag" style="cursor:pointer">portfolio analyst</button>
+        <button onclick="document.getElementById('jobSearch').value=this.textContent;currentPage=1;fetchAndRender()" class="tag" style="cursor:pointer">algo trading</button>
+      </div>
+    </div>
+
+    <!-- ── Tabs: Live / Saved ── -->
+    <div style="display:flex;gap:0;margin-bottom:20px;border-bottom:1px solid var(--border)">
+      <button id="tabLive" onclick="switchTab('live')"
+        style="padding:10px 20px;background:none;border:none;border-bottom:2px solid var(--accent);color:var(--accent);font-family:var(--font);font-size:14px;font-weight:600;cursor:pointer">
+        🌐 Live Jobs
+      </button>
+      <button id="tabSaved" onclick="switchTab('saved')"
+        style="padding:10px 20px;background:none;border:none;border-bottom:2px solid transparent;color:var(--muted);font-family:var(--font);font-size:14px;cursor:pointer">
+        ⭐ Saved Jobs
+      </button>
+    </div>
+
+    <!-- ── Live Jobs List ── -->
+    <div id="tabContentLive">
+      <div id="jobList"></div>
+      <div id="jobPagination"></div>
+    </div>
+
+    <!-- ── Saved Jobs ── -->
+    <div id="tabContentSaved" style="display:none">
+      <div class="card" style="padding:24px">
+        <h3 style="font-size:15px;font-weight:600;margin-bottom:16px">⭐ Saved Jobs</h3>
+        <div id="savedJobsList"></div>
+      </div>
+    </div>
+
+    <!-- ── Info strip ── -->
+    <div class="card reveal" style="margin-top:28px;padding:18px 24px;background:rgba(0,170,255,.03);border-color:rgba(0,170,255,.12)">
+      <div style="font-size:13px;color:var(--muted);display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <span>🤖 AI match scores calculated from Ajeet's Python · quant methods · ML · finance profile</span>
+        <span style="color:var(--border)">·</span>
+        <span>Powered by <a href="https://adzuna.com" target="_blank" style="color:var(--accent2)">Adzuna API</a> (App ID: fd15a1de)</span>
+        <span style="color:var(--border)">·</span>
+        <span>India + 11 countries</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+</div>
+<footer id="site-footer"></footer>
+<script src="../data/portfolio.js"></script>
+<script src="../js/nav-inject.js"></script>
+<script src="../js/bg3d.js"></script>
+<script src="../js/backend.js"></script>
+<script src="../js/ai-chat.js"></script>
+<script src="../js/nav.js"></script>
+<script src="../js/jobs.js"></script>
+<script>
+let currentPage = 1;
+
+function switchTab(tab) {
+  const isLive = tab === 'live';
+  document.getElementById('tabContentLive').style.display  = isLive ? '' : 'none';
+  document.getElementById('tabContentSaved').style.display = isLive ? 'none' : '';
+  document.getElementById('tabLive').style.borderBottomColor  = isLive ? 'var(--accent)' : 'transparent';
+  document.getElementById('tabLive').style.color              = isLive ? 'var(--accent)' : 'var(--muted)';
+  document.getElementById('tabSaved').style.borderBottomColor = isLive ? 'transparent' : 'var(--accent)';
+  document.getElementById('tabSaved').style.color             = isLive ? 'var(--muted)' : 'var(--accent)';
+  if (!isLive) renderSavedJobs();
+}
+
+// Enter key on search
+document.getElementById('jobSearch')?.addEventListener('keydown', e => {
+  if (e.key === 'Enter') { currentPage = 1; fetchAndRender(); }
+});
+
+// Initial load
+fetchAndRender();
+</script>
+</body>
+</html>

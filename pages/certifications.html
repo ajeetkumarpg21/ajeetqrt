@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Certifications – Ajeet Kumar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@300;400;500&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config={darkMode:'class',theme:{extend:{colors:{accent:'#00f0b4',accent2:'#00aaff',accent3:'#7c6cf8'}}}}</script>
+  <link rel="stylesheet" href="../css/style.css"/>
+  <link rel="stylesheet" href="../css/main-theme.css"/>
+  <style>
+    .cert-tab { transition:all .2s; }
+    .cert-tab.active { background:rgba(0,240,180,.1); border-color:var(--accent); color:var(--accent); }
+  </style>
+</head>
+<body class="dark">
+<canvas id="bg3d" class="canvas-bg" data-theme="certifications"></canvas>
+<!-- Custom cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<div class="page-wrapper">
+
+<div class="page-hero">
+  <div class="container">
+    <span class="section-tag">30+ Credentials</span>
+    <h1>Certifications &<br><span class="accent">Awards</span></h1>
+    <p>SEBI · J.P. Morgan · CISCO · IBM · IIM Ahmedabad · IIT Kanpur · ISRO & more</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <!-- Filter tabs -->
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:32px" id="certTabBar">
+      <button class="btn btn-outline btn-sm cert-tab active" data-cat="all">All</button>
+      <button class="btn btn-outline btn-sm cert-tab" data-cat="finance">Finance & Quant</button>
+      <button class="btn btn-outline btn-sm cert-tab" data-cat="ds">Data Science & ML</button>
+      <button class="btn btn-outline btn-sm cert-tab" data-cat="networking">Networking & Cloud</button>
+      <button class="btn btn-outline btn-sm cert-tab" data-cat="tools">Tools & Software</button>
+      <button class="btn btn-outline btn-sm cert-tab" data-cat="award">Awards & Memberships</button>
+      <button class="btn btn-outline btn-sm cert-tab" data-cat="workshop">Workshops & Events</button>
+    </div>
+
+    <!-- Count -->
+    <div style="font-size:13px;color:var(--muted);margin-bottom:20px">
+      Showing <span id="certCount" style="color:var(--accent);font-weight:600">35</span> certifications
+    </div>
+
+    <!-- Grid -->
+    <div id="certGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px"></div>
+  </div>
+</section>
+
+</div>
+<footer id="site-footer"></footer>
+<script src="../data/portfolio.js"></script>
+<script src="../js/backend.js"></script>
+<script src="../js/nav-inject.js"></script>
+<script src="../js/bg3d.js"></script>
+<script src="../js/ai-chat.js"></script>
+<script src="../js/nav.js"></script>
+<script>
+const catColors = {
+  finance:'var(--accent)', ds:'var(--accent2)',
+  networking:'var(--accent3)', tools:'var(--muted)',
+  award:'var(--gold)', workshop:'#e879f9'
+};
+const catIcons = {
+  finance:'💰', ds:'🤖', networking:'🌐',
+  tools:'🛠', award:'🏆', workshop:'📚'
+};
+
+function renderCerts(certs) {
+  const grid = document.getElementById('certGrid');
+  grid.innerHTML = certs.map((c,i) => `
+    <div class="card reveal" data-cat="${c.cat}" style="padding:20px 22px;transition:all .25s;animation-delay:${i*0.03}s">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+        <span style="font-size:16px">${catIcons[c.cat]||'📜'}</span>
+        <span style="font-size:11px;font-family:var(--mono);color:${catColors[c.cat]||'var(--muted)'};text-transform:uppercase;letter-spacing:.8px">${c.issuer}</span>
+      </div>
+      <h4 style="font-size:14px;font-weight:600;margin-bottom:6px;line-height:1.4">${c.name}</h4>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:10px">📅 ${c.date}</div>
+      ${c.verify ? `<a href="${c.verify}" target="_blank" style="font-size:12px;color:var(--accent);border:1px solid rgba(0,240,180,.2);border-radius:4px;padding:3px 10px;display:inline-block;transition:all .2s" onmouseover="this.style.background='rgba(0,240,180,.1)'" onmouseout="this.style.background='transparent'">Verify ↗</a>` : ''}
+    </div>`).join('');
+  document.getElementById('certCount').textContent = certs.length;
+  document.querySelectorAll('.reveal').forEach(el => {
+    const obs = new IntersectionObserver(e => { if(e[0].isIntersecting){ e[0].target.classList.add('up'); obs.disconnect(); } },{threshold:0.1});
+    obs.observe(el);
+  });
+}
+
+const allCerts = loadData('certifications');
+renderCerts(allCerts);
+
+document.querySelectorAll('.cert-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.cert-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    const cat = tab.dataset.cat;
+    renderCerts(cat === 'all' ? allCerts : allCerts.filter(c => c.cat === cat));
+  });
+});
+</script>
+</body>
+</html>

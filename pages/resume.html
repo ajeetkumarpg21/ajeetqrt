@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Resume – Ajeet Kumar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@300;400;500&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config={darkMode:'class',theme:{extend:{colors:{accent:'#00f0b4',accent2:'#00aaff',accent3:'#7c6cf8'}}}}</script>
+  <link rel="stylesheet" href="../css/style.css"/>
+  <link rel="stylesheet" href="../css/main-theme.css"/>
+</head>
+<body class="dark">
+<canvas id="bg3d" class="canvas-bg" data-theme="finance"></canvas>
+<!-- Custom cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<div class="page-wrapper">
+
+<div class="page-hero">
+  <div class="container">
+    <span class="section-tag">CV / Resume</span>
+    <h1>Curriculum<br><span class="accent">Vitae</span></h1>
+    <p>Ajeet Kumar · Quant Finance & Financial Engineering · Bangalore, India</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <!-- Download bar -->
+    <div class="reveal" style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:40px">
+      <a id="resumeDownload" href="#" target="_blank" class="btn btn-primary">⬇ Download Resume (PDF)</a>
+      <a href="https://linkedin.com/in/ajeek095" target="_blank" class="btn btn-outline">🔗 LinkedIn</a>
+      <a href="https://github.com/ajeetk095" target="_blank" class="btn btn-outline">💻 GitHub</a>
+    </div>
+
+    <!-- Contact -->
+    <div class="card reveal" style="margin-bottom:20px">
+      <h3 style="font-size:12px;font-family:var(--mono);color:var(--accent);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border)">Contact Information</h3>
+      <div id="resumeContact" style="display:flex;gap:24px;flex-wrap:wrap;font-size:14px;color:var(--muted)"></div>
+    </div>
+
+    <!-- Education -->
+    <div class="card reveal" style="margin-bottom:20px">
+      <h3 style="font-size:12px;font-family:var(--mono);color:var(--accent);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border)">Education</h3>
+      <div id="resumeEdu"></div>
+    </div>
+
+    <!-- Skills -->
+    <div class="card reveal" style="margin-bottom:20px">
+      <h3 style="font-size:12px;font-family:var(--mono);color:var(--accent);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border)">Technical Skills</h3>
+      <div style="display:flex;flex-direction:column;gap:8px;font-size:14px" id="resumeSkills"></div>
+    </div>
+
+    <!-- Experience -->
+    <div class="card reveal" style="margin-bottom:20px">
+      <h3 style="font-size:12px;font-family:var(--mono);color:var(--accent);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border)">Experience</h3>
+      <div id="resumeExp"></div>
+    </div>
+
+    <!-- Projects -->
+    <div class="card reveal" style="margin-bottom:20px">
+      <h3 style="font-size:12px;font-family:var(--mono);color:var(--accent);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border)">Projects</h3>
+      <div id="resumeProj"></div>
+    </div>
+
+    <!-- Certs -->
+    <div class="card reveal" style="margin-bottom:20px">
+      <h3 style="font-size:12px;font-family:var(--mono);color:var(--accent);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border)">Key Certifications & Awards</h3>
+      <ul id="resumeCerts" style="padding:0;list-style:none;display:flex;flex-direction:column;gap:5px"></ul>
+    </div>
+
+    <!-- Languages -->
+    <div class="card reveal">
+      <h3 style="font-size:12px;font-family:var(--mono);color:var(--accent);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--border)">Languages</h3>
+      <span class="tag">English — Proficient</span>
+      <span class="tag">Hindi — Native</span>
+    </div>
+  </div>
+</section>
+
+</div>
+<footer id="site-footer"></footer>
+<script src="../data/portfolio.js"></script>
+<script src="../js/backend.js"></script>
+<script src="../js/nav-inject.js"></script>
+<script src="../js/bg3d.js"></script>
+<script src="../js/ai-chat.js"></script>
+<script src="../js/nav.js"></script>
+<script>
+const p = loadData('personal');
+document.getElementById('resumeDownload').href = p.resume_link;
+document.getElementById('resumeContact').innerHTML = [
+  `📧 <a href="mailto:${p.email}" style="color:var(--accent2)">${p.email}</a>`,
+  `📞 ${p.phone}`,
+  `📍 ${p.location}`,
+  `🔗 <a href="${p.linkedin}" target="_blank" style="color:var(--accent2)">LinkedIn</a>`,
+  `💻 <a href="${p.github}" target="_blank" style="color:var(--accent2)">GitHub</a>`
+].map(s=>`<span>${s}</span>`).join('');
+
+const edu = loadData('education');
+document.getElementById('resumeEdu').innerHTML = edu.map(e=>`
+  <div style="margin-bottom:18px">
+    <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:4px">
+      <h4 style="font-size:15px;font-weight:600">${e.degree}</h4>
+      <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">${e.period}</span>
+    </div>
+    <div style="font-size:13px;color:var(--accent2);margin-bottom:4px">${e.uni}</div>
+    <div style="font-size:13px;color:var(--accent)">${e.score}</div>
+  </div>`).join('');
+
+const skillsData = loadData('skills');
+document.getElementById('resumeSkills').innerHTML = [
+  ['Languages','programming'],['Libraries & Frameworks','libraries'],
+  ['Quant Methods','quant'],['Machine Learning','ml'],['Tools','tools']
+].map(([label,key])=>`
+  <div style="display:flex;gap:12px;flex-wrap:wrap">
+    <span style="color:var(--muted);min-width:180px;font-size:13px">${label}:</span>
+    <span style="font-size:13px">${(skillsData[key]||[]).map(s=>s.name).join(', ')}</span>
+  </div>`).join('');
+
+const exp = loadData('experience');
+document.getElementById('resumeExp').innerHTML = exp.map(e=>`
+  <div style="margin-bottom:18px">
+    <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:4px">
+      <h4 style="font-size:15px;font-weight:600">${e.role}</h4>
+      <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">${e.period}</span>
+    </div>
+    <div style="font-size:13px;color:var(--accent2);margin-bottom:8px">${e.company} · ${e.location}</div>
+    <ul style="padding:0;list-style:none">
+      ${e.bullets.map(b=>`<li style="font-size:13px;color:var(--muted);padding-left:14px;position:relative;margin-bottom:3px"><span style="position:absolute;left:0;color:var(--accent)">→</span>${b}</li>`).join('')}
+    </ul>
+  </div>`).join('');
+
+const proj = loadData('projects');
+document.getElementById('resumeProj').innerHTML = proj.map(p=>`
+  <div style="margin-bottom:14px">
+    <h4 style="font-size:14px;font-weight:600;margin-bottom:4px">${p.title} <span class="tag tag-gold" style="font-size:10px">${p.tag}</span></h4>
+    <p style="font-size:13px;color:var(--muted)">${p.summary}</p>
+  </div>`).join('');
+
+const topCerts = loadData('certifications').filter(c=>['sebi','jpm_qr','jpm_ib','ccna3','iima','azure','ict_ml','hack','scout','iaeng'].includes(c.id));
+document.getElementById('resumeCerts').innerHTML = topCerts.map(c=>`
+  <li style="font-size:14px;color:var(--muted);padding-left:14px;position:relative">
+    <span style="position:absolute;left:0;color:var(--accent)">→</span>${c.name} — <span style="color:var(--muted)">${c.issuer} (${c.date})</span>
+  </li>`).join('');
+</script>
+</body>
+</html>

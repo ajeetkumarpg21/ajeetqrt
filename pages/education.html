@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Education – Ajeet Kumar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@300;400;500&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config={darkMode:'class',theme:{extend:{colors:{accent:'#00f0b4',accent2:'#00aaff',accent3:'#7c6cf8'}}}}</script>
+  <link rel="stylesheet" href="../css/style.css"/>
+  <link rel="stylesheet" href="../css/main-theme.css"/>
+</head>
+<body class="dark">
+<canvas id="bg3d" class="canvas-bg" data-theme="finance"></canvas>
+<!-- Custom cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<div class="page-wrapper">
+
+<div class="page-hero">
+  <div class="container">
+    <span class="section-tag">Academic Background</span>
+    <h1>Education &<br><span class="accent">Transcripts</span></h1>
+    <p>Three degrees across Financial Engineering, Computer Science, and Information Technology</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container" id="eduContainer"></div>
+</section>
+
+</div>
+<footer id="site-footer"></footer>
+<script src="../data/portfolio.js"></script>
+<script src="../js/backend.js"></script>
+<script src="../js/nav-inject.js"></script>
+<script src="../js/bg3d.js"></script>
+<script src="../js/ai-chat.js"></script>
+<script src="../js/nav.js"></script>
+<script>
+// Full WQU transcript rows
+const wquRows = [
+  ['10/03/2023','MScFE 560','Financial Markets','4','4','81%','Proficient'],
+  ['12/03/2024','MScFE 600','Financial Data','4','4','84%','Proficient'],
+  ['02/18/2025','MScFE 610','Financial Econometrics','4','4','94%','Excellent ★'],
+  ['04/22/2025','MScFE 620','Derivative Pricing','4','4','88%','Proficient'],
+  ['07/01/2025','MScFE 622','Stochastic Modeling','4','4','88%','Proficient'],
+  ['09/02/2025','MScFE 632','Machine Learning in Finance','4','4','78%','Satisfactory'],
+  ['11/04/2025','MScFE 642','Deep Learning for Finance','4','4','95%','Excellent ★'],
+  ['01/20/2026','MScFE 652','Portfolio Management','4','4','84%','Proficient'],
+];
+
+const nsutRows = [
+  ['I','CSCSC01','Advanced Data Structures & Algorithms','4','B+'],
+  ['I','CSCSC02','Advanced Computer Networks','4','A'],
+  ['I','CSCSE02','Computer Vision','4','A'],
+  ['I','CSCSE15','Design & Architectural Patterns','4','B+'],
+  ['I','CSCSE20','Advances in Databases','4','D'],
+  ['I','FCMG101','Research Methodology & IP','4','A'],
+  ['II','CSCSC03','Distributed Systems','4','A'],
+  ['II','CSCSC04','Blockchain Technology','4','B+'],
+  ['II','CSCSE04','Digital Watermarking & Steganography','4','B+'],
+  ['II','CSCSE24','Human Computer Interface','4','A'],
+  ['III','CSCSC05','Dissertation Phase-I','10','A+'],
+  ['III','CSCSE26','Cloud Computing','4','A'],
+  ['III','EONM102','Management Information System','4','A'],
+  ['IV','CSCSC06','Dissertation Phase-II','16','A+'],
+];
+
+const aktuRows = [
+  ['Y1/S1 — SGPA 6.46','RAS101','Engineering Physics I','4','C'],
+  ['','RAS102','Engineering Chemistry','4','B'],
+  ['','RAS103','Engineering Mathematics I','4','E'],
+  ['','RCS101','Computer System & Programming in C','3','B'],
+  ['','RME101','Elements of Mechanical Engineering','4','D'],
+  ['Y1/S2 — SGPA 6.29','RAS201','Engineering Physics II','4','D'],
+  ['','RAS203','Engineering Mathematics II','4','E'],
+  ['','RAS204','Professional Communication','3','B'],
+  ['Y2/S3 — SGPA 7.13','RCS302','Computer Organization & Architecture','3','E'],
+  ['','RCS305','Data Structures','4','B+'],
+  ['Y2/S4 — SGPA 6.83','RCS401','Operating Systems','3','C'],
+  ['','RCS402','Software Engineering','3','C'],
+  ['Y3/S5 — SGPA 6.00','RCS501','Database Management Systems','3','C'],
+  ['','RCS503','Principles of Programming Languages','3','E'],
+  ['Y3/S6 — SGPA 7.50','RCS601','Computer Networks','3','B'],
+  ['','RCS602','Compiler Design','4','B'],
+  ['','RIT601','Web Technology','3','B'],
+  ['Y4/S7 — SGPA 7.75','RCS702','Artificial Intelligence','3','B'],
+  ['','RIT701','Cryptography & Network Security','4','B'],
+  ['','RCS075','Cloud Computing','4','B'],
+  ['','RIT753','Industrial Training','2','A+'],
+  ['','RIT754','Project - I','3','A+'],
+  ['Y4/S8 — SGPA 9.54','ROE082','Digital & Social Media Marketing','3','A+'],
+  ['','RCS080','Machine Learning','4','B+'],
+  ['','RCS087','Data Compression','3','A'],
+  ['','RIT851','Seminar','2','A+'],
+  ['','RIT852','Project - II','12','A+'],
+];
+
+function gradeColor(g) {
+  if (!g) return 'var(--muted)';
+  if (g.includes('★') || g === 'Excellent') return 'var(--accent)';
+  if (g === 'A+' || g === 'A') return 'var(--accent)';
+  if (g.includes('Proficient') || g === 'B+' || g === 'B' || g === 'E') return 'var(--accent2)';
+  return 'var(--muted)';
+}
+
+function transcriptTable(headers, rows, colCount) {
+  return `
+  <div style="overflow-x:auto;margin-top:16px">
+    <table class="t-table">
+      <thead><tr>${headers.map(h=>`<th>${h}</th>`).join('')}</tr></thead>
+      <tbody>
+        ${rows.map(r=>`<tr>${r.map((c,i)=>`<td style="color:${(i===r.length-1&&colCount>4)?gradeColor(c):'var(--muted)'}">${c}</td>`).join('')}</tr>`).join('')}
+      </tbody>
+    </table>
+  </div>`;
+}
+
+const eduData = [
+  {
+    flag:'🌐',
+    uni:'WorldQuant University, Washington DC, USA (Online)',
+    degree:'Master of Science — Financial Engineering',
+    period:'Oct 2023 – Present',
+    score:'87% Cumulative · Proficient',
+    scoreColor:'var(--accent)',
+    tid:'t-wqu',
+    headers:['Start Date','Code','Course','Credits','Earned','Score','Grade'],
+    rows: wquRows,
+    note:'Accreditation: DEAC · U.S. Dept of Education · CHEA member · Student No: 623409',
+  },
+  {
+    flag:'🏛',
+    uni:'Netaji Subhas University of Technology (NSUT), New Delhi',
+    degree:'Master of Technology — Computer Science & Engineering',
+    period:'Oct 2021 – Jul 2023',
+    score:'CGPA: 7.92 / 10 · First Division',
+    scoreColor:'var(--accent2)',
+    tid:'t-nsut',
+    headers:['Term','Code','Subject','Credits','Grade'],
+    rows: nsutRows,
+    note:'UGC recognized · AICTE approved · NBA accredited · NAAC · ISO 9001:2015 · Roll: 2021PCS2030',
+  },
+  {
+    flag:'🏛',
+    uni:'Dr. A.P.J. Abdul Kalam Technical University (AKTU), Lucknow',
+    degree:'Bachelor of Technology — Information Technology',
+    period:'Aug 2017 – Aug 2021',
+    score:'CGPA: 7.19 / 10 · First Division',
+    scoreColor:'var(--accent3)',
+    tid:'t-aktu',
+    headers:['Year/Sem','Code','Subject','Credits','Grade'],
+    rows: aktuRows,
+    note:'UGC recognized · AICTE approved · NAAC/NBA · ISO 9001:2015 · 800+ affiliated colleges · Roll: 1716613005',
+  },
+];
+
+const container = document.getElementById('eduContainer');
+container.innerHTML = eduData.map(e => `
+  <div class="card card-top-line reveal" style="margin-bottom:28px;padding:32px;position:relative">
+    <div style="font-size:12px;font-family:var(--mono);color:var(--accent);margin-bottom:6px">${e.flag} ${e.uni}</div>
+    <h3 style="font-size:20px;font-weight:600;margin-bottom:10px">${e.degree}</h3>
+    <div style="display:flex;gap:20px;flex-wrap:wrap;color:var(--muted);font-size:13px;margin-bottom:14px">
+      <span>📅 ${e.period}</span>
+    </div>
+    <span style="display:inline-block;padding:6px 18px;background:${e.scoreColor}15;border:1px solid ${e.scoreColor}30;border-radius:20px;font-family:var(--mono);font-size:14px;color:${e.scoreColor};font-weight:600">${e.score}</span>
+    <div style="margin-top:16px">
+      <button data-toggle-transcript="${e.tid}" class="btn btn-outline btn-sm" style="margin-right:8px">▼ View Transcript</button>
+    </div>
+    <div id="${e.tid}" class="transcript-body" style="margin-top:16px;background:var(--bg3);border-radius:8px;padding:20px">
+      ${transcriptTable(e.headers, e.rows, e.headers.length)}
+      <p style="font-size:11px;color:var(--muted);margin-top:10px">${e.note}</p>
+    </div>
+  </div>`).join('');
+</script>
+</body>
+</html>

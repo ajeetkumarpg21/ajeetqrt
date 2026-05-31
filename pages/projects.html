@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Projects – Ajeet Kumar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@300;400;500&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config={darkMode:'class',theme:{extend:{colors:{accent:'#00f0b4',accent2:'#00aaff',accent3:'#7c6cf8'}}}}</script>
+  <link rel="stylesheet" href="../css/style.css"/>
+  <link rel="stylesheet" href="../css/main-theme.css"/>
+</head>
+<body class="dark">
+<canvas id="bg3d" class="canvas-bg" data-theme="projects"></canvas>
+<div class="page-wrapper">
+
+<div class="page-hero">
+  <div class="container">
+    <span class="section-tag">Quant Finance · ML · Portfolio Optimisation</span>
+    <h1>Research &<br><span class="accent">Projects</span></h1>
+    <p>4 finance-focused projects · Python · cvxpy · scikit-learn · Monte Carlo</p>
+  </div>
+</div>
+<section class="section">
+  <div class="container" id="projContainer"></div>
+</section>
+</div>
+<footer id="site-footer"></footer>
+<script src="../data/portfolio.js"></script>
+<script src="../js/backend.js"></script>
+<script src="../js/nav-inject.js"></script>
+<script src="../js/bg3d.js"></script>
+<script src="../js/ai-chat.js"></script>
+<script src="../js/nav.js"></script>
+<script>
+const projects = loadData('projects');
+const c = document.getElementById('projContainer');
+c.innerHTML = projects.map((p,i) => `
+  <details class="card card-top-line reveal" style="margin-bottom:24px" ${i===0?'open':''}>
+    <summary style="cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center">
+      <div>
+        <span class="tag" style="color:${p.color};border-color:${p.color}30;background:${p.color}10">${p.tag}</span>
+        <h3 style="font-size:18px;font-weight:600;margin-top:8px">${p.title}</h3>
+      </div>
+      <span style="color:var(--accent);font-size:18px;flex-shrink:0;margin-left:16px;transition:transform .2s" class="expand-arrow">▶</span>
+    </summary>
+    <div style="margin-top:20px;padding-top:20px;border-top:1px solid var(--border)">
+      <p style="color:var(--muted);margin-bottom:18px;line-height:1.8">${p.summary}</p>
+      <div style="display:grid;grid-template-columns:140px 1fr;gap:10px 20px;font-size:14px;margin-bottom:18px">
+        <span style="color:var(--muted)">Problem</span><span>${p.problem}</span>
+        <span style="color:var(--muted)">Dataset</span><span>${p.dataset}</span>
+        <span style="color:var(--muted)">Methods</span><span>${p.methods}</span>
+        <span style="color:var(--muted)">Results</span><span>${p.results}</span>
+        <span style="color:var(--muted)">Metrics</span><span>${p.metrics.map(m=>`<span class="tag">${m}</span>`).join('')}</span>
+        <span style="color:var(--muted)">Tech</span><span>${p.tech.map(t=>`<span class="tag tag-purple">${t}</span>`).join('')}</span>
+        ${p.award?`<span style="color:var(--muted)">Award</span><span style="color:var(--gold)">${p.award}</span>`:''}
+      </div>
+      <a href="${p.github}" target="_blank" class="btn btn-outline btn-sm">GitHub →</a>
+    </div>
+  </details>`).join('');
+document.querySelectorAll('details').forEach(d => {
+  d.addEventListener('toggle', () => {
+    const arrow = d.querySelector('.expand-arrow');
+    if (arrow) arrow.style.transform = d.open ? 'rotate(90deg)' : '';
+  });
+});
+</script>
+</body>
+</html>

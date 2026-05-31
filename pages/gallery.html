@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Gallery – Ajeet Kumar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@300;400;500&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config={darkMode:'class',theme:{extend:{colors:{accent:'#00f0b4',accent2:'#00aaff',accent3:'#7c6cf8'}}}}</script>
+  <link rel="stylesheet" href="../css/style.css"/>
+  <link rel="stylesheet" href="../css/main-theme.css"/>
+  <style>
+    .lightbox { position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:99999;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s; }
+    .lightbox.open { opacity:1;pointer-events:all; }
+    .lightbox img { max-width:90vw;max-height:85vh;border-radius:8px;box-shadow:0 0 60px rgba(0,0,0,.8); }
+    .lightbox-close { position:absolute;top:20px;right:28px;font-size:32px;color:#fff;cursor:pointer;background:none;border:none;line-height:1; }
+  </style>
+</head>
+<body class="dark">
+<canvas id="bg3d" class="canvas-bg" data-theme="gallery"></canvas>
+<div class="page-wrapper">
+
+<div class="page-hero">
+  <div class="container">
+    <span class="section-tag">Photos · Certificates · Achievements</span>
+    <h1>Gallery &<br><span class="accent">Media</span></h1>
+    <p>Visual portfolio of certificates, academic achievements, and milestones</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+
+    <!-- Tabs -->
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:32px" id="galleryTabs" class="reveal">
+      <button class="btn btn-outline btn-sm cert-tab active" data-cat="all">All</button>
+      <button class="btn btn-outline btn-sm cert-tab" data-cat="awards">Awards</button>
+      <button class="btn btn-outline btn-sm cert-tab" data-cat="academic">Academic</button>
+      <button class="btn btn-outline btn-sm cert-tab" data-cat="finance">Finance</button>
+      <button class="btn btn-outline btn-sm cert-tab" data-cat="photos">Photos</button>
+    </div>
+
+    <!-- Grid -->
+    <div id="galleryGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px"></div>
+
+    <!-- Drive link -->
+    <div class="card reveal" style="margin-top:40px;text-align:center;padding:28px;background:rgba(0,240,180,.03)">
+      <div style="font-size:30px;margin-bottom:10px">📁</div>
+      <h3 style="font-size:16px;font-weight:600;margin-bottom:6px">All Certificates on Google Drive</h3>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:14px">Full collection of certificates, transcripts and academic documents</p>
+      <a href="#"
+         target="_blank" class="btn btn-primary">Open Google Drive →</a>
+    </div>
+  </div>
+</section>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" onclick="document.getElementById('lightbox').classList.remove('open')">✕</button>
+  <img id="lightboxImg" src="" alt=""/>
+</div>
+
+</div>
+<footer id="site-footer"></footer>
+<script src="../data/portfolio.js"></script>
+<script src="../js/backend.js"></script>
+<script src="../js/nav-inject.js"></script>
+<script src="../js/bg3d.js"></script>
+<script src="../js/ai-chat.js"></script>
+<script src="../js/nav.js"></script>
+<script>
+// Build a comprehensive gallery list from certifications + personal data
+const certs = loadData('certifications');
+const p = loadData('personal');
+
+// Build gallery items from data
+const galleryItems = [
+  { id:'profile', type:'image', title:'Ajeet Kumar — Profile', src: p.photo, cat:'photos' },
+  // Drive folder entries for certs by category
+  { id:'hack_cert', type:'drive', title:'🥇 IIT Kanpur Hackathon — 1st Place Certificate', src: p.certificates_folder, cat:'awards', icon:'🏆' },
+  { id:'sebi_cert', type:'drive', title:'SEBI Investor Certification', src: p.certificates_folder, cat:'finance', icon:'📜' },
+  { id:'jpm_cert', type:'drive', title:'J.P. Morgan Quant Research Certificate', src: p.certificates_folder, cat:'finance', icon:'🏦' },
+  { id:'jpm_ib_cert', type:'drive', title:'J.P. Morgan Investment Banking Certificate', src: p.certificates_folder, cat:'finance', icon:'💼' },
+  { id:'ccna_cert', type:'drive', title:'CISCO CCNA (3 Modules)', src: p.certificates_folder, cat:'academic', icon:'🌐' },
+  { id:'azure_cert', type:'drive', title:'Microsoft Azure Fundamentals', src: p.certificates_folder, cat:'academic', icon:'☁️' },
+  { id:'ict_cert', type:'drive', title:'IIT Kanpur ML Training Certificate', src: p.certificates_folder, cat:'academic', icon:'🤖' },
+  { id:'iima_cert', type:'drive', title:'IIM Ahmedabad Pre-MBA Statistics', src: p.certificates_folder, cat:'academic', icon:'📊' },
+  { id:'scout', type:'drive', title:'Rajya Purashkar Scout Award', src: p.certificates_folder, cat:'awards', icon:'🎖️' },
+  { id:'isro', type:'drive', title:'ISRO Geocomputation Certificate', src: p.certificates_folder, cat:'academic', icon:'🛰️' },
+  { id:'wqu_tr', type:'drive', title:'WQU Academic Transcript', src: p.certificates_folder, cat:'academic', icon:'🎓' },
+  { id:'nsut_tr', type:'drive', title:'NSUT M.Tech Transcript', src: p.certificates_folder, cat:'academic', icon:'🎓' },
+  { id:'aktu_tr', type:'drive', title:'AKTU B.Tech Transcript', src: p.certificates_folder, cat:'academic', icon:'🎓' },
+];
+
+// Add from custom gallery data
+const stored = loadData('gallery') || [];
+stored.forEach(g => {
+  if (!galleryItems.find(gi => gi.id === g.id)) galleryItems.push(g);
+});
+
+function renderGallery(items) {
+  const grid = document.getElementById('galleryGrid');
+  grid.innerHTML = items.map((item, i) => {
+    if (item.type === 'image') {
+      return `
+        <div class="gallery-item reveal" onclick="openLightbox('${item.src}')" style="animation-delay:${i*0.04}s">
+          <img class="gallery-img" src="${item.src}" alt="${item.title}"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
+               loading="lazy"/>
+          <div class="gallery-drive" style="display:none;font-size:32px">🖼️</div>
+          <div style="padding:12px">
+            <div style="font-size:13px;font-weight:500">${item.title}</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:3px;text-transform:capitalize">${item.cat}</div>
+          </div>
+        </div>`;
+    } else {
+      return `
+        <a href="${item.src}" target="_blank" class="gallery-item reveal" style="animation-delay:${i*0.04}s;text-decoration:none">
+          <div class="gallery-drive">${item.icon || '📄'}</div>
+          <div style="padding:12px">
+            <div style="font-size:13px;font-weight:500">${item.title}</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:3px">Google Drive ↗</div>
+          </div>
+        </a>`;
+    }
+  }).join('');
+
+  grid.querySelectorAll('.reveal').forEach(el => {
+    const obs = new IntersectionObserver(e => { if(e[0].isIntersecting){e[0].target.classList.add('up');obs.disconnect();}},{threshold:0.05});
+    obs.observe(el);
+  });
+}
+
+// Tab filtering
+document.querySelectorAll('.cert-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.cert-tab').forEach(t => {
+      t.classList.remove('active');
+      t.style.borderColor = ''; t.style.color = '';
+    });
+    tab.classList.add('active');
+    tab.style.borderColor = 'var(--accent)'; tab.style.color = 'var(--accent)';
+    const cat = tab.dataset.cat;
+    renderGallery(cat === 'all' ? galleryItems : galleryItems.filter(g => g.cat === cat));
+  });
+});
+
+function openLightbox(src) {
+  document.getElementById('lightboxImg').src = src;
+  document.getElementById('lightbox').classList.add('open');
+}
+
+document.getElementById('lightbox')?.addEventListener('click', e => {
+  if (e.target === document.getElementById('lightbox')) e.target.classList.remove('open');
+});
+
+renderGallery(galleryItems);
+</script>
+</body>
+</html>

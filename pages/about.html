@@ -1,1 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>About – Ajeet Kumar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@300;400;500&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config={darkMode:'class',theme:{extend:{colors:{accent:'#00f0b4',accent2:'#00aaff',accent3:'#7c6cf8'}}}}</script>
+  <link rel="stylesheet" href="../css/style.css"/>
+  <link rel="stylesheet" href="../css/main-theme.css"/>
+</head>
+<body class="dark">
+<canvas id="bg3d" class="canvas-bg" data-theme="finance"></canvas>
+<!-- Custom cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
 
+<div class="page-wrapper">
+
+<div class="page-hero">
+  <div class="container">
+    <span class="section-tag">About Me</span>
+    <h1>Who is <span class="accent">Ajeet?</span></h1>
+    <p>Quant Finance candidate · Bangalore, India · Open to hire</p>
+  </div>
+</div>
+<section class="section">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:280px 1fr;gap:48px;align-items:start">
+      <div class="reveal">
+        <div class="photo-ring" style="width:220px;height:220px;margin:0 auto 20px">
+          <img id="photoEl" src="../assets/img/ajeet_pfp1.png" alt="Ajeet Kumar"/>
+        </div>
+        <div class="card">
+          <div id="aboutContactInfo"></div>
+          <a id="resumeBtn" href="#" class="btn btn-primary" style="width:100%;text-align:center;display:block;margin-top:16px">⬇ Download Resume</a>
+        </div>
+      </div>
+      <div>
+        <div class="reveal">
+          <span class="section-tag">Professional Summary</span>
+          <h2 class="section-title" style="font-size:28px;margin-bottom:16px">Background</h2>
+          <p id="summaryText" style="color:var(--muted);line-height:1.85;margin-bottom:24px"></p>
+        </div>
+        <div class="reveal">
+          <h3 style="font-size:13px;font-family:var(--mono);color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:14px">Core Competencies</h3>
+          <div id="competencies"></div>
+        </div>
+        <div class="reveal" style="margin-top:36px">
+          <h3 style="font-size:13px;font-family:var(--mono);color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:20px">Career Timeline</h3>
+          <div class="timeline" id="timeline"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+<footer id="site-footer"></footer>
+<script src="../data/portfolio.js"></script>
+<script src="../js/backend.js"></script>
+<script src="../js/nav-inject.js"></script>
+<script src="../js/bg3d.js"></script>
+<script src="../js/ai-chat.js"></script>
+<script src="../js/nav.js"></script>
+<script>
+const p = loadData('personal');
+document.getElementById('photoEl').src = p.photo;
+document.getElementById('summaryText').textContent = p.summary;
+document.getElementById('resumeBtn').href = p.resume_link;
+const tags = ['Portfolio Optimisation','Risk Analytics','Black-Litterman','Monte Carlo','Fama-French','Derivatives Pricing','Econometrics','CVaR/VaR','Python','Machine Learning','Financial Data','Stochastic Modelling'];
+document.getElementById('competencies').innerHTML = tags.map(t=>`<span class="tag">${t}</span>`).join('');
+document.getElementById('aboutContactInfo').innerHTML = `
+  <div style="display:flex;flex-direction:column;gap:10px;font-size:13px">
+    <div><span style="color:var(--muted);font-size:11px;display:block;margin-bottom:2px">EMAIL</span><a href="mailto:${p.email}" style="color:var(--accent2)">${p.email}</a></div>
+    <div><span style="color:var(--muted);font-size:11px;display:block;margin-bottom:2px">PHONE</span>${p.phone}</div>
+    <div><span style="color:var(--muted);font-size:11px;display:block;margin-bottom:2px">LOCATION</span>${p.location}</div>
+    <div><span style="color:var(--muted);font-size:11px;display:block;margin-bottom:2px">LINKEDIN</span><a href="${p.linkedin}" target="_blank" style="color:var(--accent2)">${p.linkedin.replace('https://','')}</a></div>
+    <div><span style="color:var(--muted);font-size:11px;display:block;margin-bottom:2px">GITHUB</span><a href="${p.github}" target="_blank" style="color:var(--accent2)">${p.github.replace('https://','')}</a></div>
+  </div>`;
+const timelineItems = [
+  {year:'2023–Present',title:'MSc Financial Engineering',sub:'WorldQuant University · 87%',color:'var(--accent)'},
+  {year:'2021–2023',title:'M.Tech CSE',sub:'NSUT Delhi · CGPA 7.92',color:'var(--accent3)'},
+  {year:'Oct 2020–Jan 2021',title:'Market Research Intern',sub:'Amul GCMMF Ltd.',color:'var(--accent2)'},
+  {year:'Jan–May 2020',title:'Data Science Intern',sub:'Algo8.ai · IIT Kanpur',color:'var(--accent2)'},
+  {year:'2019',title:'🏆 1st Place Hackathon',sub:'Algo8 · IIT Kanpur',color:'var(--gold)'},
+  {year:'2017–2021',title:'B.Tech IT',sub:'AKTU Lucknow · CGPA 7.19',color:'var(--muted)'},
+];
+document.getElementById('timeline').innerHTML = timelineItems.map(t=>`
+  <div class="timeline-item">
+    <div class="timeline-dot" style="background:${t.color}"></div>
+    <div style="font-family:var(--mono);font-size:11px;color:var(--muted);margin-bottom:3px">${t.year}</div>
+    <div style="font-weight:600;margin-bottom:2px">${t.title}</div>
+    <div style="font-size:13px;color:var(--muted)">${t.sub}</div>
+  </div>`).join('');
+</script>
+</body>
+</html>

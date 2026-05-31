@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Contact – Ajeet Kumar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@300;400;500&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config={darkMode:'class',theme:{extend:{colors:{accent:'#00f0b4',accent2:'#00aaff',accent3:'#7c6cf8'}}}}</script>
+  <link rel="stylesheet" href="../css/style.css"/>
+  <link rel="stylesheet" href="../css/main-theme.css"/>
+</head>
+<body class="dark">
+<canvas id="bg3d" class="canvas-bg" data-theme="contact"></canvas>
+<!-- Custom cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<div class="page-wrapper">
+
+<div class="page-hero">
+  <div class="container">
+    <span class="section-tag">Open to Opportunities</span>
+    <h1>Get In<br><span class="accent">Touch</span></h1>
+    <p>Quant research · Financial engineering · Risk analytics · Data science in finance</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:1fr 1.4fr;gap:48px;align-items:start">
+
+      <!-- Contact Info -->
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div id="contactInfo" class="reveal"></div>
+        <div class="card reveal" style="padding:20px">
+          <h4 style="font-size:12px;font-family:var(--mono);color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px">Open For</h4>
+          <div>
+            <span class="tag">Quant Researcher</span>
+            <span class="tag">Quantitative Analyst</span>
+            <span class="tag">Risk Analyst</span>
+            <span class="tag">Financial Engineer</span>
+            <span class="tag">Data Scientist (Finance)</span>
+            <span class="tag">Portfolio Analyst</span>
+          </div>
+        </div>
+        <!-- Social links -->
+        <div class="card reveal" style="padding:20px">
+          <h4 style="font-size:12px;font-family:var(--mono);color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px">Connect</h4>
+          <div style="display:flex;flex-direction:column;gap:10px" id="socialLinks"></div>
+        </div>
+      </div>
+
+      <!-- Form -->
+      <div class="card reveal" style="padding:32px">
+        <h3 style="font-size:18px;font-weight:600;margin-bottom:24px">Send a Message</h3>
+        <form id="contactForm">
+          <div style="margin-bottom:18px">
+            <label class="form-label">Your Name *</label>
+            <input type="text" name="name" class="form-input" placeholder="Jane Smith" required/>
+          </div>
+          <div style="margin-bottom:18px">
+            <label class="form-label">Email Address *</label>
+            <input type="email" name="email" class="form-input" placeholder="jane@company.com" required/>
+          </div>
+          <div style="margin-bottom:18px">
+            <label class="form-label">Subject</label>
+            <input type="text" name="subject" class="form-input" placeholder="Job Opportunity / Collaboration / Query"/>
+          </div>
+          <div style="margin-bottom:24px">
+            <label class="form-label">Message *</label>
+            <textarea name="message" class="form-input" placeholder="Hello Ajeet, I came across your portfolio…" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%">Send Message →</button>
+        </form>
+        <p style="font-size:12px;color:var(--muted);margin-top:12px">
+          💡 To enable live email sending, add <a href="https://emailjs.com" target="_blank" style="color:var(--accent)">EmailJS</a> credentials in js/nav.js — see README.md
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div>
+<footer id="site-footer"></footer>
+<script src="../data/portfolio.js"></script>
+<script src="../js/backend.js"></script>
+<script src="../js/nav-inject.js"></script>
+<script src="../js/bg3d.js"></script>
+<script src="../js/ai-chat.js"></script>
+<script src="../js/nav.js"></script>
+<script>
+const p = loadData('personal');
+document.getElementById('contactInfo').innerHTML = [
+  {icon:'📧',label:'Email',val:`<a href="mailto:${p.email}" style="color:var(--accent2)">${p.email}</a>`},
+  {icon:'📞',label:'Phone',val:p.phone},
+  {icon:'📍',label:'Location',val:p.location},
+].map(c=>`
+  <div class="card" style="padding:16px;display:flex;align-items:center;gap:14px">
+    <span style="font-size:20px">${c.icon}</span>
+    <div><div style="font-size:11px;color:var(--muted);margin-bottom:2px">${c.label}</div>
+    <div style="font-size:14px">${c.val}</div></div>
+  </div>`).join('');
+
+document.getElementById('socialLinks').innerHTML = [
+  {icon:'🔗',label:'LinkedIn',href:p.linkedin,display:p.linkedin.replace('https://','')},
+  {icon:'💻',label:'GitHub',href:p.github,display:p.github.replace('https://','')},
+].map(s=>`
+  <a href="${s.href}" target="_blank" style="display:flex;align-items:center;gap:10px;font-size:14px;color:var(--accent2);transition:color .2s" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--accent2)'">
+    <span>${s.icon}</span><span>${s.display}</span>
+  </a>`).join('');
+</script>
+</body>
+</html>
