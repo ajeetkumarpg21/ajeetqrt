@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <circle cx="100" cy="100" r="100" fill="#0d1420"/>
+  <circle cx="100" cy="78" r="32" fill="#1e2d3d"/>
+  <ellipse cx="100" cy="170" rx="55" ry="40" fill="#1e2d3d"/>
+  <text x="100" y="108" text-anchor="middle" font-family="monospace" font-size="32" fill="#00f0b4" font-weight="bold">AK</text>
+</svg>
