@@ -1,1 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Admin Dashboard – Ajeet Kumar Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@300;400;500&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config={darkMode:'class',theme:{extend:{colors:{accent:'#00f0b4',accent2:'#00aaff',accent3:'#7c6cf8'}}}}</script>
+  <link rel="stylesheet" href="../css/style.css"/>
+  <link rel="stylesheet" href="../css/main-theme.css"/>
+  <style>
+    .section-panel { display:none; }
+    .section-panel.active { display:block; }
+    .modal-overlay { position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px; }
+    .modal-box { background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:32px;width:100%;max-width:600px;max-height:85vh;overflow-y:auto; }
+    .form-row { margin-bottom:16px; }
+    .form-row label { display:block;font-size:12px;color:var(--muted);margin-bottom:5px; }
+    .form-row input, .form-row textarea, .form-row select {
+      width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;
+      padding:10px 12px;color:var(--text);font-family:var(--font);font-size:13px;outline:none;
+    }
+    .form-row textarea { min-height:80px; resize:vertical; }
+    .form-row input:focus, .form-row textarea:focus { border-color:rgba(0,240,180,.4); }
+    .action-btn { background:none;border:none;cursor:pointer;font-size:14px;padding:4px 8px;border-radius:4px;transition:background .2s; }
+    .action-btn:hover { background:rgba(255,255,255,.08); }
+    .notification { position:fixed;top:20px;right:20px;z-index:99999;padding:12px 20px;border-radius:10px;font-size:14px;font-weight:500;animation:slideIn .3s ease; }
+    @keyframes slideIn { from { transform:translateX(100px);opacity:0; } to { transform:none;opacity:1; } }
+    .notification.ok { background:rgba(0,240,180,.15);border:1px solid rgba(0,240,180,.3);color:var(--accent); }
+    .notification.err { background:rgba(255,80,80,.15);border:1px solid rgba(255,80,80,.3);color:#ff5050; }
+  </style>
+</head>
+<body class="dark">
 
+<!-- ── WINDOW CONTROLS ── -->
+<div id="windowControls" style="position:fixed;top:0;left:0;right:0;height:36px;background:rgba(6,11,20,.97);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 16px;z-index:9999;backdrop-filter:blur(16px)">
+  <div style="display:flex;align-items:center;gap:8px">
+    <div style="width:12px;height:12px;border-radius:50%;background:#ff5f57;cursor:pointer" title="Logout" onclick="adminClose()"></div>
+    <div style="width:12px;height:12px;border-radius:50%;background:#febc2e;cursor:pointer" title="Toggle sidebar" onclick="adminMinimize()"></div>
+    <div style="width:12px;height:12px;border-radius:50%;background:#28c840;cursor:pointer" title="View live site" onclick="window.open('../index.html','_blank')"></div>
+  </div>
+  <div style="font-family:var(--mono);font-size:12px;color:var(--muted)">AK<span style="color:var(--accent)">.</span> Admin Dashboard</div>
+  <div style="display:flex;align-items:center;gap:10px">
+    <span style="width:8px;height:8px;border-radius:50%;background:var(--accent);display:inline-block"></span>
+    <span style="font-size:11px;color:var(--muted);font-family:var(--mono)" id="windowStatusText">Online</span>
+    <a href="../index.html" target="_blank" style="font-size:12px;color:var(--muted);text-decoration:none">🌐 Site</a>
+  </div>
+</div>
+
+<!-- ── SIDEBAR ── -->
+<div class="admin-sidebar" id="sidebar" style="top:36px;padding-bottom:40px">
+  <div style="padding:16px 20px 10px;border-bottom:1px solid var(--border)">
+    <div style="font-family:var(--mono);font-size:18px;font-weight:700">AK<span style="color:var(--accent)">.</span> Admin</div>
+    <div id="adminWelcome" style="font-size:12px;color:var(--muted);margin-top:4px"></div>
+  </div>
+  <nav style="padding:8px 0">
+    <button class="admin-nav-item active" onclick="showPanel('overview')">📊 Overview</button>
+    <button class="admin-nav-item" onclick="showPanel('personal')">👤 Personal Info</button>
+    <div style="font-size:10px;color:var(--muted);padding:6px 20px 2px;letter-spacing:1px;text-transform:uppercase">Content</div>
+    <button class="admin-nav-item" onclick="showPanel('education')">🎓 Education</button>
+    <button class="admin-nav-item" onclick="showPanel('experience')">💼 Experience</button>
+    <button class="admin-nav-item" onclick="showPanel('projects')">📈 Projects</button>
+    <button class="admin-nav-item" onclick="showPanel('skills')">⚡ Skills</button>
+    <button class="admin-nav-item" onclick="showPanel('certifications')">🏆 Certifications</button>
+    <button class="admin-nav-item" onclick="showPanel('gallery')">🖼️ Gallery</button>
+    <button class="admin-nav-item" onclick="showPanel('jobs')">🔍 Job Board</button>
+    <button class="admin-nav-item" onclick="showPanel('blog')">✍️ Blog Posts</button>
+    <div style="font-size:10px;color:var(--muted);padding:6px 20px 2px;letter-spacing:1px;text-transform:uppercase">Media</div>
+    <button class="admin-nav-item" onclick="showPanel('assets')" style="color:var(--accent2)">📁 Assets &amp; Upload</button>
+    <div style="font-size:10px;color:var(--muted);padding:6px 20px 2px;letter-spacing:1px;text-transform:uppercase">System</div>
+    <button class="admin-nav-item" onclick="showPanel('settings')">⚙️ Settings</button>
+    <div style="border-top:1px solid var(--border);margin:8px 0"></div>
+    <button class="admin-nav-item" onclick="adminClose()" style="color:#ff5050">🚪 Logout &amp; Close</button>
+  </nav>
+</div>
+
+<!-- ── CONTENT ── -->
+<div class="admin-content" id="adminContent" style="margin-top:36px">
+
+  <!-- OVERVIEW -->
+  <div class="section-panel active" id="panel-overview">
+    <h2 style="font-size:22px;font-weight:700;margin-bottom:24px">Dashboard Overview</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px;margin-bottom:32px" id="overviewStats"></div>
+    <div class="admin-card">
+      <h3 style="font-size:14px;font-weight:600;margin-bottom:16px">Quick Actions</h3>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button onclick="showPanel('projects')" class="btn btn-outline btn-sm">+ Add Project</button>
+        <button onclick="showPanel('blog')" class="btn btn-outline btn-sm">+ Add Blog Post</button>
+        <button onclick="showPanel('certifications')" class="btn btn-outline btn-sm">+ Add Certificate</button>
+        <button onclick="showPanel('experience')" class="btn btn-outline btn-sm">+ Add Experience</button>
+        <button onclick="showPanel('gallery')" class="btn btn-outline btn-sm">+ Add Gallery Item</button>
+        <a href="../index.html" target="_blank" class="btn btn-primary btn-sm">View Live Site →</a>
+      </div>
+    </div>
+    <div class="admin-card" style="margin-top:20px">
+      <h3 style="font-size:14px;font-weight:600;margin-bottom:14px">⚠️ API Key Setup</h3>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:12px">Add your <strong style="color:var(--accent)">free</strong> OpenRouter key to activate the AI assistant. Uses NVIDIA Nemotron 3 Super 627B — completely free.</p>
+      <div style="display:flex;gap:10px;align-items:center">
+        <input id="apiKeyInput" type="password" class="form-input" placeholder="sk-or-v1-…" style="flex:1"/>
+        <button onclick="saveApiKey()" class="btn btn-primary btn-sm">Save Key</button>
+      </div>
+      <p style="font-size:11px;color:var(--muted);margin-top:8px">
+        Get your FREE key at <a href="https://openrouter.ai/settings/keys" target="_blank" style="color:var(--accent)">openrouter.ai/settings/keys</a> — no credit card needed. Key is stored in localStorage only.
+      </p>
+      <div style="margin-top:10px;padding:10px 14px;background:rgba(0,240,180,.06);border:1px solid rgba(0,240,180,.15);border-radius:8px;font-size:12px;color:var(--muted)">
+        🤖 <strong style="color:var(--text)">Model chain:</strong> NVIDIA Nemotron 3 Super 627B → DeepSeek V4 Flash → Google Gemma 4 31B → Llama 3.3 70B (all free, auto-fallback)
+      </div>
+    </div>
+  </div>
+
+  <!-- PERSONAL INFO -->
+  <div class="section-panel" id="panel-personal">
+    <h2 style="font-size:22px;font-weight:700;margin-bottom:24px">Personal Information</h2>
+    <div class="admin-card">
+      <div id="personalForm"></div>
+      <button onclick="savePersonal()" class="btn btn-primary" style="margin-top:20px">Save Changes</button>
+    </div>
+  </div>
+
+  <!-- PROJECTS -->
+  <div class="section-panel" id="panel-projects">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+      <h2 style="font-size:22px;font-weight:700">Projects</h2>
+      <button onclick="openModal('project')" class="btn btn-primary btn-sm">+ Add Project</button>
+    </div>
+    <div class="admin-card"><div id="projectsTable"></div></div>
+  </div>
+
+  <!-- EXPERIENCE -->
+  <div class="section-panel" id="panel-experience">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+      <h2 style="font-size:22px;font-weight:700">Experience</h2>
+      <button onclick="openModal('experience')" class="btn btn-primary btn-sm">+ Add Experience</button>
+    </div>
+    <div class="admin-card"><div id="experienceTable"></div></div>
+  </div>
+
+  <!-- EDUCATION -->
+  <div class="section-panel" id="panel-education">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+      <h2 style="font-size:22px;font-weight:700">Education</h2>
+      <button onclick="openModal('education')" class="btn btn-primary btn-sm">+ Add Degree</button>
+    </div>
+    <div class="admin-card"><div id="educationTable"></div></div>
+  </div>
+
+  <!-- SKILLS -->
+  <div class="section-panel" id="panel-skills">
+    <h2 style="font-size:22px;font-weight:700;margin-bottom:24px">Skills</h2>
+    <div class="admin-card"><div id="skillsPanel"></div></div>
+  </div>
+
+  <!-- CERTIFICATIONS -->
+  <div class="section-panel" id="panel-certifications">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+      <h2 style="font-size:22px;font-weight:700">Certifications</h2>
+      <button onclick="openModal('certification')" class="btn btn-primary btn-sm">+ Add Certificate</button>
+    </div>
+    <div class="admin-card"><div id="certTable"></div></div>
+  </div>
+
+  <!-- BLOG -->
+  <div class="section-panel" id="panel-blog">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+      <h2 style="font-size:22px;font-weight:700">Blog Posts</h2>
+      <button onclick="openModal('blog')" class="btn btn-primary btn-sm">+ New Post</button>
+    </div>
+    <div class="admin-card"><div id="blogTable"></div></div>
+  </div>
+
+  <!-- GALLERY -->
+  <div class="section-panel" id="panel-gallery">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+      <h2 style="font-size:22px;font-weight:700">Gallery</h2>
+      <button onclick="openModal('gallery')" class="btn btn-primary btn-sm">+ Add Item</button>
+    </div>
+    <div class="admin-card"><div id="galleryTable"></div></div>
+  </div>
+
+  <!-- JOBS -->
+  <div class="section-panel" id="panel-jobs">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+      <h2 style="font-size:22px;font-weight:700">Job Board</h2>
+      <button onclick="openModal('job')" class="btn btn-primary btn-sm">+ Add Job</button>
+    </div>
+    <div class="admin-card"><div id="jobsTable"></div></div>
+  </div>
+
+  <!-- ASSETS / UPLOAD -->
+  <div class="section-panel" id="panel-assets">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px">
+      <h2 style="font-size:22px;font-weight:700">Assets &amp; File Upload</h2>
+      <div style="display:flex;gap:8px">
+        <select id="assetCatFilter" class="form-input" style="width:auto;font-size:13px" onchange="filterAssets()">
+          <option value="all">All Categories</option>
+          <option value="image">Images</option>
+          <option value="document">Documents / PDF</option>
+          <option value="certificate">Certificates</option>
+          <option value="general">General</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Upload Zone -->
+    <div class="admin-card" style="margin-bottom:24px">
+      <h3 style="font-size:15px;font-weight:600;margin-bottom:16px">📤 Upload New Asset</h3>
+      <div id="dropZone" style="border:2px dashed rgba(0,240,180,.25);border-radius:12px;padding:40px 24px;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:16px"
+        onclick="document.getElementById('assetFileInput').click()"
+        ondragover="event.preventDefault();this.style.borderColor='var(--accent)';this.style.background='rgba(0,240,180,.05)'"
+        ondragleave="this.style.borderColor='rgba(0,240,180,.25)';this.style.background=''"
+        ondrop="handleDrop(event)">
+        <div style="font-size:36px;margin-bottom:10px">📁</div>
+        <div style="font-size:14px;color:var(--muted)">Click to browse or drag &amp; drop files here</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:6px">Images (JPG/PNG/GIF/WebP), PDFs, Videos — max 4 MB each</div>
+        <input type="file" id="assetFileInput" multiple accept="image/*,application/pdf,video/*"
+          style="display:none" onchange="handleFileSelect(this.files)"/>
+      </div>
+      <!-- Upload metadata form (shown after file selected) -->
+      <div id="uploadMetaForm" style="display:none">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+          <div class="form-row"><label>Title</label><input id="assetTitle" placeholder="e.g. SEBI Certificate 2024"/></div>
+          <div class="form-row"><label>Category</label>
+            <select id="assetCategory">
+              <option value="general">General</option>
+              <option value="certificate">Certificate</option>
+              <option value="image">Image / Photo</option>
+              <option value="document">Document / PDF</option>
+            </select></div>
+        </div>
+        <div class="form-row"><label>Description (optional)</label><textarea id="assetDescription" rows="2" placeholder="Brief description…"></textarea></div>
+        <div class="form-row"><label>Tags (comma-separated)</label><input id="assetTags" placeholder="e.g. SEBI, finance, 2024"/></div>
+        <div id="uploadPreviewArea" style="margin-bottom:12px"></div>
+        <div style="display:flex;gap:10px">
+          <button onclick="doUpload()" class="btn btn-primary btn-sm">📤 Upload File(s)</button>
+          <button onclick="cancelUpload()" class="btn btn-outline btn-sm">Cancel</button>
+        </div>
+      </div>
+      <div id="uploadProgress" style="display:none;margin-top:12px">
+        <div style="height:4px;background:rgba(255,255,255,.08);border-radius:4px;overflow:hidden">
+          <div id="uploadProgressBar" style="height:100%;background:var(--accent);border-radius:4px;width:0;transition:width .3s"></div>
+        </div>
+        <div id="uploadProgressText" style="font-size:12px;color:var(--muted);margin-top:6px"></div>
+      </div>
+    </div>
+
+    <!-- Asset Grid -->
+    <div class="admin-card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <h3 style="font-size:15px;font-weight:600">📂 Uploaded Assets</h3>
+        <span id="assetCount" style="font-size:12px;color:var(--muted)"></span>
+      </div>
+      <div id="assetGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px"></div>
+      <div id="assetEmpty" style="text-align:center;padding:40px;color:var(--muted);font-size:14px;display:none">
+        No assets uploaded yet. Use the upload zone above.
+      </div>
+    </div>
+  </div>
+
+  <!-- SETTINGS -->
+  <div class="section-panel" id="panel-settings">
+    <h2 style="font-size:22px;font-weight:700;margin-bottom:24px">Settings</h2>
+    <div class="admin-card" style="margin-bottom:20px">
+      <h3 style="font-size:15px;font-weight:600;margin-bottom:18px">Change Password</h3>
+      <div class="form-row"><label>Current Password</label><input id="curPass" type="password"/></div>
+      <div class="form-row"><label>New Password (min 8 chars)</label><input id="newPassS" type="password"/></div>
+      <div class="form-row"><label>Confirm New Password</label><input id="confPassS" type="password"/></div>
+      <button onclick="changePassword()" class="btn btn-primary btn-sm">Update Password</button>
+    </div>
+    <div class="admin-card" style="margin-bottom:20px">
+      <h3 style="font-size:15px;font-weight:600;margin-bottom:12px">Data Management</h3>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:14px">Export all portfolio data as JSON backup, or reset to defaults.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button onclick="exportData()" class="btn btn-outline btn-sm">⬇ Export JSON Backup</button>
+        <button onclick="confirmReset()" class="btn btn-outline btn-sm" style="color:#ff5050;border-color:rgba(255,80,80,.3)">🔄 Reset to Defaults</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- MODAL -->
+<div id="modalOverlay" class="modal-overlay" style="display:none" onclick="closeModalOnBg(event)">
+  <div class="modal-box">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+      <h3 id="modalTitle" style="font-size:18px;font-weight:600"></h3>
+      <button onclick="closeModal()" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:20px">✕</button>
+    </div>
+    <div id="modalBody"></div>
+    <div style="display:flex;gap:10px;margin-top:20px">
+      <button id="modalSaveBtn" onclick="modalSave()" class="btn btn-primary">Save</button>
+      <button onclick="closeModal()" class="btn btn-outline">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script src="../data/portfolio.js"></script>
+<script src="../js/backend.js"></script>
+<script>
+// ── Auth guard ──────────────────────────────────────────
+(function() {
+  // Use Auth from backend.js if available, else fall back to legacy session check
+  function checkAuth() {
+    if (typeof Auth !== 'undefined') return Auth.isLoggedIn();
+    const sess = JSON.parse(localStorage.getItem('admin_session') || '{}');
+    return sess.loggedIn && sess.expiry > Date.now();
+  }
+  if (!checkAuth()) window.location.href = 'index.html';
+})();
+
+function doLogout() { adminClose(); }
+
+// ── Notifications ───────────────────────────────────────
+function notify(msg, type='ok') {
+  const el = document.createElement('div');
+  el.className = `notification ${type}`;
+  el.textContent = msg;
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 3000);
+}
+
+// ── Panel switching ─────────────────────────────────────
+function showPanel(name) {
+  document.querySelectorAll('.section-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.admin-nav-item').forEach(b => b.classList.remove('active'));
+  document.getElementById(`panel-${name}`)?.classList.add('active');
+  document.querySelectorAll('.admin-nav-item').forEach(b => {
+    if (b.getAttribute('onclick') === `showPanel('${name}')`) b.classList.add('active');
+  });
+  renderPanel(name);
+}
+
+// ── Panel renderers ─────────────────────────────────────
+function renderPanel(name) {
+  switch(name) {
+    case 'overview': renderOverview(); break;
+    case 'personal': renderPersonal(); break;
+    case 'projects': renderTable('projects', ['title','tag','github'], 'project'); break;
+    case 'experience': renderTable('experience', ['role','company','period','type'], 'experience'); break;
+    case 'education': renderTable('education', ['degree','uni','period','score'], 'education'); break;
+    case 'skills': renderSkillsPanel(); break;
+    case 'certifications': renderTable('certifications', ['name','issuer','date','cat'], 'certification'); break;
+    case 'blog': renderTable('blog', ['title','tag','date'], 'blog'); break;
+    case 'gallery': renderTable('gallery', ['title','cat','type'], 'gallery'); break;
+    case 'jobs': renderTable('jobs', ['title','company','location','match'], 'job'); break;
+  }
+}
+
+function renderOverview() {
+  const user = (typeof Auth !== 'undefined' && Auth.getUser()) ? Auth.getUser().user : 'Admin';
+  const el = document.getElementById('adminWelcome');
+  if (el) el.textContent = 'Welcome back, ' + user;
+  const creds = JSON.parse(localStorage.getItem('admin_creds') || '{"email":"ajeetk095@gmail.com"}');
+  const keys = ['projects','experience','certifications','blog','gallery','jobs','education'];
+  const icons = {projects:'📊',experience:'💼',certifications:'🏆',blog:'✍️',gallery:'🖼️',jobs:'🔍',education:'🎓'};
+  document.getElementById('overviewStats').innerHTML = keys.map(k => {
+    const d = loadData(k);
+    const count = Array.isArray(d) ? d.length : Object.keys(d).length;
+    return `<div class="admin-card" style="text-align:center;padding:20px">
+      <div style="font-size:28px;margin-bottom:6px">${icons[k]||'📋'}</div>
+      <div style="font-size:22px;font-weight:700;color:var(--accent)">${count}</div>
+      <div style="font-size:12px;color:var(--muted);text-transform:capitalize">${k}</div>
+    </div>`;
+  }).join('');
+  // Load saved API key
+  const savedKey = localStorage.getItem('anthropic_api_key') || '';
+  if (savedKey) document.getElementById('apiKeyInput').value = savedKey;
+}
+
+function saveApiKey() {
+  const k = document.getElementById('apiKeyInput').value.trim();
+  if (!k) { notify('Enter an API key first', 'err'); return; }
+  localStorage.setItem('openrouter_api_key', k);
+  notify('✓ OpenRouter key saved! The AI assistant (NVIDIA Nemotron 627B) is now active.');
+}
+
+
+function renderPersonal() {
+  const p = loadData('personal');
+  const fields = [
+    {id:'p_name',label:'Full Name',val:p.name},
+    {id:'p_title',label:'Title',val:p.title},
+    {id:'p_subtitle',label:'Subtitle',val:p.subtitle},
+    {id:'p_email',label:'Email',val:p.email},
+    {id:'p_phone',label:'Phone',val:p.phone},
+    {id:'p_location',label:'Location',val:p.location},
+    {id:'p_linkedin',label:'LinkedIn URL',val:p.linkedin},
+    {id:'p_github',label:'GitHub URL',val:p.github},
+    {id:'p_photo',label:'Profile Photo URL',val:p.photo},
+    {id:'p_resume',label:'Resume PDF Link',val:p.resume_link},
+    {id:'p_certs',label:'Certificates Folder Link',val:p.certificates_folder},
+  ];
+  document.getElementById('personalForm').innerHTML = fields.map(f=>`
+    <div class="form-row"><label>${f.label}</label><input id="${f.id}" value="${f.val||''}"/></div>`).join('') +
+    `<div class="form-row"><label>Professional Summary</label>
+     <textarea id="p_summary" rows="5">${p.summary||''}</textarea></div>`;
+}
+
+function savePersonal() {
+  const fields = {
+    name:document.getElementById('p_name')?.value,
+    title:document.getElementById('p_title')?.value,
+    subtitle:document.getElementById('p_subtitle')?.value,
+    email:document.getElementById('p_email')?.value,
+    phone:document.getElementById('p_phone')?.value,
+    location:document.getElementById('p_location')?.value,
+    linkedin:document.getElementById('p_linkedin')?.value,
+    github:document.getElementById('p_github')?.value,
+    photo:document.getElementById('p_photo')?.value,
+    resume_link:document.getElementById('p_resume')?.value,
+    certificates_folder:document.getElementById('p_certs')?.value,
+    summary:document.getElementById('p_summary')?.value,
+  };
+  saveData('personal', {...loadData('personal'), ...fields});
+  notify('Personal info updated successfully!');
+}
+
+function renderTable(key, cols, type) {
+  const data = loadData(key);
+  const el = document.getElementById(`${key}Table`) || document.getElementById(`${key === 'certification' ? 'cert' : key}Table`);
+  const targetEl = document.getElementById(
+    key === 'certifications' ? 'certTable' :
+    key === 'jobs' ? 'jobsTable' :
+    `${key}Table`
+  );
+  if (!targetEl) return;
+  if (!Array.isArray(data) || data.length === 0) {
+    targetEl.innerHTML = `<p style="color:var(--muted);text-align:center;padding:20px">No ${key} yet. Click + Add to get started.</p>`;
+    return;
+  }
+  const headers = cols.map(c => `<th>${c.charAt(0).toUpperCase()+c.slice(1)}</th>`).join('') + '<th>Actions</th>';
+  const rows = data.map((item, idx) => {
+    const cells = cols.map(c => {
+      const val = item[c];
+      const display = typeof val === 'string' ? val.substring(0,50) + (val.length>50?'…':'') : (val || '—');
+      return `<td>${display}</td>`;
+    }).join('');
+    return `<tr>
+      ${cells}
+      <td>
+        <button class="action-btn" onclick='editItem("${key}",${idx})' title="Edit">✏️</button>
+        <button class="action-btn" onclick='deleteItem("${key}",${idx})' title="Delete" style="color:#ff5050">🗑</button>
+      </td>
+    </tr>`;
+  }).join('');
+  targetEl.innerHTML = `<div style="overflow-x:auto"><table class="admin-table">
+    <thead><tr>${headers}</tr></thead>
+    <tbody>${rows}</tbody>
+  </table></div>`;
+}
+
+function renderSkillsPanel() {
+  const s = loadData('skills');
+  const groups = Object.keys(s);
+  const el = document.getElementById('skillsPanel');
+  el.innerHTML = groups.map(g => `
+    <div style="margin-bottom:24px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <h4 style="font-size:14px;font-weight:600;text-transform:capitalize">${g}</h4>
+        <button onclick="addSkill('${g}')" class="btn btn-outline btn-sm">+ Add</button>
+      </div>
+      ${s[g].map((sk,i) => `
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
+          <span style="flex:1;font-size:13px">${sk.name}</span>
+          <span style="font-family:var(--mono);font-size:12px;color:var(--accent);min-width:36px">${sk.level}%</span>
+          <input type="range" min="0" max="100" value="${sk.level}"
+            oninput="updateSkillLevel('${g}',${i},this.value,this.nextElementSibling)"
+            style="width:120px;accent-color:var(--accent)"/>
+          <button onclick="deleteSkill('${g}',${i})" class="action-btn" style="color:#ff5050">🗑</button>
+        </div>`).join('')}
+    </div>`).join('');
+}
+
+function addSkill(group) {
+  const name = prompt('Skill name:');
+  if (!name) return;
+  const level = parseInt(prompt('Level (0-100):') || '80');
+  const s = loadData('skills');
+  s[group].push({ name: name.trim(), level });
+  saveData('skills', s);
+  renderSkillsPanel();
+  notify(`"${name}" added to ${group}`);
+}
+
+function updateSkillLevel(group, idx, val, display) {
+  const s = loadData('skills');
+  s[group][idx].level = parseInt(val);
+  saveData('skills', s);
+  if (display) display.textContent = val + '%';
+}
+
+function deleteSkill(group, idx) {
+  if (!confirm('Delete this skill?')) return;
+  const s = loadData('skills');
+  s[group].splice(idx, 1);
+  saveData('skills', s);
+  renderSkillsPanel();
+  notify('Skill removed');
+}
+
+// ── Modal system ──────────────────────────────────────
+let currentModalType = null;
+let currentEditIdx = null;
+
+const MODAL_FORMS = {
+  project: (item={}) => `
+    <div class="form-row"><label>Title *</label><input id="mf_title" value="${item.title||''}"/></div>
+    <div class="form-row"><label>Tag (e.g. Portfolio Optimisation)</label><input id="mf_tag" value="${item.tag||''}"/></div>
+    <div class="form-row"><label>Summary</label><textarea id="mf_summary">${item.summary||''}</textarea></div>
+    <div class="form-row"><label>Problem Statement</label><textarea id="mf_problem">${item.problem||''}</textarea></div>
+    <div class="form-row"><label>Dataset/Inputs</label><input id="mf_dataset" value="${item.dataset||''}"/></div>
+    <div class="form-row"><label>Methods Used</label><textarea id="mf_methods">${item.methods||''}</textarea></div>
+    <div class="form-row"><label>Results</label><textarea id="mf_results">${item.results||''}</textarea></div>
+    <div class="form-row"><label>Key Metrics (comma-separated)</label><input id="mf_metrics" value="${(item.metrics||[]).join(', ')}"/></div>
+    <div class="form-row"><label>Tech Stack (comma-separated)</label><input id="mf_tech" value="${(item.tech||[]).join(', ')}"/></div>
+    <div class="form-row"><label>GitHub Link</label><input id="mf_github" value="${item.github||''}"/></div>
+    <div class="form-row"><label>Award (optional)</label><input id="mf_award" value="${item.award||''}"/></div>
+    <div class="form-row"><label>Accent Color (hex)</label><input id="mf_color" value="${item.color||'#00f0b4'}"/></div>`,
+  experience: (item={}) => `
+    <div class="form-row"><label>Role/Title *</label><input id="mf_role" value="${item.role||''}"/></div>
+    <div class="form-row"><label>Company *</label><input id="mf_company" value="${item.company||''}"/></div>
+    <div class="form-row"><label>Location</label><input id="mf_location" value="${item.location||''}"/></div>
+    <div class="form-row"><label>Period (e.g. Jan 2023 – Dec 2023)</label><input id="mf_period" value="${item.period||''}"/></div>
+    <div class="form-row"><label>Type</label>
+      <select id="mf_type"><option ${item.type==='internship'?'selected':''}>internship</option><option ${item.type==='training'?'selected':''}>training</option><option ${item.type==='simulation'?'selected':''}>simulation</option><option ${item.type==='fulltime'?'selected':''}>fulltime</option></select></div>
+    <div class="form-row"><label>Icon (emoji)</label><input id="mf_icon" value="${item.icon||'💼'}"/></div>
+    <div class="form-row"><label>Bullet Points (one per line)</label><textarea id="mf_bullets">${(item.bullets||[]).join('\n')}</textarea></div>`,
+  education: (item={}) => `
+    <div class="form-row"><label>Degree Name *</label><input id="mf_degree" value="${item.degree||''}"/></div>
+    <div class="form-row"><label>University *</label><input id="mf_uni" value="${item.uni||''}"/></div>
+    <div class="form-row"><label>Period</label><input id="mf_period" value="${item.period||''}"/></div>
+    <div class="form-row"><label>Score/CGPA</label><input id="mf_score" value="${item.score||''}"/></div>
+    <div class="form-row"><label>Flag Emoji</label><input id="mf_flag" value="${item.flag||'🎓'}"/></div>`,
+  certification: (item={}) => `
+    <div class="form-row"><label>Certificate Name *</label><input id="mf_name" value="${item.name||''}"/></div>
+    <div class="form-row"><label>Issuer *</label><input id="mf_issuer" value="${item.issuer||''}"/></div>
+    <div class="form-row"><label>Date</label><input id="mf_date" value="${item.date||''}"/></div>
+    <div class="form-row"><label>Category</label>
+      <select id="mf_cat"><option value="finance" ${item.cat==='finance'?'selected':''}>Finance & Quant</option><option value="ds" ${item.cat==='ds'?'selected':''}>Data Science & ML</option><option value="networking" ${item.cat==='networking'?'selected':''}>Networking & Cloud</option><option value="tools" ${item.cat==='tools'?'selected':''}>Tools</option><option value="award" ${item.cat==='award'?'selected':''}>Award</option><option value="workshop" ${item.cat==='workshop'?'selected':''}>Workshop</option></select></div>
+    <div class="form-row"><label>Verify URL (optional)</label><input id="mf_verify" value="${item.verify||''}"/></div>`,
+  blog: (item={}) => `
+    <div class="form-row"><label>Title *</label><input id="mf_title" value="${item.title||''}"/></div>
+    <div class="form-row"><label>Tag/Category</label><input id="mf_tag" value="${item.tag||''}"/></div>
+    <div class="form-row"><label>Date (YYYY-MM-DD)</label><input id="mf_date" type="date" value="${item.date||new Date().toISOString().split('T')[0]}"/></div>
+    <div class="form-row"><label>Summary</label><textarea id="mf_summary">${item.summary||''}</textarea></div>
+    <div class="form-row"><label>Article URL / Link</label><input id="mf_link" value="${item.link||'#'}"/></div>`,
+  gallery: (item={}) => `
+    <div class="form-row"><label>Title *</label><input id="mf_title" value="${item.title||''}"/></div>
+    <div class="form-row"><label>Type</label>
+      <select id="mf_type"><option ${item.type==='image'?'selected':''}>image</option><option value="drive" ${item.type==='drive'?'selected':''}>drive</option><option value="link" ${item.type==='link'?'selected':''}>link</option></select></div>
+    <div class="form-row"><label>Image URL or Drive Link</label><input id="mf_src" value="${item.src||''}"/></div>
+    <div class="form-row"><label>Icon (emoji, for non-image)</label><input id="mf_icon" value="${item.icon||'📄'}"/></div>
+    <div class="form-row"><label>Category</label>
+      <select id="mf_cat"><option value="awards" ${item.cat==='awards'?'selected':''}>Awards</option><option value="academic" ${item.cat==='academic'?'selected':''}>Academic</option><option value="finance" ${item.cat==='finance'?'selected':''}>Finance</option><option value="photos" ${item.cat==='photos'?'selected':''}>Photos</option></select></div>`,
+  job: (item={}) => `
+    <div class="form-row"><label>Job Title *</label><input id="mf_title" value="${item.title||''}"/></div>
+    <div class="form-row"><label>Company *</label><input id="mf_company" value="${item.company||''}"/></div>
+    <div class="form-row"><label>Location</label><input id="mf_location" value="${item.location||''}"/></div>
+    <div class="form-row"><label>Type (Full-time / Internship)</label><input id="mf_type" value="${item.type||'Full-time'}"/></div>
+    <div class="form-row"><label>Level</label><input id="mf_level" value="${item.level||'Entry'}"/></div>
+    <div class="form-row"><label>Apply Link</label><input id="mf_link" value="${item.link||''}"/></div>
+    <div class="form-row"><label>Match Score (0-100)</label><input id="mf_match" type="number" min="0" max="100" value="${item.match||80}"/></div>
+    <div class="form-row"><label>Match Reason</label><textarea id="mf_reason">${item.reason||''}</textarea></div>
+    <div class="form-row"><label>Skill Tags (comma-separated)</label><input id="mf_tags" value="${(item.tags||[]).join(', ')}"/></div>`,
+};
+
+function openModal(type, editIdx=null) {
+  currentModalType = type;
+  currentEditIdx = editIdx;
+  const data = editIdx !== null ? loadData(type === 'certification' ? 'certifications' : type === 'job' ? 'jobs' : type + 's')[editIdx] : {};
+  document.getElementById('modalTitle').textContent = (editIdx !== null ? 'Edit' : 'Add') + ' ' + type.charAt(0).toUpperCase() + type.slice(1);
+  document.getElementById('modalBody').innerHTML = MODAL_FORMS[type]?.(data) || '<p>Form not configured for this type.</p>';
+  document.getElementById('modalOverlay').style.display = 'flex';
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').style.display = 'none';
+  currentModalType = null; currentEditIdx = null;
+}
+
+function closeModalOnBg(e) {
+  if (e.target.id === 'modalOverlay') closeModal();
+}
+
+function g(id) { return document.getElementById(id)?.value?.trim() || ''; }
+
+function modalSave() {
+  const type = currentModalType;
+  const isEdit = currentEditIdx !== null;
+  let newItem = {};
+
+  if (type === 'project') {
+    newItem = { id: Date.now().toString(), title:g('mf_title'), tag:g('mf_tag'), color:g('mf_color')||'#00f0b4',
+      summary:g('mf_summary'), problem:g('mf_problem'), dataset:g('mf_dataset'),
+      methods:g('mf_methods'), results:g('mf_results'),
+      metrics:g('mf_metrics').split(',').map(s=>s.trim()).filter(Boolean),
+      tech:g('mf_tech').split(',').map(s=>s.trim()).filter(Boolean),
+      github:g('mf_github'), award:g('mf_award') };
+  } else if (type === 'experience') {
+    newItem = { id:Date.now().toString(), role:g('mf_role'), company:g('mf_company'), location:g('mf_location'),
+      period:g('mf_period'), type:g('mf_type'), icon:g('mf_icon')||'💼',
+      bullets:g('mf_bullets').split('\n').map(s=>s.trim()).filter(Boolean) };
+  } else if (type === 'education') {
+    newItem = { id:Date.now().toString(), degree:g('mf_degree'), uni:g('mf_uni'),
+      period:g('mf_period'), score:g('mf_score'), flag:g('mf_flag')||'🎓', courses:[] };
+  } else if (type === 'certification') {
+    newItem = { id:Date.now().toString(), name:g('mf_name'), issuer:g('mf_issuer'),
+      date:g('mf_date'), cat:g('mf_cat'), verify:g('mf_verify') };
+  } else if (type === 'blog') {
+    newItem = { id:Date.now(), title:g('mf_title'), tag:g('mf_tag'), date:g('mf_date'),
+      summary:g('mf_summary'), link:g('mf_link')||'#' };
+  } else if (type === 'gallery') {
+    newItem = { id:Date.now(), title:g('mf_title'), type:g('mf_type'), src:g('mf_src'),
+      icon:g('mf_icon'), cat:g('mf_cat') };
+  } else if (type === 'job') {
+    newItem = { id:Date.now(), title:g('mf_title'), company:g('mf_company'), location:g('mf_location'),
+      type:g('mf_type'), level:g('mf_level'), link:g('mf_link'),
+      match:parseInt(g('mf_match')||'80'), reason:g('mf_reason'),
+      tags:g('mf_tags').split(',').map(s=>s.trim()).filter(Boolean) };
+  }
+
+  const dataKey = type === 'certification' ? 'certifications' : type === 'job' ? 'jobs' : type + 's';
+  const arr = loadData(dataKey);
+  if (isEdit) arr[currentEditIdx] = { ...arr[currentEditIdx], ...newItem };
+  else arr.push(newItem);
+  saveData(dataKey, arr);
+  closeModal();
+  renderPanel(type === 'certification' ? 'certifications' : type === 'job' ? 'jobs' : type + 's');
+  notify(isEdit ? 'Updated successfully!' : 'Added successfully!');
+}
+
+function editItem(key, idx) {
+  const typeMap = { certifications:'certification', jobs:'job', projects:'project', experience:'experience', education:'education', blog:'blog', gallery:'gallery' };
+  openModal(typeMap[key] || key.slice(0,-1), idx);
+}
+
+function deleteItem(key, idx) {
+  if (!confirm('Delete this item? This cannot be undone.')) return;
+  const arr = loadData(key);
+  arr.splice(idx, 1);
+  saveData(key, arr);
+  renderPanel(key);
+  notify('Deleted successfully');
+}
+
+function changePassword() {
+  const cur = document.getElementById('curPass').value;
+  const np = document.getElementById('newPassS').value;
+  const cp = document.getElementById('confPassS').value;
+  const creds = JSON.parse(localStorage.getItem('admin_creds') || '{"user":"admin","pass":"ajeet2025","email":"ajeetk095@gmail.com"}');
+  if (cur !== creds.pass) { notify('Current password incorrect', 'err'); return; }
+  if (np.length < 8) { notify('New password must be 8+ characters', 'err'); return; }
+  if (np !== cp) { notify('Passwords do not match', 'err'); return; }
+  creds.pass = np;
+  localStorage.setItem('admin_creds', JSON.stringify(creds));
+  notify('Password changed successfully!');
+  document.getElementById('curPass').value = '';
+  document.getElementById('newPassS').value = '';
+  document.getElementById('confPassS').value = '';
+}
+
+function exportData() {
+  const keys = ['personal','projects','experience','education','skills','certifications','blog','gallery','jobs'];
+  const backup = {};
+  keys.forEach(k => { backup[k] = loadData(k); });
+  const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `ajeet-portfolio-backup-${new Date().toISOString().split('T')[0]}.json`;
+  a.click();
+  notify('Backup downloaded!');
+}
+
+function confirmReset() {
+  if (!confirm('Reset ALL data to defaults? This will delete all your custom changes.')) return;
+  ['personal','projects','experience','education','skills','certifications','blog','gallery','jobs'].forEach(k => {
+    localStorage.removeItem('portfolio_' + k);
+  });
+  notify('Data reset to defaults. Refresh pages to see changes.');
+}
+
+
+// ══ WINDOW CONTROLS ══════════════════════════════════
+function adminClose() {
+  if (!confirm('Log out and close admin panel?')) return;
+  Auth && Auth.logout ? Auth.logout() : localStorage.removeItem('admin_session');
+  window.location.href = '../index.html';
+}
+
+function adminMinimize() {
+  const sidebar = document.getElementById('sidebar');
+  const content = document.getElementById('adminContent');
+  const isMin   = sidebar.dataset.minimized === '1';
+  if (isMin) {
+    sidebar.style.width        = '250px';
+    sidebar.style.overflow     = 'auto';
+    content.style.marginLeft   = '250px';
+    sidebar.dataset.minimized  = '0';
+    sidebar.querySelectorAll('.admin-nav-item, div[style*="letter-spacing"], div[style*="border-top"]').forEach(el => el.style.display = '');
+    sidebar.querySelector('div[style*="padding:16px"]').style.display = '';
+    document.getElementById('adminWelcome').style.display = '';
+  } else {
+    sidebar.style.width        = '0';
+    sidebar.style.overflow     = 'hidden';
+    content.style.marginLeft   = '0';
+    sidebar.dataset.minimized  = '1';
+  }
+}
+
+// ══ ASSETS PANEL ════════════════════════════════════
+let pendingFiles = [];
+
+function handleFileSelect(files) {
+  pendingFiles = Array.from(files);
+  showUploadForm();
+}
+
+function handleDrop(e) {
+  e.preventDefault();
+  const dz = document.getElementById('dropZone');
+  dz.style.borderColor = 'rgba(0,240,180,.25)';
+  dz.style.background  = '';
+  pendingFiles = Array.from(e.dataTransfer.files);
+  showUploadForm();
+}
+
+function showUploadForm() {
+  if (!pendingFiles.length) return;
+  const form = document.getElementById('uploadMetaForm');
+  form.style.display = 'block';
+  // Preview
+  const prev = document.getElementById('uploadPreviewArea');
+  prev.innerHTML = pendingFiles.map(f => {
+    const icon = f.type.startsWith('image/') ? '🖼️' : f.type === 'application/pdf' ? '📄' : '📎';
+    return `<span style="font-size:12px;color:var(--muted);margin-right:12px">${icon} ${f.name} (${(f.size/1024).toFixed(1)} KB)</span>`;
+  }).join('');
+  document.getElementById('assetTitle').value = pendingFiles[0]?.name.replace(/\.[^.]+$/, '') || '';
+}
+
+function cancelUpload() {
+  pendingFiles = [];
+  document.getElementById('uploadMetaForm').style.display = 'none';
+  document.getElementById('assetFileInput').value = '';
+}
+
+async function doUpload() {
+  if (!pendingFiles.length) { notify('No files selected', 'err'); return; }
+  const title    = document.getElementById('assetTitle').value.trim();
+  const category = document.getElementById('assetCategory').value;
+  const desc     = document.getElementById('assetDescription').value.trim();
+  const tags     = document.getElementById('assetTags').value.split(',').map(t => t.trim()).filter(Boolean);
+
+  const prog     = document.getElementById('uploadProgress');
+  const bar      = document.getElementById('uploadProgressBar');
+  const txt      = document.getElementById('uploadProgressText');
+  prog.style.display = 'block';
+
+  let uploaded = 0;
+  for (const file of pendingFiles) {
+    txt.textContent = `Uploading ${file.name}…`;
+    bar.style.width = `${Math.round(((uploaded) / pendingFiles.length) * 100)}%`;
+
+    const result = await AssetManager.upload(file, {
+      title: pendingFiles.length === 1 ? title : (title + ' ' + (uploaded + 1)),
+      description: desc,
+      tags,
+      category
+    });
+
+    if (!result.ok) {
+      notify(`Failed: ${result.error}`, 'err');
+    } else {
+      uploaded++;
+    }
+  }
+
+  bar.style.width = '100%';
+  txt.textContent = `✓ ${uploaded} / ${pendingFiles.length} file(s) uploaded`;
+  setTimeout(() => {
+    prog.style.display = 'none';
+    bar.style.width = '0';
+  }, 2000);
+
+  cancelUpload();
+  renderAssets();
+  notify(`✓ ${uploaded} asset(s) uploaded successfully!`);
+}
+
+function renderAssets(filterCat = 'all') {
+  const grid  = document.getElementById('assetGrid');
+  const empty = document.getElementById('assetEmpty');
+  const count = document.getElementById('assetCount');
+  if (!grid) return;
+
+  let assets = AssetManager.getAll();
+  if (filterCat !== 'all') assets = assets.filter(a => a.category === filterCat);
+
+  count.textContent = `${assets.length} file(s)`;
+
+  if (!assets.length) {
+    grid.style.display  = 'none';
+    empty.style.display = 'block';
+    return;
+  }
+  grid.style.display  = '';
+  empty.style.display = 'none';
+
+  grid.innerHTML = assets.map(a => {
+    const isImg = a.type?.startsWith('image/');
+    const isPdf = a.type === 'application/pdf';
+    const preview = isImg
+      ? `<img src="${a.base64}" alt="${a.title}" style="width:100%;height:120px;object-fit:cover;border-radius:6px;background:var(--bg3)"/>`
+      : `<div style="height:120px;display:flex;align-items:center;justify-content:center;font-size:40px;background:var(--bg3);border-radius:6px">${isPdf ? '📄' : '📎'}</div>`;
+
+    return `<div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;overflow:hidden;transition:all .2s" onmouseover="this.style.borderColor='rgba(0,240,180,.25)'" onmouseout="this.style.borderColor='var(--border)'">
+      ${preview}
+      <div style="padding:10px 12px">
+        <div style="font-size:13px;font-weight:500;margin-bottom:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${a.title}">${a.title}</div>
+        <div style="font-size:11px;color:var(--muted);margin-bottom:6px">${AssetManager.formatSize(a.size)} · ${a.category}</div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          ${isImg ? `<button onclick="editAsset('${a.id}')" class="action-btn" style="font-size:11px;padding:2px 8px;border:1px solid var(--border);border-radius:4px;color:var(--muted)">✏️ Edit</button>` : ''}
+          <button onclick="copyAssetUrl('${a.id}')" class="action-btn" style="font-size:11px;padding:2px 8px;border:1px solid var(--border);border-radius:4px;color:var(--muted)">🔗 Copy URL</button>
+          <button onclick="deleteAsset('${a.id}')" class="action-btn" style="font-size:11px;padding:2px 8px;border:1px solid rgba(255,80,80,.3);border-radius:4px;color:#ff5050">🗑</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function filterAssets() {
+  const cat = document.getElementById('assetCatFilter')?.value || 'all';
+  renderAssets(cat);
+}
+
+function editAsset(id) {
+  const asset = AssetManager.getAll().find(a => a.id === id);
+  if (!asset) return;
+  const newTitle = prompt('Edit title:', asset.title);
+  if (newTitle === null) return;
+  const newDesc  = prompt('Edit description:', asset.description);
+  const newTags  = prompt('Edit tags (comma-separated):', (asset.tags || []).join(', '));
+  AssetManager.update(id, {
+    title: newTitle,
+    description: newDesc || '',
+    tags: newTags ? newTags.split(',').map(t => t.trim()) : []
+  });
+  renderAssets();
+  notify('Asset updated!');
+}
+
+function copyAssetUrl(id) {
+  const asset = AssetManager.getAll().find(a => a.id === id);
+  if (!asset) return;
+  navigator.clipboard.writeText(asset.url || asset.base64).then(() => notify('URL copied to clipboard!'));
+}
+
+function deleteAsset(id) {
+  if (!confirm('Delete this asset permanently?')) return;
+  AssetManager.delete(id);
+  renderAssets();
+  notify('Asset deleted');
+}
+
+
+// Init
+renderOverview();
+</script>
+</body>
+</html>

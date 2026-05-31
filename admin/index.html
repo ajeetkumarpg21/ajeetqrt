@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Admin Login – Ajeet Kumar Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@300;400;500&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <link rel="stylesheet" href="../css/style.css"/>
+  <link rel="stylesheet" href="../css/main-theme.css"/>
+  <style>
+    body { display:flex; align-items:center; justify-content:center; min-height:100vh; padding:20px; }
+    .login-box { width:100%; max-width:440px; padding:44px; }
+    .tab { display:none; }
+    .tab.active { display:block; animation: fadeIn .25s ease; }
+    @keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:none} }
+    .info-box { padding:10px 14px; border-radius:8px; font-size:13px; margin-bottom:14px; line-height:1.5; }
+    .info-box.err  { background:rgba(255,80,80,.1);  border:1px solid rgba(255,80,80,.2);  color:#ff5050; }
+    .info-box.ok   { background:rgba(0,240,180,.1);  border:1px solid rgba(0,240,180,.2);  color:var(--accent); }
+    .info-box.info { background:rgba(0,170,255,.1);  border:1px solid rgba(0,170,255,.2);  color:var(--accent2); }
+    .form-group { margin-bottom:18px; }
+    .input-wrap { position:relative; }
+    .eye-btn { position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--muted);cursor:pointer;font-size:16px;line-height:1;padding:0; }
+    .strength-bar { height:3px; border-radius:3px; margin-top:6px; transition:all .3s; }
+    code { font-family:var(--mono); background:rgba(0,240,180,.1); padding:1px 6px; border-radius:4px; color:var(--accent); font-size:12px; }
+  </style>
+</head>
+<body class="dark">
+<canvas id="bg3d" class="canvas-bg" data-theme="contact"></canvas>
+
+<div class="login-box glass reveal" style="position:relative;z-index:10">
+
+  <!-- Header -->
+  <div style="text-align:center;margin-bottom:32px">
+    <div style="font-family:var(--mono);font-size:32px;font-weight:700;letter-spacing:-1px">AK<span style="color:var(--accent)">.</span></div>
+    <div style="font-size:13px;color:var(--muted);margin-top:6px">Portfolio Admin Panel</div>
+    <div style="display:flex;align-items:center;justify-content:center;gap:6px;margin-top:8px">
+      <span style="width:8px;height:8px;border-radius:50%;background:var(--accent);display:inline-block"></span>
+      <span style="font-size:11px;color:var(--accent);font-family:var(--mono)">Secure Login</span>
+    </div>
+  </div>
+
+  <!-- ── TAB: LOGIN ── -->
+  <div class="tab active" id="tabLogin">
+    <h2 style="font-size:20px;font-weight:600;margin-bottom:20px">Sign In</h2>
+    <div id="loginMsg"></div>
+
+    <div class="form-group">
+      <label class="form-label">Username or Email</label>
+      <input id="loginEmail" type="text" class="form-input" placeholder="admin" autocomplete="username"/>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Password</label>
+      <div class="input-wrap">
+        <input id="loginPass" type="password" class="form-input" placeholder="••••••••" autocomplete="current-password"/>
+        <button class="eye-btn" onclick="toggleVis('loginPass',this)" tabindex="-1">👁</button>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:22px">
+      <label style="font-size:13px;color:var(--muted);display:flex;align-items:center;gap:6px;cursor:pointer">
+        <input type="checkbox" id="rememberMe" style="accent-color:var(--accent)"/> Remember me (30 days)
+      </label>
+      <button onclick="showTab('tabForgot')" style="background:none;border:none;color:var(--accent);font-size:13px;cursor:pointer;font-family:var(--font);padding:0">Forgot password?</button>
+    </div>
+    <button onclick="doLogin()" class="btn btn-primary" style="width:100%;justify-content:center;font-size:15px">Sign In →</button>
+
+    <div class="info-box info" style="margin-top:20px">
+      <strong>Default credentials:</strong><br>
+      Username: <code>admin</code> &nbsp;&nbsp; Password: <code>ajeet2025</code><br>
+      <span style="font-size:11px;color:var(--accent2)">Change these immediately in Admin → Settings after first login.</span>
+    </div>
+  </div>
+
+  <!-- ── TAB: FORGOT PASSWORD ── -->
+  <div class="tab" id="tabForgot">
+    <button onclick="showTab('tabLogin')" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:13px;margin-bottom:18px;display:flex;align-items:center;gap:4px;font-family:var(--font);padding:0">
+      ← Back to login
+    </button>
+    <h2 style="font-size:20px;font-weight:600;margin-bottom:8px">Reset Password</h2>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:22px">
+      Enter your registered email. Since this is a static site, you can reset the password directly from here — it's stored securely in your browser.
+    </p>
+    <div id="forgotMsg"></div>
+    <div class="form-group">
+      <label class="form-label">Admin Email</label>
+      <input id="forgotEmail" type="email" class="form-input" placeholder="ajeetk095@gmail.com"/>
+    </div>
+    <button onclick="doForgot()" class="btn btn-primary" style="width:100%;justify-content:center">Continue →</button>
+    <p style="font-size:12px;color:var(--muted);margin-top:12px;text-align:center">
+      Remember it? <button onclick="showTab('tabLogin')" style="background:none;border:none;color:var(--accent);cursor:pointer;font-family:var(--font);font-size:12px;padding:0">Sign in instead</button>
+    </p>
+  </div>
+
+  <!-- ── TAB: RESET PASSWORD ── -->
+  <div class="tab" id="tabReset">
+    <h2 style="font-size:20px;font-weight:600;margin-bottom:8px">Set New Password</h2>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:22px">Choose a strong password (minimum 8 characters).</p>
+    <div id="resetMsg"></div>
+    <div class="form-group">
+      <label class="form-label">New Password</label>
+      <div class="input-wrap">
+        <input id="newPass" type="password" class="form-input" placeholder="Minimum 8 characters"
+          oninput="checkStrength(this.value)"/>
+        <button class="eye-btn" onclick="toggleVis('newPass',this)" tabindex="-1">👁</button>
+      </div>
+      <div id="strengthBar" class="strength-bar" style="width:0;background:var(--border)"></div>
+      <div id="strengthText" style="font-size:11px;color:var(--muted);margin-top:4px"></div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Confirm New Password</label>
+      <div class="input-wrap">
+        <input id="confPass" type="password" class="form-input" placeholder="Repeat password"/>
+        <button class="eye-btn" onclick="toggleVis('confPass',this)" tabindex="-1">👁</button>
+      </div>
+    </div>
+    <button onclick="doReset()" class="btn btn-primary" style="width:100%;justify-content:center">Update Password →</button>
+  </div>
+
+</div><!-- /login-box -->
+
+<script src="../data/portfolio.js"></script>
+<script src="../js/backend.js"></script>
+<script src="../js/bg3d.js"></script>
+<script>
+
+// ── Tabs ──────────────────────────────────────────────
+function showTab(id) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id)?.classList.add('active');
+}
+
+// ── Helpers ───────────────────────────────────────────
+function setMsg(id, html, type) {
+  const el = document.getElementById(id);
+  if (el) el.innerHTML = html ? `<div class="info-box ${type}">${html}</div>` : '';
+}
+function toggleVis(inputId, btn) {
+  const inp = document.getElementById(inputId);
+  if (!inp) return;
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+  btn.textContent = inp.type === 'password' ? '👁' : '🙈';
+}
+function checkStrength(val) {
+  const bar  = document.getElementById('strengthBar');
+  const text = document.getElementById('strengthText');
+  if (!bar) return;
+  let score = 0;
+  if (val.length >= 8)  score++;
+  if (val.length >= 12) score++;
+  if (/[A-Z]/.test(val)) score++;
+  if (/[0-9]/.test(val)) score++;
+  if (/[^A-Za-z0-9]/.test(val)) score++;
+  const colors = ['#ff5050','#ff8c00','var(--gold)','var(--accent2)','var(--accent)'];
+  const labels = ['Very weak','Weak','Fair','Good','Strong'];
+  bar.style.width   = (score * 20) + '%';
+  bar.style.background = colors[score - 1] || 'var(--border)';
+  text.textContent  = score ? labels[score - 1] : '';
+  text.style.color  = colors[score - 1] || 'var(--muted)';
+}
+
+// ── Login ─────────────────────────────────────────────
+function doLogin() {
+  const user = document.getElementById('loginEmail').value.trim();
+  const pass = document.getElementById('loginPass').value;
+  const remember = document.getElementById('rememberMe').checked;
+
+  setMsg('loginMsg','','');
+  if (!user || !pass) { setMsg('loginMsg','Please fill both fields.','err'); return; }
+
+  const btn = document.querySelector('#tabLogin button.btn-primary');
+  btn.textContent = 'Signing in…'; btn.disabled = true;
+
+  setTimeout(() => {
+    const result = Auth.login(user, pass, remember);
+    if (result.ok) {
+      setMsg('loginMsg','✓ Login successful! Redirecting…','ok');
+      setTimeout(() => { window.location.href = 'dashboard.html'; }, 700);
+    } else {
+      setMsg('loginMsg', result.error || 'Invalid credentials. Try: admin / ajeet2025', 'err');
+      document.getElementById('loginPass').value = '';
+      btn.textContent = 'Sign In →'; btn.disabled = false;
+      // Shake animation
+      const box = document.querySelector('.login-box');
+      box.style.animation = 'shake .3s ease';
+      setTimeout(() => box.style.animation = '', 400);
+    }
+  }, 400);
+}
+
+// ── Forgot ────────────────────────────────────────────
+function doForgot() {
+  const email = document.getElementById('forgotEmail').value.trim();
+  setMsg('forgotMsg','','');
+  if (!email) { setMsg('forgotMsg','Please enter your email.','err'); return; }
+  const creds = Auth.getCreds();
+  if (email !== creds.email && email !== 'admin' && email !== 'ajeetk095@gmail.com') {
+    setMsg('forgotMsg','Email not found. Try: ajeetk095@gmail.com','err'); return;
+  }
+  setMsg('forgotMsg','✓ Verified. You can now set a new password below.','ok');
+  setTimeout(() => showTab('tabReset'), 1000);
+}
+
+// ── Reset ─────────────────────────────────────────────
+function doReset() {
+  const np = document.getElementById('newPass').value;
+  const cp = document.getElementById('confPass').value;
+  setMsg('resetMsg','','');
+  if (np.length < 8)  { setMsg('resetMsg','Password must be at least 8 characters.','err'); return; }
+  if (np !== cp)      { setMsg('resetMsg','Passwords do not match.','err'); return; }
+  Auth.resetPassword(np);
+  setMsg('resetMsg','✓ Password updated! Redirecting to login…','ok');
+  setTimeout(() => { showTab('tabLogin'); setMsg('loginMsg','✓ Password reset. Sign in with your new password.','ok'); }, 1200);
+}
+
+// ── Enter key ─────────────────────────────────────────
+['loginEmail','loginPass'].forEach(id =>
+  document.getElementById(id)?.addEventListener('keydown', e => { if (e.key==='Enter') doLogin(); }));
+['forgotEmail'].forEach(id =>
+  document.getElementById(id)?.addEventListener('keydown', e => { if (e.key==='Enter') doForgot(); }));
+
+// ── Already logged in? ────────────────────────────────
+if (Auth.isLoggedIn()) { window.location.href = 'dashboard.html'; }
+
+// ── Reveal + shake keyframe ───────────────────────────
+const style = document.createElement('style');
+style.textContent = '@keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}';
+document.head.appendChild(style);
+setTimeout(() => document.querySelectorAll('.reveal').forEach(el => el.classList.add('up')), 80);
+</script>
+</body>
+</html>
